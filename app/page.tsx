@@ -11,6 +11,7 @@
 //     </div>
 //   );
 // }
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -50,19 +51,46 @@ export default function App() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">ito - お題一覧</h2>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold">ito - お題一覧</h2>
 
-      <div className="overflow-x-auto">
+      {/* --- 黒板 --- */}
+      <div className="relative w-full h-[340px] text-white">
+        <img
+          src="/images/黒板.png"
+          alt="黒板"
+          className="absolute inset-0 w-full h-full"
+        />
+
+        <div className="">
+          {/* お題 */}
+          <div className="absolute top-20 left-16 text-3xl font-bold">お題</div>
+
+          {/* #タグ */}
+          <div className="absolute top-40 left-16 text-xl font-bold">
+            ＃タグ
+          </div>
+
+          {/* 制作者・フラグ・表示／総数 */}
+          <div className="absolute top-60 left-20 flex items-center gap-6">
+            <div className="text-xl font-bold">制作者</div>
+            <div className="text-xl font-bold">フラグ</div>
+            <div className="text-xl font-bold">表示／総数</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-h-[60vh] overflow-auto mb-[80px]">
         <table className="min-w-full border border-gray-300 rounded-lg">
           <thead>
-            <tr className="bg-sky-800 text-white">
-              <th className="border border-gray-300 px-4 py-2">No</th>
-
+            <tr>
+              <th className="sticky top-0 z-10 bg-sky-800 text-white border border-gray-300 px-4 py-2">
+                No
+              </th>
               {header.slice(2, 7).map((h, index) => (
                 <th
                   key={index}
-                  className="border border-gray-300 px-4 py-2 font-semibold"
+                  className="sticky top-0 z-10 bg-sky-800 text-white border border-gray-300 px-4 py-2 font-semibold"
                 >
                   {h}
                 </th>
