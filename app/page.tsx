@@ -46,13 +46,16 @@ export default function App() {
         console.error("エラー:", err);
       }
     };
-
     fetchData();
   }, []);
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold">ito - お題一覧</h2>
+      <h2 className="text-2xl font-bold">
+        ito - お題一覧
+        {/* バージョン管理(手動) */}
+        <span className="font-medium pl-4 text-xl text-gray-400">v0.1</span>
+      </h2>
 
       {/* --- 黒板 --- */}
       <div className="relative w-full h-[340px] text-white">
