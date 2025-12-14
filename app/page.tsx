@@ -12,49 +12,45 @@
 //   );
 // }
 
-"use client";
+import ItemsTable from "@/components/ItemsTable";
 
-import { useEffect, useState } from "react";
+// アプリ更新時は手動で数値を変更してください！
+// "A.B.C" → A：(MAJOR)破壊的変更 B：(MINOR)機能追加 C：(PATCH)バグ修正
+const APP_VAR = "0.0.2";
 
-export default function App() {
-  const [header, setHeader] = useState<string[]>([]);
-  const [rows, setRows] = useState<any[][]>([]);
+const GAS_URL =
+  "https://script.google.com/macros/s/AKfycbwl15ksxGwmGfEC2Wi5-Kl0AydJudkyMxQmdbN2rqSitFcPJ-kg9djZN9jbnOb9-qg-/exec";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          "https://script.google.com/macros/s/AKfycbwl15ksxGwmGfEC2Wi5-Kl0AydJudkyMxQmdbN2rqSitFcPJ-kg9djZN9jbnOb9-qg-/exec"
-        );
-        if (!res.ok) throw new Error("Network response was not ok");
+export default async function Page() {
+  // サーバーコンポーネントでfetch（初期表示はここで完結）
+  let header: string[] = [];
+  let rows: any[][] = [];
 
-        const data = await res.json();
-        console.log("GASからのデータ:", data);
+  try {
+    const res = await fetch(GAS_URL, { next: { revalidate: 60 } });
+    if (!res.ok) throw new Error("Network response was not ok");
+    const data = await res.json();
 
-        // 1行目（ヘッダー）
-        const headerRow = data[0];
-        setHeader(headerRow);
+    // 1行目（ヘッダー）
+    header = data[0] ?? [];
 
-        // データ本体（2行目以降）
-        const extracted = data
-          .slice(1)
-          .filter((row: any[]) => row[2] !== "") // 3列目が空白なら除外
-          .map((row: any[]) => row.slice(2, 7)); // 3〜7列目だけ抽出
-
-        setRows(extracted);
-      } catch (err) {
-        console.error("エラー:", err);
-      }
-    };
-    fetchData();
-  }, []);
+    // データ本体（2行目以降）
+    rows = (data.slice(1) || [])
+      .filter((row: any[]) => row[2] !== "") // 3列目が空白なら除外
+      .map((row: any[]) => row.slice(2, 7)); // 3〜7列目だけ抽出
+  } catch (err) {
+    // サーバー側ログ
+    console.error("データ取得エラー:", err);
+  }
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold">
         ito - お題一覧
         {/* バージョン管理(手動) */}
-        <span className="font-medium pl-4 text-xl text-gray-400">v0.1</span>
+        <span className="font-medium pl-4 text-xl text-gray-400">
+          v{APP_VAR}
+        </span>
       </h2>
 
       {/* --- 黒板 --- */}
@@ -83,47 +79,8 @@ export default function App() {
         </div>
       </div>
 
-      <div className="max-h-[500px] overflow-auto mb-[80px]">
-        <table className="min-w-full border border-gray-300 rounded-lg">
-          <thead>
-            <tr>
-              <th className="sticky top-0 z-10 bg-sky-800 text-white border border-gray-300 px-4 py-2">
-                No
-              </th>
-              {header.slice(2, 7).map((h, index) => (
-                <th
-                  key={index}
-                  className="sticky top-0 z-10 bg-sky-800 text-white border border-gray-300 px-4 py-2 font-semibold"
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {rows.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className={rowIndex % 2 === 0 ? "bg-gray-100" : "bg-white"}
-              >
-                <td className="border border-gray-300 px-3 py-1 font-medium">
-                  {rowIndex + 1}
-                </td>
-
-                {row.map((cell, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="border border-gray-300 px-3 py-1"
-                  >
-                    {cell}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* テーブルはクライアントコンポーネントに委譲 */}
+      <ItemsTable header={header} rows={rows} />
     </div>
   );
 }
