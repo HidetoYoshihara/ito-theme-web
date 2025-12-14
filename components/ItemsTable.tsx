@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
-
 type Props = {
   header: string[];
   rows: any[][];
 };
 
 export default function ItemsTable({ header, rows }: Props) {
+  console.log("header", header);
+  console.log("rows", rows);
+
   return (
     <div className="max-h-[500px] overflow-auto mb-[80px]">
       <table className="min-w-full border border-gray-300 rounded-lg">

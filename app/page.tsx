@@ -31,6 +31,7 @@ export default async function Page() {
     const res = await fetch(GAS_URL, { next: { revalidate: 60 } });
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
+    // console.log("form-ito-api-data:", data);
 
     // 1行目（ヘッダー）
     header = data[0] ?? [];
