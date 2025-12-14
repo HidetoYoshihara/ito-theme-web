@@ -83,7 +83,7 @@ export default function App() {
         </div>
       </div>
 
-      <div className="max-h-[60vh] overflow-auto mb-[80px]">
+      <div className="max-h-[500px] overflow-auto mb-[80px]">
         <table className="min-w-full border border-gray-300 rounded-lg">
           <thead>
             <tr>
