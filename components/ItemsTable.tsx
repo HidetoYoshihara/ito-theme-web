@@ -53,7 +53,7 @@ export default function ItemsTable({ header, rows }: Props) {
       <table className="min-w-full border border-gray-300 rounded-lg">
         <thead>
           {header.map((header, headerIndex) => (
-            <tr>
+            <tr key={headerIndex}>
               <Th>No</Th>
 
               <Th>{header.title}</Th>

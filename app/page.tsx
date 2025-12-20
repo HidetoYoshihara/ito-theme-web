@@ -82,12 +82,16 @@ export default async function Page() {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold">
-        ito - お題一覧
-        <span className="font-medium pl-4 text-xl text-gray-400">
+      <h2 className="absolute top-1 left-3">
+        <span className=" text-[14px] font-bold text-gray-600">
+          ito - お題一覧
+        </span>
+        <span className="font-medium pl-4 text-[12px] text-gray-400">
           v{APP_VAR}
         </span>
       </h2>
+
+      <div className="pb-[50px]"></div>
 
       <Blackboard />
 
