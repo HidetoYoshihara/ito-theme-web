@@ -34,25 +34,25 @@ export default function Blackboard({
       <img
         src="/images/黒板けし.png"
         alt="黒板けし"
-        className="absolute bottom-[24px] right-[180px] h-[50px]"
+        className="absolute bottom-[24px] right-[10%] h-[50px]"
       />
 
       <img
         src="/images/チョーク白.png"
         alt="チョーク白"
-        className="absolute bottom-[30px] right-[500px] h-[20px]"
+        className="absolute bottom-[30px] right-[45%] h-[20px]"
       />
 
       <img
         src="/images/チョーク赤.png"
         alt="チョーク赤"
-        className="absolute bottom-[29px] right-[420px] h-[20px]"
+        className="absolute bottom-[29px] right-[34%] h-[20px]"
       />
 
       <img
         src="/images/文字.png"
         alt="文字"
-        className="absolute bottom-[20px] right-[50px] w-[36px] opacity-85"
+        className="absolute bottom-[20px] right-[5%] w-[36px] opacity-85"
       />
 
       {/* お題 */}
