@@ -94,14 +94,14 @@ export default function Blackboard({ items, header, className = "" }: Props) {
         <img
           src="/images/文字.png"
           alt="文字"
-          className="absolute bottom-[20px] right-[5%] w-[36px] opacity-85"
+          className="absolute bottom-[50px] right-[5%] w-[36px] opacity-85"
         />
 
         {/* お題 */}
         {/* FIXME：レスポンシブ未対応(スマホ側) */}
         <div className="absolute top-[14%] left-[6%] flex items-center gap-4">
           <div className="font-bold w-[48px]">{header.title}</div>
-          <div className="text-4xl whitespace-pre-line border-b px-4 w-[1000px] h-[128px] flex items-center">
+          <div className="text-4xl whitespace-pre-line border-b px-4 w-[1000px] h-[132px] flex items-center">
             {selected?.title ?? "### 黒板けしをクリック！ ###"}
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function Blackboard({ items, header, className = "" }: Props) {
         {/* #タグ */}
         <div className="absolute top-[50%] left-[6%] flex items-center gap-4">
           <div className="font-bold w-[48px]">{header.extra}</div>
-          <div className="text-2xl border-b px-3 w-[500px] h-[30px]">
+          <div className="text-2xl border-b px-3 w-[500px] h-[34px]">
             {selected?.extra}
           </div>
         </div>
@@ -118,24 +118,29 @@ export default function Blackboard({ items, header, className = "" }: Props) {
         <div className="absolute top-[66%] left-[9%] flex items-center gap-6">
           <DivFlex>
             <div className="font-bold">{header.notes}</div>
-            <div className="text-xl w-[150px] border-b h-[30px] px-2">
+            <div className="text-xl w-[150px] border-b h-[32px] px-2 text-center">
               {selected?.notes}
             </div>
           </DivFlex>
 
           <DivFlex>
             <div className="font-bold">{header.category}</div>
-            <div className="text-xl w-[60px] border-b h-[30px] px-2">
+            <div className="text-xl w-[60px] border-b h-[32px] px-2 text-center">
               {selected?.category}
             </div>
           </DivFlex>
 
           <DivFlex>
             <div className="font-bold">{"表示中／総数"}</div>
-            <div className="text-xl w-[140px] border-b h-[30px] px-2">
+            <div className="text-xl w-[140px] border-b h-[32px] px-2 text-center">
               {totalItems}／{totalItems}
             </div>
           </DivFlex>
+        </div>
+        <div className="absolute top-[36px] right-[60px]">
+          <span className="px-1">0</span>
+          {/* <span className="text-red-300 px-1">2</span> */}
+          連チャン！
         </div>
       </div>
     </div>
