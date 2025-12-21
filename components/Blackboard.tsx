@@ -15,7 +15,7 @@ const DivFlex = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => <div className={`flex items-center gap-3 ${className}`}>{children}</div>;
+}) => <div className={`flex items-center gap-2 ${className}`}>{children}</div>;
 
 export default function Blackboard({ items, header, className = "" }: Props) {
   const [selected, setSelected] = useState<Item | null>(
@@ -34,90 +34,109 @@ export default function Blackboard({ items, header, className = "" }: Props) {
   };
 
   return (
-    <div className={`relative w-full h-[340px] text-white ${className}`}>
-      <img
-        src="/images/スピーカー.png"
-        alt="スピーカー"
-        className="absolute top-[-66px] left-1/2 -translate-x-1/2 w-[120px]"
-      />
+    <div className="flex justify-center">
+      <div
+        className={`relative w-full max-w-[1280px] h-[440px] text-white/90 ${className}`}
+      >
+        <img
+          src="/images/スピーカー.png"
+          alt="スピーカー"
+          className="absolute top-[-66px] left-1/2 -translate-x-1/2 w-[120px]"
+        />
 
-      <img
-        src="/images/黒板.png"
-        alt="黒板"
-        className="absolute inset-0 w-full h-full"
-      />
+        <img
+          src="/images/ito.png"
+          alt="ito"
+          className="absolute top-[-32px] left-[-20px] w-[60px]"
+        />
 
-      <img
-        src="/images/黒板けし.png"
-        alt="黒板けし"
-        className="absolute bottom-[24px] right-[10%] h-[50px] cursor-pointer"
-        role="button"
-        tabIndex={0}
-        aria-label="黒板けし（ランダム表示）"
-        onClick={showRandom}
-        onKeyDown={(e) => {
-          const k = (e as React.KeyboardEvent).key;
-          if (k === "Enter" || k === " " || k === "Spacebar" || k === "Space") {
-            e.preventDefault();
-            showRandom();
-          }
-        }}
-      />
+        {/* レスポンシブ未対応 */}
+        <img
+          src="/images/黒板.png"
+          alt="黒板"
+          className="absolute w-full h-full"
+        />
 
-      <img
-        src="/images/チョーク白.png"
-        alt="チョーク白"
-        className="absolute bottom-[30px] right-[45%] h-[20px]"
-      />
+        <img
+          src="/images/黒板けし.png"
+          alt="黒板けし"
+          className="absolute bottom-[34px] right-[10%] h-[50px] cursor-pointer"
+          role="button"
+          tabIndex={0}
+          aria-label="黒板けし（ランダム表示）"
+          onClick={showRandom}
+          onKeyDown={(e) => {
+            const k = (e as React.KeyboardEvent).key;
+            if (
+              k === "Enter" ||
+              k === " " ||
+              k === "Spacebar" ||
+              k === "Space"
+            ) {
+              e.preventDefault();
+              showRandom();
+            }
+          }}
+        />
 
-      <img
-        src="/images/チョーク赤.png"
-        alt="チョーク赤"
-        className="absolute bottom-[29px] right-[34%] h-[20px]"
-      />
+        <img
+          src="/images/チョーク白.png"
+          alt="チョーク白"
+          className="absolute bottom-[40px] right-[45%] h-[20px]"
+        />
 
-      <img
-        src="/images/文字.png"
-        alt="文字"
-        className="absolute bottom-[20px] right-[5%] w-[36px] opacity-85"
-      />
+        <img
+          src="/images/チョーク赤.png"
+          alt="チョーク赤"
+          className="absolute bottom-[40px] right-[34%] h-[20px]"
+        />
 
-      {/* お題 */}
-      <div className="absolute top-[18%] left-[6%] flex items-center gap-6 h-[56px]">
-        <div className="font-bold">{header.title}</div>
-        <div className="text-3xl max-w-[1000px] whitespace-pre-line">
-          {selected?.title ?? "### 黒板けしをクリック！ ###"}
+        <img
+          src="/images/文字.png"
+          alt="文字"
+          className="absolute bottom-[20px] right-[5%] w-[36px] opacity-85"
+        />
+
+        {/* お題 */}
+        {/* FIXME：レスポンシブ未対応(スマホ側) */}
+        <div className="absolute top-[14%] left-[6%] flex items-center gap-4">
+          <div className="font-bold w-[48px]">{header.title}</div>
+          <div className="text-4xl whitespace-pre-line border-b px-4 w-[1000px] h-[128px] flex items-center">
+            {selected?.title ?? "### 黒板けしをクリック！ ###"}
+          </div>
         </div>
-      </div>
 
-      {/* #タグ */}
-      <div className="absolute top-[48%] left-[6%] flex items-center gap-6 h-[30px]">
-        <div className="font-bold">{header.extra}</div>
-        <div className="text-2xl">{selected?.extra}</div>
-      </div>
-
-      {/* 制作者・フラグ・表示／総数 */}
-      <div className="absolute top-[64%] left-[9%] flex items-center gap-6">
-        <DivFlex>
-          <div className="font-bold">{header.notes}</div>
-          <div className="text-xl w-[150px] border-b h-[30px] px-2">
-            {selected?.notes}
+        {/* #タグ */}
+        <div className="absolute top-[50%] left-[6%] flex items-center gap-4">
+          <div className="font-bold w-[48px]">{header.extra}</div>
+          <div className="text-2xl border-b px-3 w-[500px] h-[30px]">
+            {selected?.extra}
           </div>
-        </DivFlex>
+        </div>
 
-        <DivFlex>
-          <div className="font-bold">{header.category}</div>
-          <div className="text-xl w-[60px] border-b h-[30px] px-2">
-            {selected?.category}
-          </div>
-        </DivFlex>
+        {/* 制作者・フラグ・表示／総数 */}
+        <div className="absolute top-[66%] left-[9%] flex items-center gap-6">
+          <DivFlex>
+            <div className="font-bold">{header.notes}</div>
+            <div className="text-xl w-[150px] border-b h-[30px] px-2">
+              {selected?.notes}
+            </div>
+          </DivFlex>
 
-        <DivFlex>
-          <div className="font-bold">{"表示中／総数"}</div>
-          <div className="text-xl w-[140px] border-b h-[30px] px-2">
-            {totalItems}／{totalItems}
-          </div>
-        </DivFlex>
+          <DivFlex>
+            <div className="font-bold">{header.category}</div>
+            <div className="text-xl w-[60px] border-b h-[30px] px-2">
+              {selected?.category}
+            </div>
+          </DivFlex>
+
+          <DivFlex>
+            <div className="font-bold">{"表示中／総数"}</div>
+            <div className="text-xl w-[140px] border-b h-[30px] px-2">
+              {totalItems}／{totalItems}
+            </div>
+          </DivFlex>
+        </div>
       </div>
     </div>
   );
