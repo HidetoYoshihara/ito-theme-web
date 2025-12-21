@@ -23,6 +23,7 @@ const GAS_URL =
 
 // 🔹 行データの型を明示
 export type Item = {
+  id: number;
   title: string;
   category: string;
   level: string;
@@ -41,8 +42,6 @@ export type Item = {
 
 export default async function Page() {
   let items: Item[] = [];
-  let header: string[] = [];
-  // let displayHeader: string[] = [];
   let displayHeader: Item[] = [];
 
   try {
@@ -57,6 +56,7 @@ export default async function Page() {
 
     displayHeader = [
       {
+        id: 0,
         title: headerRow[2] ?? "",
         category: headerRow[3] ?? "",
         level: headerRow[4] ?? "",
@@ -67,7 +67,8 @@ export default async function Page() {
 
     items = rowsData
       .filter((row: any[]) => row[2] !== "")
-      .map((row: any[]) => ({
+      .map((row: any[], idx: number) => ({
+        id: idx,
         title: row[2] ?? "",
         category: row[3] ?? "",
         level: row[4] ?? "",

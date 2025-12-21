@@ -1,12 +1,6 @@
 "use client";
 
-type Item = {
-  title: string;
-  category: string;
-  level: string;
-  notes: string;
-  extra: string;
-};
+import type { Item } from "@/app/page";
 
 type Props = {
   header: Item[];
@@ -68,7 +62,7 @@ export default function ItemsTable({ header, rows }: Props) {
         <tbody>
           {rows.map((row, rowIndex) => (
             <tr
-              key={rowIndex}
+              key={row.id ?? rowIndex}
               className={rowIndex % 2 === 0 ? "bg-gray-100" : "bg-white"}
             >
               <Td bold>{rowIndex + 1}</Td>

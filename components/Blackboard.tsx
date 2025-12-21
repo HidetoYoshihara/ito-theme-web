@@ -19,7 +19,7 @@ const DivFlex = ({
 
 export default function Blackboard({ items, header, className = "" }: Props) {
   const [selected, setSelected] = useState<Item | null>(
-    Array.isArray(items) && items.length ? items[0] : null
+    Array.isArray(items) && items.length ? items[0] : header ?? null
   );
 
   const totalItems = items.length;
