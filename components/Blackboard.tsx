@@ -7,6 +7,8 @@ type Props = {
   items: Item[];
   header: Item;
   className?: string;
+  selected?: Item | null;
+  onPickRandom?: () => void;
 };
 
 const DivFlex = ({
@@ -17,16 +19,30 @@ const DivFlex = ({
   className?: string;
 }) => <div className={`flex items-center gap-2 ${className}`}>{children}</div>;
 
-export default function Blackboard({ items, header, className = "" }: Props) {
-  const [selected, setSelected] = useState<Item | null>(
+export default function Blackboard({
+  items,
+  header,
+  className = "",
+  selected,
+  onPickRandom,
+}: Props) {
+  const [selectedInternal, setSelected] = useState<Item | null>(
     Array.isArray(items) && items.length ? items[0] : header ?? null
   );
+
+  const effective = selected ?? selectedInternal;
 
   const totalItems = items.length;
 
   const pickRandom = <T,>(list: T[]) =>
     list[Math.floor(Math.random() * list.length)];
+
   const showRandom = () => {
+    if (typeof onPickRandom === "function") {
+      onPickRandom();
+      return;
+    }
+
     const list = Array.isArray(items) && items.length ? items : [];
     if (list.length === 0) return;
     const i = pickRandom(list) as Item;
@@ -102,7 +118,7 @@ export default function Blackboard({ items, header, className = "" }: Props) {
         <div className="absolute top-[14%] left-[6%] flex items-center gap-4">
           <div className="font-bold w-[48px]">{header.title}</div>
           <div className="text-4xl whitespace-pre-line border-b px-4 w-[1000px] h-[132px] flex items-center">
-            {selected?.title ?? "### 黒板けしをクリック！ ###"}
+            {effective?.title ?? "### 黒板けしをクリック！ ###"}
           </div>
         </div>
 
@@ -110,7 +126,7 @@ export default function Blackboard({ items, header, className = "" }: Props) {
         <div className="absolute top-[50%] left-[6%] flex items-center gap-4">
           <div className="font-bold w-[48px]">{header.extra}</div>
           <div className="text-2xl border-b px-3 w-[500px] h-[34px]">
-            {selected?.extra}
+            {effective?.extra}
           </div>
         </div>
 
@@ -119,21 +135,21 @@ export default function Blackboard({ items, header, className = "" }: Props) {
           <DivFlex>
             <div className="font-bold">{header.notes}</div>
             <div className="text-xl w-[150px] border-b h-[32px] px-2 text-center">
-              {selected?.notes}
+              {effective?.notes}
             </div>
           </DivFlex>
 
           <DivFlex>
             <div className="font-bold">{header.category}</div>
             <div className="text-xl w-[60px] border-b h-[32px] px-2 text-center">
-              {selected?.category}
+              {effective?.category}
             </div>
           </DivFlex>
 
           <DivFlex>
             <div className="font-bold">{"表示中／総数"}</div>
             <div className="text-xl w-[140px] border-b h-[32px] px-2 text-center">
-              {totalItems}／{totalItems}
+              {"X"}／{totalItems}
             </div>
           </DivFlex>
         </div>

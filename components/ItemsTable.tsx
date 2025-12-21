@@ -5,6 +5,7 @@ import type { Item } from "@/app/page";
 type Props = {
   header: Item[];
   rows: Item[];
+  onSelect?: (item: Item) => void;
 };
 
 /* ======================
@@ -17,17 +18,16 @@ const Th = ({ children }: { children: React.ReactNode }) => (
   </th>
 );
 
-const Td = ({
-  children,
-  bold = false,
-}: {
+type TdProps = React.TdHTMLAttributes<HTMLTableCellElement> & {
   children: React.ReactNode;
   bold?: boolean;
-}) => (
+};
+const Td = ({ children, bold = false, className = "", ...rest }: TdProps) => (
   <td
+    {...rest}
     className={`whitespace-pre-line border text-[16px] border-gray-300 text-gray-700 px-3 py-1 ${
       bold ? "font-medium" : ""
-    }`}
+    } ${className}`}
   >
     {children}
   </td>
@@ -36,7 +36,7 @@ const Td = ({
 /* ======================
    メインコンポーネント
    ====================== */
-export default function ItemsTable({ header, rows }: Props) {
+export default function ItemsTable({ header, rows, onSelect }: Props) {
   if (rows.length === 0) return null;
 
   // items の key を列定義として使う
@@ -65,7 +65,22 @@ export default function ItemsTable({ header, rows }: Props) {
               key={row.id ?? rowIndex}
               className={rowIndex % 2 === 0 ? "bg-gray-100" : "bg-white"}
             >
-              <Td bold>{rowIndex + 1}</Td>
+              <Td
+                bold
+                onClick={() => onSelect?.(row)}
+                onKeyDown={(e) => {
+                  const k = (e as React.KeyboardEvent).key;
+                  if (k === "Enter" || k === " " || k === "Space") {
+                    e.preventDefault();
+                    onSelect?.(row);
+                  }
+                }}
+                role={onSelect ? "button" : undefined}
+                tabIndex={onSelect ? 0 : undefined}
+                className="text-blue-600! underline cursor-pointer text-center"
+              >
+                {rowIndex + 1}
+              </Td>
 
               <Td>{row.title}</Td>
               <Td>{row.category}</Td>

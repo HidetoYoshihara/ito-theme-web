@@ -12,8 +12,8 @@
 //   );
 // }
 
+import BoardManager from "@/components/BoardManager";
 import ItemsTable from "@/components/ItemsTable";
-import Blackboard from "@/components/Blackboard";
 
 // アプリ更新時は手動で数値を変更してください！
 const APP_VAR = "0.0.4";
@@ -95,9 +95,7 @@ export default async function Page() {
 
       <div className="pb-[50px]"></div>
 
-      <Blackboard header={displayHeader[0]} items={items} />
-
-      <ItemsTable header={displayHeader} rows={items} />
+      <BoardManager header={displayHeader[0]} items={items} />
     </div>
   );
 }
