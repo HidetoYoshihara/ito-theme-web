@@ -75,7 +75,8 @@ export default async function Page() {
         extra: row[6] ?? "",
       }));
 
-    console.log("items", items);
+    // console.log("items", items);
+    console.log("data", data);
   } catch (err) {
     console.error("データ取得エラー:", err);
   }
@@ -93,7 +94,7 @@ export default async function Page() {
 
       <div className="pb-[50px]"></div>
 
-      <Blackboard />
+      <Blackboard header={displayHeader[0]} items={items} />
 
       <ItemsTable header={displayHeader} rows={items} />
     </div>

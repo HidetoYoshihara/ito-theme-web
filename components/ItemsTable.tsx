@@ -57,8 +57,8 @@ export default function ItemsTable({ header, rows }: Props) {
               <Th>No</Th>
 
               <Th>{header.title}</Th>
-              {/* <Th>{header.category}</Th> */}
-              <Th>{header.level}</Th>
+              <Th>{header.category}</Th>
+              {/* <Th>{header.level}</Th> */}
               <Th>{header.notes}</Th>
               <Th>{header.extra}</Th>
             </tr>
@@ -74,8 +74,8 @@ export default function ItemsTable({ header, rows }: Props) {
               <Td bold>{rowIndex + 1}</Td>
 
               <Td>{row.title}</Td>
-              {/* <Td>{row.category}</Td> */}
-              <Td>{row.level}</Td>
+              <Td>{row.category}</Td>
+              {/* <Td>{row.level}</Td> */}
               <Td>{row.notes}</Td>
               <Td>{row.extra}</Td>
             </tr>
