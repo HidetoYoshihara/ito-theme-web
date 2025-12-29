@@ -1,0 +1,25 @@
+/* 時計本体 */
+.school-clock .react-clock {
+  background: rgb(240, 240, 240);
+  border: 2px solid rgb(77, 77, 77);
+  border-radius: 50%;
+}
+
+/* 数字 */
+.school-clock .react-clock__face {
+  color: black;
+  font-weight: bold;
+  /* font-size: 1.2rem; */
+  font-size: 12px;
+}
+
+/* 針（黒） */
+.school-clock .react-clock__hour-hand__body,
+.school-clock .react-clock__minute-hand__body {
+  background: black;
+}
+
+/* 秒針（赤） */
+.school-clock .react-clock__second-hand__body {
+  background: rgb(100, 100, 100);
+}

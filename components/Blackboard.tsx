@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import type { Item } from "@/app/page";
+import SchoolClock from "./SchoolClock";
 
 type Props = {
   items: Item[];
@@ -26,6 +27,14 @@ export default function Blackboard({
   selected,
   onPickRandom,
 }: Props) {
+
+  const today = new Date();
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  const weekday = weekdays[today.getDay()];
+
   const [selectedInternal, setSelected] = useState<Item | null>(
     Array.isArray(items) && items.length ? items[0] : header ?? null
   );
@@ -52,19 +61,22 @@ export default function Blackboard({
   return (
     <div className="flex justify-center">
       <div
-        className={`relative w-full max-w-[1280px] h-[440px] text-white/90 ${className}`}
+        className={`relative w-full max-w-[1240px] h-[440px] text-white/90 ${className}`}
       >
+        <img
+          src="/images/ito.png"
+          alt="ito"
+          className="absolute top-[-32px] left-[-40px] w-[60px]"
+        />
+
         <img
           src="/images/スピーカー.png"
           alt="スピーカー"
           className="absolute top-[-66px] left-1/2 -translate-x-1/2 w-[120px]"
         />
 
-        <img
-          src="/images/ito.png"
-          alt="ito"
-          className="absolute top-[-32px] left-[-20px] w-[60px]"
-        />
+        {/* <SchoolClock /> */}
+        <SchoolClock size={100} className="absolute top-[-60px] right-[-60px]" />
 
         {/* レスポンシブ未対応 */}
         <img
@@ -72,6 +84,12 @@ export default function Blackboard({
           alt="黒板"
           className="absolute w-full h-full"
         />
+        
+        <div className="absolute right-[88px]">
+          <div className="absolute top-[110px]">{month}</div>
+          <div className="absolute top-[160px]">{date}</div>
+          <div className="absolute top-[204px]">{weekday}</div>
+        </div>
 
         <img
           src="/images/黒板けし.png"
@@ -115,23 +133,23 @@ export default function Blackboard({
 
         {/* お題 */}
         {/* FIXME：レスポンシブ未対応(スマホ側) */}
-        <div className="absolute top-[14%] left-[6%] flex items-center gap-4">
-          <div className="font-bold w-[48px]">{header.title}</div>
-          <div className="text-4xl whitespace-pre-line border-b px-4 w-[1000px] h-[132px] flex items-center">
+        <div className="absolute top-[14%] left-[5%] flex items-center">
+          <div className="font-bold w-[52px]">{header.title}</div>
+          <div className="text-4xl whitespace-pre-line border-b px-2 w-[1000px] h-[132px] flex items-center">
             {effective?.title ?? "### 黒板けしをクリック！ ###"}
           </div>
         </div>
 
         {/* #タグ */}
-        <div className="absolute top-[50%] left-[6%] flex items-center gap-4">
-          <div className="font-bold w-[48px]">{header.extra}</div>
+        <div className="absolute top-[50%] left-[5%] flex items-center">
+          <div className="font-bold w-[52px]">{header.extra}</div>
           <div className="text-2xl border-b px-3 w-[500px] h-[34px]">
             {effective?.extra}
           </div>
         </div>
 
         {/* 制作者・フラグ・表示／総数 */}
-        <div className="absolute top-[66%] left-[9%] flex items-center gap-6">
+        <div className="absolute top-[66%] left-[8%] flex items-center gap-6">
           <DivFlex>
             <div className="font-bold">{header.notes}</div>
             <div className="text-xl w-[150px] border-b h-[32px] px-2 text-center">
