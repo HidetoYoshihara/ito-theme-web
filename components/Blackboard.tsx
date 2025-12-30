@@ -2,7 +2,13 @@
 
 import React, { useState } from "react";
 import type { Item } from "@/app/page";
-import SchoolClock from "./SchoolClock";
+// import SchoolClock from "./SchoolClock";
+import dynamic from "next/dynamic";
+
+const SchoolClock = dynamic(() => import("./SchoolClock"), {
+  ssr: false,
+});
+
 
 type Props = {
   items: Item[];
