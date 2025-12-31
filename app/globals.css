@@ -28,8 +28,8 @@ body {
 
 /* ito.png の横回転アニメーション（7回転） */
 .ito-flip {
-  /* 7回転でややゆったりめの 6 秒に設定 */
-  animation: ito-flip 6000ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* animation: ito-flip 5000ms cubic-bezier(0.22, 1, 0.36, 1); */
+  animation: ito-flip calc(1s * 4) cubic-bezier(0.22, 1, 0.36, 1);
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform;
@@ -39,8 +39,8 @@ body {
   0% {
     transform: perspective(600px) rotateY(0deg);
   }
-  /* 360deg × 7 = 2520deg */
+  /* X回転(360deg * X) */
   100% {
-    transform: perspective(600px) rotateY(2520deg);
+    transform: perspective(600px) rotateY(calc(360deg * 5));
   }
 }

@@ -52,22 +52,53 @@ export default function Blackboard({
 
   const totalItems = items.length;
 
+  // ローカルで使うウエイト
+  const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
   const pickRandom = <T,>(list: T[]) =>
     list[Math.floor(Math.random() * list.length)];
 
-  const showRandom = () => {
-    // 常にフリップアニメーションを発火
-    setFlip(true);
+  // 押下中はグレーアウト＆無効にするフラグ
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  const showRandom = async () => {
+    // 二重押下防止
+    if (isSpinning) return;
+
+    // アニメーションを確実に再発火させる（同じ値を set しても再発火しないため）
+    setFlip(false);
+    // 次フレームでアニメーションを再付与
+    requestAnimationFrame(() => setFlip(true));
+    setIsSpinning(true);
 
     if (typeof onPickRandom === "function") {
-      onPickRandom();
+      try {
+        // 外部のルーレット処理（BoardManager の pickRandom）を待つ
+        await onPickRandom();
+      } finally {
+        setIsSpinning(false);
+      }
       return;
     }
 
+    // 内部でルーレットを行う場合（BoardManager が提供しない環境）
     const list = Array.isArray(items) && items.length ? items : [];
-    if (list.length === 0) return;
-    const i = pickRandom(list) as Item;
-    setSelected(i);
+    if (list.length === 0) {
+      setIsSpinning(false);
+      return;
+    }
+
+    const spins = 12; // 回転回数
+    for (let i = 0; i < spins; i++) {
+      const next = pickRandom(list) as Item;
+      setSelected(next);
+
+      // 後半になるほど遅くなる
+      const delay = 80 + i * (20 + i);
+      await wait(delay);
+    }
+
+    setIsSpinning(false);
   };
 
   return (
@@ -87,7 +118,7 @@ export default function Blackboard({
           alt="スピーカー"
           className="absolute top-[-66px] left-1/2 -translate-x-1/2 w-[120px]"
         />
-        
+
         {/* <SchoolClock /> */}
         <SchoolClock size={100} className="absolute top-[-60px] right-[-60px]" />
 
@@ -107,12 +138,17 @@ export default function Blackboard({
         <img
           src="/images/黒板けし.png"
           alt="黒板けし"
-          className="absolute bottom-[34px] right-[10%] h-[50px] cursor-pointer"
+          className={`absolute bottom-[34px] right-[10%] h-[50px] ${isSpinning ? "opacity-40 cursor-not-allowed pointer-events-none grayscale" : "cursor-pointer"}`}
           role="button"
-          tabIndex={0}
+          tabIndex={isSpinning ? -1 : 0}
           aria-label="黒板けし（ランダム表示）"
-          onClick={showRandom}
+          aria-disabled={isSpinning}
+          onClick={() => {
+            if (isSpinning) return;
+            void showRandom();
+          }}
           onKeyDown={(e) => {
+            if (isSpinning) return;
             const k = (e as React.KeyboardEvent).key;
             if (
               k === "Enter" ||
@@ -121,7 +157,7 @@ export default function Blackboard({
               k === "Space"
             ) {
               e.preventDefault();
-              showRandom();
+              void showRandom();
             }
           }}
         />
