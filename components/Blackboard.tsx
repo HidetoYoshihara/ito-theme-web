@@ -45,6 +45,9 @@ export default function Blackboard({
     Array.isArray(items) && items.length ? items[0] : header ?? null
   );
 
+  // クリック時にito画像を横回転させるフリップ状態
+  const [flip, setFlip] = useState(false);
+
   const effective = selected ?? selectedInternal;
 
   const totalItems = items.length;
@@ -53,6 +56,9 @@ export default function Blackboard({
     list[Math.floor(Math.random() * list.length)];
 
   const showRandom = () => {
+    // 常にフリップアニメーションを発火
+    setFlip(true);
+
     if (typeof onPickRandom === "function") {
       onPickRandom();
       return;
@@ -72,7 +78,8 @@ export default function Blackboard({
         <img
           src="/images/ito.png"
           alt="ito"
-          className="absolute top-[-32px] left-[-40px] w-[60px]"
+              className={`absolute top-[-32px] left-[-40px] w-[60px] ${flip ? "ito-flip" : ""}`}
+              onAnimationEnd={() => setFlip(false)}
         />
 
         <img
@@ -80,7 +87,7 @@ export default function Blackboard({
           alt="スピーカー"
           className="absolute top-[-66px] left-1/2 -translate-x-1/2 w-[120px]"
         />
-
+        
         {/* <SchoolClock /> */}
         <SchoolClock size={100} className="absolute top-[-60px] right-[-60px]" />
 
