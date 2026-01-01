@@ -129,10 +129,10 @@ export default function Blackboard({
           className="absolute w-full h-full"
         />
         
-        <div className="absolute right-[88px]">
-          <div className="absolute top-[110px]">{month}</div>
-          <div className="absolute top-[160px]">{date}</div>
-          <div className="absolute top-[204px]">{weekday}</div>
+        <div className="absolute right-[90px]">
+          <div className="absolute top-[110px] w-[20px] text-center">{month}</div>
+          <div className="absolute top-[160px] w-[20px] text-center">{date}</div>
+          <div className="absolute top-[204px] w-[20px] text-center">{weekday}</div>
         </div>
 
         <img
