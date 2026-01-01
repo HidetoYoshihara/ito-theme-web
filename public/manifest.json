@@ -1,0 +1,13 @@
+{
+  "name": "アプリ名-name",
+  "short_name": "アプリ名-short_name",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
