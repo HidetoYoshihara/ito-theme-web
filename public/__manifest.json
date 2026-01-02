@@ -1,5 +1,5 @@
 {
-  "name": "ito-theme-web",
+  "name": "Ito Theme Web",
   "short_name": "ITO",
   "start_url": "/",
   "display": "standalone",
@@ -7,7 +7,7 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "/icon-64.png",
       "sizes": "64x64",
       "type": "image/png"
     },
@@ -17,7 +17,7 @@
       "type": "image/png"
     },
     {
-      "src": "/icon.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
