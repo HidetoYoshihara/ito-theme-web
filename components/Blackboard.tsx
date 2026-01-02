@@ -245,7 +245,7 @@ export default function Blackboard({
         <div className="absolute top-[30px] right-[60px] flex items-center gap-2">
           <button
             type="button"
-            className="px-2 py-1 bg-green-600 rounded text-white hover:bg-green-500 disabled:opacity-40"
+            className="px-2 py-1 bg-green-600/70 rounded text-white/70 hover:bg-green-500 disabled:opacity-40 cursor-pointer"
             onClick={() => setStreak((s) => s + 1)}
             aria-label="成功（増加）"
           >
@@ -253,15 +253,15 @@ export default function Blackboard({
           </button>
 
           <div className="px-3 text-center">
-            <span className={`px-2 font-bold ${streak > 0 ? "text-green-300" : streak < 0 ? "text-red-300" : "text-white"}`}>
+            <span className={`px-2 font-bold text-[18px] ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}>
               {streak}
             </span>
-            <div className="text-xs">連チャン！</div>
+            <div className="text-xs text-white/70">連チャン！</div>
           </div>
 
           <button
             type="button"
-            className="px-2 py-1 bg-red-600 rounded text-white hover:bg-red-500 disabled:opacity-40"
+            className="px-2 py-1 bg-red-600/70 rounded text-white/70 hover:bg-red-500 disabled:opacity-40 cursor-pointer"
             onClick={() => setStreak((s) => s - 1)}
             aria-label="失敗（減少）"
           >
@@ -270,7 +270,7 @@ export default function Blackboard({
 
           <button
             type="button"
-            className="px-2 py-1 bg-gray-600 rounded text-white hover:bg-gray-500 disabled:opacity-40"
+            className="px-2 py-1 bg-gray-600/70 rounded text-white/70 text-[10px] hover:bg-gray-500 disabled:opacity-40 cursor-pointer"
             onClick={() => setStreak(0)}
             aria-label="クリア"
           >
