@@ -95,8 +95,9 @@ const pickRandom = async () => {
               このお題に変更しますか？
             </h3>
 
-            <div className="mb-4 font-medium whitespace-pre-line">
-              {pending.title}
+            <div className="mb-4 font-medium whitespace-pre-line flex flex-col gap-2">
+              <div>--- No.{pending.id} ---</div>
+              <div>{pending.title}</div>
             </div>
 
             <div className="mt-auto flex justify-end gap-3">
