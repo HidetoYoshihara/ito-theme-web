@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Item } from "@/app/page";
 // import SchoolClock from "./SchoolClock";
 import dynamic from "next/dynamic";
@@ -60,6 +60,23 @@ export default function Blackboard({
 
   // 押下中はグレーアウト＆無効にするフラグ
   const [isSpinning, setIsSpinning] = useState(false);
+
+  // 連チャンカウンター（ローカル保存）
+  const [streak, setStreak] = useState<number>(() => {
+    try {
+      if (typeof window === "undefined") return 0;
+      const s = localStorage.getItem("streak");
+      return s ? parseInt(s, 10) : 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("streak", String(streak));
+    } catch {}
+  }, [streak]);
 
   const showRandom = async () => {
     // 二重押下防止
@@ -220,10 +237,45 @@ export default function Blackboard({
             </div>
           </DivFlex>
         </div>
-        <div className="absolute top-[36px] right-[60px]">
-          <span className="px-1">0</span>
-          {/* <span className="text-red-300 px-1">2</span> */}
-          連チャン！
+        {/* 成功ボタン→インクリメント */}
+        {/* 失敗ボタン→デクリメント */}
+        {/* クリアボタン→クリア */}
+
+        {/* 連チャンカウンター */}
+        <div className="absolute top-[30px] right-[60px] flex items-center gap-2">
+          <button
+            type="button"
+            className="px-2 py-1 bg-green-600 rounded text-white hover:bg-green-500 disabled:opacity-40"
+            onClick={() => setStreak((s) => s + 1)}
+            aria-label="成功（増加）"
+          >
+            成功
+          </button>
+
+          <div className="px-3 text-center">
+            <span className={`px-2 font-bold ${streak > 0 ? "text-green-300" : streak < 0 ? "text-red-300" : "text-white"}`}>
+              {streak}
+            </span>
+            <div className="text-xs">連チャン！</div>
+          </div>
+
+          <button
+            type="button"
+            className="px-2 py-1 bg-red-600 rounded text-white hover:bg-red-500 disabled:opacity-40"
+            onClick={() => setStreak((s) => s - 1)}
+            aria-label="失敗（減少）"
+          >
+            失敗
+          </button>
+
+          <button
+            type="button"
+            className="px-2 py-1 bg-gray-600 rounded text-white hover:bg-gray-500 disabled:opacity-40"
+            onClick={() => setStreak(0)}
+            aria-label="クリア"
+          >
+            クリア
+          </button>
         </div>
       </div>
     </div>
