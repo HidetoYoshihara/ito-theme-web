@@ -75,7 +75,7 @@ export default function Blackboard({
   useEffect(() => {
     try {
       localStorage.setItem("streak", String(streak));
-    } catch {}
+    } catch { }
   }, [streak]);
 
   const showRandom = async () => {
@@ -126,8 +126,8 @@ export default function Blackboard({
         <img
           src="/images/ito.png"
           alt="ito"
-              className={`absolute top-[-32px] left-[-40px] w-[60px] ${flip ? "ito-flip" : ""}`}
-              onAnimationEnd={() => setFlip(false)}
+          className={`absolute top-[-32px] left-[-40px] w-[60px] ${flip ? "ito-flip" : ""}`}
+          onAnimationEnd={() => setFlip(false)}
         />
 
         <img
@@ -145,7 +145,7 @@ export default function Blackboard({
           alt="黒板"
           className="absolute w-full h-full"
         />
-        
+
         <div className="absolute right-[90px]">
           <div className="absolute top-[110px] w-[20px] text-center">{month}</div>
           <div className="absolute top-[160px] w-[20px] text-center">{date}</div>
@@ -237,12 +237,10 @@ export default function Blackboard({
             </div>
           </DivFlex>
         </div>
-        {/* 成功ボタン→インクリメント */}
-        {/* 失敗ボタン→デクリメント */}
-        {/* クリアボタン→クリア */}
 
         {/* 連チャンカウンター */}
         <div className="absolute top-[30px] right-[60px] flex items-center gap-2">
+          {/* 成功ボタン→インクリメント */}
           <button
             type="button"
             className="px-2 py-1 bg-green-600/70 rounded text-white/70 hover:bg-green-500 disabled:opacity-40 cursor-pointer"
@@ -259,6 +257,7 @@ export default function Blackboard({
             <div className="text-xs text-white/70">連チャン！</div>
           </div>
 
+          {/* 失敗ボタン→デクリメント */}
           <button
             type="button"
             className="px-2 py-1 bg-red-600/70 rounded text-white/70 hover:bg-red-500 disabled:opacity-40 cursor-pointer"
@@ -268,6 +267,7 @@ export default function Blackboard({
             失敗
           </button>
 
+          {/* クリアボタン→クリア */}
           <button
             type="button"
             className="px-2 py-1 bg-gray-600/70 rounded text-white/70 text-[10px] hover:bg-gray-500 disabled:opacity-40 cursor-pointer"
