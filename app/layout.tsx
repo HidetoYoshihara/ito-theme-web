@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 // Responsive viewport settings
 export const viewport = {
-  width: 1200,        // ←ここがミソ（PC幅を指定）
-  initialScale: 0.33, // ←ざっくり縮小率（後で調整）
+  width: 1400,        // ←ここがミソ（PC幅を指定）
+  initialScale: 0.5, // ←ざっくり縮小率（後で調整）
 };
 
 // export const metadata: Metadata = {
