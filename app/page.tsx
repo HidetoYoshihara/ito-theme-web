@@ -14,9 +14,9 @@
 
 import BoardManager from "@/components/BoardManager";
 import ItemsTable from "@/components/ItemsTable";
+import packageJson from '../package.json';
 
-// アプリ更新時は手動で数値を変更してください！
-const APP_VAR = "0.2.4"; //FIXME:package.jsonのやつをそのまま使うべきだな。。ライブラリや拡張も検討する必要あり。
+const APP_VAR = packageJson.version; // アプリのバージョンは package.json から取得
 
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbwl15ksxGwmGfEC2Wi5-Kl0AydJudkyMxQmdbN2rqSitFcPJ-kg9djZN9jbnOb9-qg-/exec";

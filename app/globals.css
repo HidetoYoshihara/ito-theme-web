@@ -38,7 +38,7 @@
 /* 横画面 */
 @media (max-width: 1024px) and (orientation: landscape) {
   .scale-root {
-    --scale: 0.6;
+    --scale: 0.55;
     transform: scale(var(--scale));
     width: calc(100% / var(--scale));
   }
