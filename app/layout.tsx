@@ -13,15 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 // Responsive viewport settings
-// export const viewport = {
-//   width: 1400,        // ←ここがミソ（PC幅を指定）
-//   initialScale: 0.27, // ←ざっくり縮小率（後で調整）
-// };
-
 export const viewport = {
-  width: "device-width",
-  initialScale: 1,
+  width: 1400,        // ←ここがミソ（PC幅を指定）
+  initialScale: 0.27, // ←ざっくり縮小率（後で調整）
 };
+// export const viewport = {
+//   width: "device-width",
+//   initialScale: 1,
+// };
 
 export const metadata: Metadata = {
   title: "☆ito-お題",
@@ -43,7 +42,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="mx-auto max-w-[1400px]">
+        <main className="mx-auto max-w-[1410px]">
           {children}
         </main>
       </body>

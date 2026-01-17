@@ -16,7 +16,7 @@ import BoardManager from "@/components/BoardManager";
 import ItemsTable from "@/components/ItemsTable";
 
 // アプリ更新時は手動で数値を変更してください！
-const APP_VAR = "0.2.2"; //FIXME:package.jsonのやつをそのまま使うべきだな。。ライブラリや拡張も検討する必要あり。
+const APP_VAR = "0.2.3"; //FIXME:package.jsonのやつをそのまま使うべきだな。。ライブラリや拡張も検討する必要あり。
 
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbwl15ksxGwmGfEC2Wi5-Kl0AydJudkyMxQmdbN2rqSitFcPJ-kg9djZN9jbnOb9-qg-/exec";
