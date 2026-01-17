@@ -39,6 +39,7 @@ body {
   0% {
     transform: perspective(600px) rotateY(0deg);
   }
+
   /* X回転(360deg * X) */
   100% {
     transform: perspective(600px) rotateY(calc(360deg * 5));

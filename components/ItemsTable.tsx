@@ -25,9 +25,8 @@ type TdProps = React.TdHTMLAttributes<HTMLTableCellElement> & {
 const Td = ({ children, bold = false, className = "", ...rest }: TdProps) => (
   <td
     {...rest}
-    className={`whitespace-pre-line border text-[16px] border-gray-300 text-gray-700 px-3 py-1 ${
-      bold ? "font-medium" : ""
-    } ${className}`}
+    className={`whitespace-pre-line border text-[16px] border-gray-300 text-gray-700 px-3 py-1 ${bold ? "font-medium" : ""
+      } ${className}`}
   >
     {children}
   </td>
@@ -43,7 +42,7 @@ export default function ItemsTable({ header, rows, onSelect }: Props) {
   const keys = Object.keys(rows[0]) as (keyof Item)[];
 
   return (
-    <div className="max-h-[500px] overflow-auto mb-[80px]">
+    <div className=" max-h-[500px] overflow-auto mb-[80px]">
       <table className="min-w-full border border-gray-300 rounded-lg">
         <thead>
           {header.map((header, headerIndex) => (
