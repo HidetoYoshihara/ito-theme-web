@@ -20,6 +20,33 @@
   }
 } */
 
+/* ----- 画面全体のスケーリング設定 ----- */
+.scale-root {
+  transform-origin: top left;
+}
+
+/* スマホ・タブレットだけに適用 */
+/* 縦画面 */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .scale-root {
+    --scale: 0.27;
+    transform: scale(var(--scale));
+    width: calc(100% / var(--scale));
+  }
+}
+
+/* 横画面 */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .scale-root {
+    --scale: 0.6;
+    transform: scale(var(--scale));
+    width: calc(100% / var(--scale));
+  }
+}
+
+/* ------------------------------------ */
+
+/* 全体の基本設定 */
 body {
   background: var(--background);
   color: var(--foreground);

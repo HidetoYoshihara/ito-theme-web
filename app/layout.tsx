@@ -13,10 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 // Responsive viewport settings
-export const viewport = {
-  width: 1400,        // ←ここがミソ（PC幅を指定）
-  initialScale: 0.27, // ←ざっくり縮小率（後で調整）
-};
+// export const viewport = {
+//   width: 1400,        // ←ここがミソ（PC幅を指定）
+//   initialScale: 0.27, // ←ざっくり縮小率（後で調整）
+// };
 // export const viewport = {
 //   width: "device-width",
 //   initialScale: 1,
@@ -42,7 +42,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="mx-auto max-w-[1410px]">
+        <main className="scale-root">
           {children}
         </main>
       </body>
