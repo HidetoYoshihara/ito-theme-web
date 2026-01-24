@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Item } from "@/app/page";
 import Blackboard from "./Blackboard";
 import ItemsTable from "./ItemsTable";
@@ -128,34 +129,39 @@ export default function BoardManager({ items, header }: Props) {
         onSelect={openConfirm}
       />
 
-      {/* 確認モーダル */}
-      {modalOpen && pending && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-lg p-6 min-w-[500px] min-h-[200px] flex flex-col">
-            <h3 className="text-lg font-bold mb-3">このお題に変更しますか？</h3>
+      {/* ◎createPortal：親コンポーネントCSSの影響を受けずに画面全体に表示したい場合に有効！ */}
+      {modalOpen &&
+        pending &&
+        createPortal(
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white rounded-lg p-6 w-full max-w-[500px] min-h-[200px] flex flex-col">
+              <h3 className="text-lg font-bold mb-3">
+                このお題に変更しますか？
+              </h3>
 
-            <div className="mb-4 font-medium whitespace-pre-line flex flex-col gap-2">
-              <div>--- No.{pending.id} ---</div>
-              <div>{pending.title}</div>
-            </div>
+              <div className="mb-4 font-medium whitespace-pre-line flex flex-col gap-2">
+                <div>--- No.{pending.id} ---</div>
+                <div>{pending.title}</div>
+              </div>
 
-            <div className="mt-auto flex justify-end gap-3">
-              <button
-                className="px-3 py-1 bg-gray-200 rounded"
-                onClick={cancel}
-              >
-                キャンセル
-              </button>
-              <button
-                className="px-3 py-1 bg-blue-600 text-white rounded"
-                onClick={confirmApply}
-              >
-                反映する
-              </button>
+              <div className="mt-auto flex justify-end gap-3">
+                <button
+                  className="px-3 py-1 bg-gray-200 rounded"
+                  onClick={cancel}
+                >
+                  キャンセル
+                </button>
+                <button
+                  className="px-3 py-1 bg-blue-600 text-white rounded"
+                  onClick={confirmApply}
+                >
+                  反映する
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
