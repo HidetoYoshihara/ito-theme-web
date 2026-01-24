@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/HidetoYoshihara/ito-theme-web/compare/v0.1.2...v0.1.3) (2026-01-24)
+
+
+### Features
+
+* フラグの絞り込み機能を追加 ([9f56ffd](https://github.com/HidetoYoshihara/ito-theme-web/commit/9f56ffd09a4b0404ddb36158ca5811ef45d25195))
+
 ### [0.1.2](https://github.com/HidetoYoshihara/ito-theme-web/compare/v0.1.1...v0.1.2) (2026-01-24)
 
 
