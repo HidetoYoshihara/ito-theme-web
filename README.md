@@ -40,5 +40,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 バージョン更新ツール
 npm install -D standard-version
 
-0.→1.に変更できるっぽい。
+0.→1.に変更できる！(以降はfeat!でバージョンアップできるはず。)
 npx standard-version --release-as major
