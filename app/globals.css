@@ -31,7 +31,8 @@
   .scale-root {
     --scale: 0.27;
     transform: scale(var(--scale));
-    width: calc(100% / var(--scale));
+    width: calc(100vw / var(--scale));
+    height: 100vh;
   }
 }
 
@@ -40,7 +41,8 @@
   .scale-root {
     --scale: 0.55;
     transform: scale(var(--scale));
-    width: calc(100% / var(--scale));
+    width: calc(100vw / var(--scale));
+    height: 100vh;
   }
 }
 

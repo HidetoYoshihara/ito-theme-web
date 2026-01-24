@@ -9,7 +9,6 @@ const SchoolClock = dynamic(() => import("./SchoolClock"), {
   ssr: false,
 });
 
-
 type Props = {
   items: Item[];
   header: Item;
@@ -33,7 +32,6 @@ export default function Blackboard({
   selected,
   onPickRandom,
 }: Props) {
-
   const today = new Date();
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -42,7 +40,7 @@ export default function Blackboard({
   const weekday = weekdays[today.getDay()];
 
   const [selectedInternal, setSelected] = useState<Item | null>(
-    Array.isArray(items) && items.length ? items[0] : header ?? null
+    Array.isArray(items) && items.length ? items[0] : (header ?? null),
   );
 
   // クリック時にito画像を横回転させるフリップ状態
@@ -75,7 +73,7 @@ export default function Blackboard({
   useEffect(() => {
     try {
       localStorage.setItem("streak", String(streak));
-    } catch { }
+    } catch {}
   }, [streak]);
 
   const showRandom = async () => {
@@ -133,11 +131,14 @@ export default function Blackboard({
         <img
           src="/images/スピーカー.png"
           alt="スピーカー"
-          className="absolute top-[-66px] left-1/2 -translate-x-1/2 w-[120px]"
+          className="absolute top-[-62px] left-1/2 -translate-x-1/2 w-[120px]"
         />
 
         {/* <SchoolClock /> */}
-        <SchoolClock size={100} className="absolute top-[-60px] right-[-60px]" />
+        <SchoolClock
+          size={100}
+          className="absolute top-[-60px] right-[-60px]"
+        />
 
         {/* レスポンシブ未対応 */}
         <img
@@ -147,9 +148,15 @@ export default function Blackboard({
         />
 
         <div className="absolute right-[90px]">
-          <div className="absolute top-[110px] w-[20px] text-center">{month}</div>
-          <div className="absolute top-[160px] w-[20px] text-center">{date}</div>
-          <div className="absolute top-[204px] w-[20px] text-center">{weekday}</div>
+          <div className="absolute top-[110px] w-[20px] text-center">
+            {month}
+          </div>
+          <div className="absolute top-[160px] w-[20px] text-center">
+            {date}
+          </div>
+          <div className="absolute top-[204px] w-[20px] text-center">
+            {weekday}
+          </div>
         </div>
 
         <img
@@ -251,7 +258,9 @@ export default function Blackboard({
           </button>
 
           <div className="px-3 text-center">
-            <span className={`px-2 font-bold text-[18px] ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}>
+            <span
+              className={`px-2 font-bold text-[18px] ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}
+            >
               {streak}
             </span>
             <div className="text-xs text-white/70">連チャン！</div>

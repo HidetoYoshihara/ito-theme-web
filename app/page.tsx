@@ -14,7 +14,7 @@
 
 import BoardManager from "@/components/BoardManager";
 import ItemsTable from "@/components/ItemsTable";
-import packageJson from '../package.json';
+import packageJson from "../package.json";
 
 const APP_VAR = packageJson.version; // アプリのバージョンは package.json から取得
 
