@@ -215,25 +215,25 @@ export default function Blackboard({
 
         {/* #タグ */}
         <div className="absolute top-[50%] left-[5%] flex items-center">
-          <div className="font-bold w-[52px]">{header.extra}</div>
+          <div className="font-bold w-[52px]">{header.tag}</div>
           <div className="text-2xl border-b px-3 w-[500px] h-[34px]">
-            {effective?.extra}
+            {effective?.tag}
           </div>
         </div>
 
         {/* 制作者・フラグ・表示／総数 */}
         <div className="absolute top-[66%] left-[8%] flex items-center gap-6">
           <DivFlex>
-            <div className="font-bold">{header.notes}</div>
+            <div className="font-bold">{header.creator}</div>
             <div className="text-xl w-[150px] border-b h-[32px] px-2 text-center">
-              {effective?.notes}
+              {effective?.creator}
             </div>
           </DivFlex>
 
           <DivFlex>
-            <div className="font-bold">{header.category}</div>
+            <div className="font-bold">{header.flag}</div>
             <div className="text-xl w-[60px] border-b h-[32px] px-2 text-center">
-              {effective?.category}
+              {effective?.flag}
             </div>
           </DivFlex>
 

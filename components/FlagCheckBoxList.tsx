@@ -8,16 +8,16 @@ type Props = {
   onChange: (selected: string[]) => void;
 };
 
-export default function TagCheckBoxList({
+export default function FlagCheckBoxList({
   flags,
   selectedFlags,
   onChange,
 }: Props) {
-  const handleCheckboxChange = (category: string, checked: boolean) => {
+  const handleCheckboxChange = (flag: string, checked: boolean) => {
     if (checked) {
-      onChange([...selectedFlags, category]);
+      onChange([...selectedFlags, flag]);
     } else {
-      onChange(selectedFlags.filter((c) => c !== category));
+      onChange(selectedFlags.filter((f) => f !== flag));
     }
   };
 
@@ -47,14 +47,14 @@ export default function TagCheckBoxList({
         </button>
       </div>
       <div className="flex flex-wrap gap-2">
-        {flags.map((category) => (
-          <label key={category} className="flex items-center gap-1">
+        {flags.map((flag) => (
+          <label key={flag} className="flex items-center gap-1">
             <input
               type="checkbox"
-              checked={selectedFlags.includes(category)}
-              onChange={(e) => handleCheckboxChange(category, e.target.checked)}
+              checked={selectedFlags.includes(flag)}
+              onChange={(e) => handleCheckboxChange(flag, e.target.checked)}
             />
-            <span className="text-sm">{category}</span>
+            <span className="text-sm">{flag}</span>
           </label>
         ))}
       </div>

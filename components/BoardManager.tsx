@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import type { Item } from "@/app/page";
 import Blackboard from "./Blackboard";
 import ItemsTable from "./ItemsTable";
-import TagCheckBoxList from "./FlagCheckBoxList";
+import FlagCheckBoxList from "./FlagCheckBoxList";
 
 type Props = {
   items: Item[];
@@ -40,7 +40,7 @@ export default function BoardManager({ items, header }: Props) {
    * フラグ初期化
    * ------------------------- */
   useEffect(() => {
-    const uniqueFlags = Array.from(new Set(items.map((item) => item.category)));
+    const uniqueFlags = Array.from(new Set(items.map((item) => item.flag)));
     setSelectedFlags(uniqueFlags);
   }, [items]);
 
@@ -67,7 +67,7 @@ export default function BoardManager({ items, header }: Props) {
    * 黒板けし用：ルーレット抽選
    * ------------------------- */
   const filteredItems = items.filter((item) =>
-    selectedFlags.includes(item.category),
+    selectedFlags.includes(item.flag),
   );
 
   const pickRandom = async () => {
@@ -115,8 +115,8 @@ export default function BoardManager({ items, header }: Props) {
        category(#タグ)ごとに絞り込みできるようにする
        */}
 
-      <TagCheckBoxList
-        flags={Array.from(new Set(items.map((item) => item.category)))}
+      <FlagCheckBoxList
+        flags={Array.from(new Set(items.map((item) => item.flag)))}
         selectedFlags={selectedFlags}
         onChange={setSelectedFlags}
       />

@@ -25,20 +25,11 @@ const GAS_URL =
 export type Item = {
   id: number;
   title: string;
-  category: string;
-  level: string;
-  notes: string;
-  extra: string;
+  flag: string;
+  ContentType: string;
+  creator: string;
+  tag: string;
 };
-
-// // 表示順・対応列
-// const headerMap: (keyof Item)[] = [
-//   "title",
-//   "category",
-//   "level",
-//   "notes",
-//   "extra",
-// ];
 
 export default async function Page() {
   let items: Item[] = [];
@@ -58,22 +49,31 @@ export default async function Page() {
       {
         id: 0,
         title: headerRow[2] ?? "",
-        category: headerRow[3] ?? "",
-        level: headerRow[4] ?? "",
-        notes: headerRow[5] ?? "",
-        extra: headerRow[6] ?? "",
+        flag: headerRow[3] ?? "",
+        ContentType: headerRow[4] ?? "",
+        creator: headerRow[5] ?? "",
+        tag: headerRow[6] ?? "",
       },
     ];
 
     items = rowsData
       .filter((row: any[]) => row[2] !== "")
       .map((row: any[], idx: number) => ({
+        // スプレッド側のカラムが変更された場合は、ここを修正する！
         id: idx,
         title: row[2] ?? "",
-        category: row[3] ?? "",
-        level: row[4] ?? "",
-        notes: row[5] ?? "",
-        extra: row[6] ?? "",
+        flag: row[3] ?? "",
+        ContentType: row[4] ?? "",
+        creator: row[5] ?? "",
+        tag: row[6] ?? "",
+
+        // ◎old
+        // id: idx,
+        // title: row[2] ?? "",
+        // category: row[3] ?? "",
+        // level: row[4] ?? "",
+        // notes: row[5] ?? "",
+        // extra: row[6] ?? "",
       }));
 
     // console.log("items", items);

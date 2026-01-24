@@ -51,10 +51,10 @@ export default function ItemsTable({ header, rows, onSelect }: Props) {
               <Th>No</Th>
 
               <Th>{header.title}</Th>
-              <Th>{header.category}</Th>
-              {/* <Th>{header.level}</Th> */}
-              <Th>{header.notes}</Th>
-              <Th>{header.extra}</Th>
+              <Th>{header.flag}</Th>
+              <Th>{header.ContentType}</Th>
+              <Th>{header.creator}</Th>
+              <Th>{header.tag}</Th>
             </tr>
           ))}
         </thead>
@@ -83,10 +83,10 @@ export default function ItemsTable({ header, rows, onSelect }: Props) {
               </Td>
 
               <Td>{row.title}</Td>
-              <Td>{row.category}</Td>
-              {/* <Td>{row.level}</Td> */}
-              <Td>{row.notes}</Td>
-              <Td>{row.extra}</Td>
+              <Td>{row.flag}</Td>
+              <Td>{row.ContentType}</Td>
+              <Td>{row.creator}</Td>
+              <Td>{row.tag}</Td>
             </tr>
           ))}
         </tbody>
