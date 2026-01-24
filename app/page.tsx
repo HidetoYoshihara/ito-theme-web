@@ -77,7 +77,7 @@ export default async function Page() {
       }));
 
     // console.log("items", items);
-    console.log("data", data);
+    // console.log("data", data);
   } catch (err) {
     console.error("データ取得エラー:", err);
   }
