@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/HidetoYoshihara/ito-theme-web/compare/v0.1.1...v0.1.2) (2026-01-24)
+
+
+### Bug Fixes
+
+* デザイン修正 ([d35ab42](https://github.com/HidetoYoshihara/ito-theme-web/commit/d35ab420c4e9f889fa053e561198a4f2842e725a))
+
 ### 0.1.1 (2026-01-17)
 
 
