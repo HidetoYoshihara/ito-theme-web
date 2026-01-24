@@ -6,6 +6,7 @@ import type { Item } from "@/app/page";
 import Blackboard from "./Blackboard";
 import ItemsTable from "./ItemsTable";
 import FlagCheckBoxList from "./FlagCheckBoxList";
+import TagCheckBoxList from "./TagCheckBoxList";
 
 type Props = {
   items: Item[];
@@ -26,6 +27,9 @@ export default function BoardManager({ items, header }: Props) {
   // フラグ絞り込み用
   const [selectedFlags, setSelectedFlags] = useState<string[]>([]);
 
+  // タグ絞り込み用
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
   /* -------------------------
    * 初期選択（items / header 変更に追従）
    * ------------------------- */
@@ -43,6 +47,17 @@ export default function BoardManager({ items, header }: Props) {
   useEffect(() => {
     const uniqueFlags = Array.from(new Set(items.map((item) => item.flag)));
     setSelectedFlags(uniqueFlags);
+  }, [items]);
+
+  /* -------------------------
+   * タグ初期化
+   * ------------------------- */
+  useEffect(() => {
+    const allTags = items.flatMap((item) =>
+      item.tag.split("#").filter((t) => t.trim() !== ""),
+    );
+    const uniqueTags = Array.from(new Set(allTags));
+    setSelectedTags(uniqueTags);
   }, [items]);
 
   /* -------------------------
@@ -67,8 +82,11 @@ export default function BoardManager({ items, header }: Props) {
   /* -------------------------
    * 黒板けし用：ルーレット抽選
    * ------------------------- */
-  const filteredItems = items.filter((item) =>
-    selectedFlags.includes(item.flag),
+  const filteredItems = items.filter(
+    (item) =>
+      selectedFlags.includes(item.flag) &&
+      (selectedTags.length === 0 ||
+        selectedTags.some((tag) => item.tag.includes(`#${tag}`))),
   );
 
   const pickRandom = async () => {
@@ -110,17 +128,22 @@ export default function BoardManager({ items, header }: Props) {
         totalItems={items.length}
       />
 
-      {/*
-       新しいコンポーネント　
-       TagCheckBoxList 
-       .tag(#タグ)ごとに絞り込みできるようにする
-       ＃XXX の形式になっているので＃で分割してここにタグとして認識する必要あり。
-       */}
-
       <FlagCheckBoxList
         flags={Array.from(new Set(items.map((item) => item.flag)))}
         selectedFlags={selectedFlags}
         onChange={setSelectedFlags}
+      />
+
+      <TagCheckBoxList
+        tags={Array.from(
+          new Set(
+            items.flatMap((item) =>
+              item.tag.split("#").filter((t) => t.trim() !== ""),
+            ),
+          ),
+        )}
+        selectedTags={selectedTags}
+        onChange={setSelectedTags}
       />
 
       <div className="mt-6"></div>
