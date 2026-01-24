@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import type { Item } from "@/app/page";
 import Blackboard from "./Blackboard";
 import ItemsTable from "./ItemsTable";
+import TagCheckBoxList from "./FlagCheckBoxList";
 
 type Props = {
   items: Item[];
@@ -21,6 +22,9 @@ export default function BoardManager({ items, header }: Props) {
   const [pending, setPending] = useState<Item | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+  // フラグ絞り込み用
+  const [selectedFlags, setSelectedFlags] = useState<string[]>([]);
+
   /* -------------------------
    * 初期選択（items / header 変更に追従）
    * ------------------------- */
@@ -31,6 +35,14 @@ export default function BoardManager({ items, header }: Props) {
       setSelected(header ?? null);
     }
   }, [items, header]);
+
+  /* -------------------------
+   * フラグ初期化
+   * ------------------------- */
+  useEffect(() => {
+    const uniqueFlags = Array.from(new Set(items.map((item) => item.category)));
+    setSelectedFlags(uniqueFlags);
+  }, [items]);
 
   /* -------------------------
    * テーブルから選択 → 確認
@@ -54,46 +66,73 @@ export default function BoardManager({ items, header }: Props) {
   /* -------------------------
    * 黒板けし用：ルーレット抽選
    * ------------------------- */
-const pickRandom = async () => {
-  if (items.length === 0) return;
+  const filteredItems = items.filter((item) =>
+    selectedFlags.includes(item.category),
+  );
 
-  const spins = 12; // 回転数（10〜16くらいが気持ちいい）
+  const pickRandom = async () => {
+    if (filteredItems.length === 0) return;
 
-  for (let i = 0; i < spins; i++) {
-    const next = items[Math.floor(Math.random() * items.length)];
-    setSelected(next);
+    const spins = 12; // 回転数（10〜16くらいが気持ちいい）
 
-    // 後半になるほど遅くなる
-    const delay = 80 + i * (20+i);
-    await wait(delay);
-  }
-};
+    for (let i = 0; i < spins; i++) {
+      const next =
+        filteredItems[Math.floor(Math.random() * filteredItems.length)];
+      setSelected(next);
 
+      // 後半になるほど遅くなる
+      const delay = 80 + i * (20 + i);
+      await wait(delay);
+    }
+  };
+
+  /* -------------------------
+   * selected の調整（フィルタリング変更に追従）
+   * ------------------------- */
+  useEffect(() => {
+    if (
+      filteredItems.length > 0 &&
+      selected &&
+      !filteredItems.includes(selected)
+    ) {
+      setSelected(filteredItems[0]);
+    }
+  }, [filteredItems, selected]);
 
   return (
     <div>
       <Blackboard
-        items={items}
+        items={filteredItems}
         header={header}
         selected={selected}
         onPickRandom={pickRandom}
+        totalItems={items.length}
       />
 
-      <div className="mt-6">
-        <ItemsTable
-          header={[header]}
-          rows={items}
-          onSelect={openConfirm}
-        />
-      </div>
+      {/*
+       新しいコンポーネント　
+       TagCheckBoxList 
+       category(#タグ)ごとに絞り込みできるようにする
+       */}
+
+      <TagCheckBoxList
+        flags={Array.from(new Set(items.map((item) => item.category)))}
+        selectedFlags={selectedFlags}
+        onChange={setSelectedFlags}
+      />
+
+      <div className="mt-6"></div>
+      <ItemsTable
+        header={[header]}
+        rows={filteredItems}
+        onSelect={openConfirm}
+      />
 
       {/* 確認モーダル */}
       {modalOpen && pending && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-lg p-6 min-w-[500px] min-h-[200px] flex flex-col">
-            <h3 className="text-lg font-bold mb-3">
-              このお題に変更しますか？
-            </h3>
+            <h3 className="text-lg font-bold mb-3">このお題に変更しますか？</h3>
 
             <div className="mb-4 font-medium whitespace-pre-line flex flex-col gap-2">
               <div>--- No.{pending.id} ---</div>

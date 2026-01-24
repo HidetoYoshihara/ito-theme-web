@@ -15,6 +15,7 @@ type Props = {
   className?: string;
   selected?: Item | null;
   onPickRandom?: () => void;
+  totalItems: number;
 };
 
 const DivFlex = ({
@@ -31,6 +32,7 @@ export default function Blackboard({
   className = "",
   selected,
   onPickRandom,
+  totalItems,
 }: Props) {
   const today = new Date();
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
@@ -47,8 +49,6 @@ export default function Blackboard({
   const [flip, setFlip] = useState(false);
 
   const effective = selected ?? selectedInternal;
-
-  const totalItems = items.length;
 
   // ローカルで使うウエイト
   const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -240,7 +240,8 @@ export default function Blackboard({
           <DivFlex>
             <div className="font-bold">{"表示中／総数"}</div>
             <div className="text-xl w-[140px] border-b h-[32px] px-2 text-center">
-              {"X"}／{totalItems}
+              {items.length}／{totalItems}
+              {/* {filterdItems}／{totalItems} */}
             </div>
           </DivFlex>
         </div>
