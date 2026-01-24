@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v0.3.0...v1.0.0) (2026-01-24)
+
+
+### Bug Fixes
+
+* タグ絞り込み機能を実装(レビュー未着手) ([559d2d9](https://github.com/HidetoYoshihara/ito-theme-web/commit/559d2d969ba44fdabb8985b33421b1e7aa491536))
+
 ## [0.3.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v0.2.0...v0.3.0) (2026-01-24)
 
 
