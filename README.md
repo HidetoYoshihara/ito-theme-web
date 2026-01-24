@@ -36,5 +36,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 ## memo-HY
+
 バージョン更新ツール
 npm install -D standard-version
+
+0.→1.に変更できるっぽい。
+npx standard-version --release-as major

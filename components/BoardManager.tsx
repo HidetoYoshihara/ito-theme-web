@@ -113,7 +113,8 @@ export default function BoardManager({ items, header }: Props) {
       {/*
        新しいコンポーネント　
        TagCheckBoxList 
-       category(#タグ)ごとに絞り込みできるようにする
+       .tag(#タグ)ごとに絞り込みできるようにする
+       ＃XXX の形式になっているので＃で分割してここにタグとして認識する必要あり。
        */}
 
       <FlagCheckBoxList
