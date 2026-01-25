@@ -72,6 +72,7 @@ export default function BoardManager({ items, header }: Props) {
     if (pending) setSelected(pending);
     setPending(null);
     setModalOpen(false);
+    window.scrollTo(0, 0);
   };
 
   const cancel = () => {
@@ -158,28 +159,28 @@ export default function BoardManager({ items, header }: Props) {
         pending &&
         createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-lg p-6 w-full max-w-[500px] min-h-[200px] flex flex-col">
-              <h3 className="text-lg font-bold mb-3">
+            <div className="flex min-h-[200px] w-full max-w-[500px] flex-col rounded-lg bg-white p-6">
+              <h3 className="mb-3 text-lg font-bold">
                 このお題に変更しますか？
               </h3>
 
-              <div className="mb-4 font-medium whitespace-pre-line flex flex-col gap-2">
+              <div className="mb-4 flex flex-col gap-2 font-medium whitespace-pre-line">
                 <div>--- No.{pending.id} ---</div>
                 <div>{pending.title}</div>
               </div>
 
               <div className="mt-auto flex justify-end gap-3">
                 <button
-                  className="px-3 py-1 bg-gray-200 rounded"
+                  className="rounded bg-gray-200 px-3 py-1"
                   onClick={cancel}
                 >
                   キャンセル
                 </button>
                 <button
-                  className="px-3 py-1 bg-blue-600 text-white rounded"
+                  className="rounded bg-blue-600 px-3 py-1 text-white"
                   onClick={confirmApply}
                 >
-                  反映する
+                  変更する
                 </button>
               </div>
             </div>
