@@ -30,23 +30,23 @@ export default function TagCheckBoxList({
   };
 
   return (
-    <div className="mb-4">
-      <h4 className="text-md font-semibold mb-2">タグで絞り込み</h4>
-      <div className="flex gap-2 mb-2">
+    <div className="mb-4 flex flex-col items-center">
+      <h4 className="text-md mb-2 font-semibold">タグで絞り込み</h4>
+      <div className="mb-2 flex gap-2">
         <button
-          className="px-2 py-1 bg-blue-500 text-white rounded text-sm"
+          className="rounded bg-blue-500 px-2 py-1 text-sm text-white"
           onClick={selectAll}
         >
           全選択
         </button>
         <button
-          className="px-2 py-1 bg-gray-500 text-white rounded text-sm"
+          className="rounded bg-gray-500 px-2 py-1 text-sm text-white"
           onClick={deselectAll}
         >
           全解除
         </button>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex w-[1000px] flex-wrap gap-2">
         {tags.map((tag) => (
           <label key={tag} className="flex items-center gap-1">
             <input

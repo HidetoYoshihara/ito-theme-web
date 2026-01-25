@@ -30,7 +30,7 @@ export default function FlagCheckBoxList({
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 flex items-center flex-col">
       <h4 className="text-md font-semibold mb-2">フラグで絞り込み</h4>
       <div className="flex gap-2 mb-2">
         <button

@@ -26,7 +26,7 @@ export type Item = {
   id: number;
   title: string;
   flag: string;
-  ContentType: string;
+  contentType: string;
   creator: string;
   tag: string;
 };
@@ -50,7 +50,7 @@ export default async function Page() {
         id: 0,
         title: headerRow[2] ?? "",
         flag: headerRow[3] ?? "",
-        ContentType: headerRow[4] ?? "",
+        contentType: headerRow[4] ?? "",
         creator: headerRow[5] ?? "",
         tag: headerRow[6] ?? "",
       },
@@ -63,7 +63,7 @@ export default async function Page() {
         id: idx,
         title: row[2] ?? "",
         flag: row[3] ?? "",
-        ContentType: row[4] ?? "",
+        contentType: row[4] ?? "",
         creator: row[5] ?? "",
         tag: row[6] ?? "",
 

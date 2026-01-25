@@ -25,7 +25,7 @@ type TdProps = React.TdHTMLAttributes<HTMLTableCellElement> & {
 const Td = ({ children, bold = false, className = "", ...rest }: TdProps) => (
   <td
     {...rest}
-    className={`whitespace-pre-line border text-[16px] border-gray-300 text-gray-700 px-3 py-1 ${
+    className={`whitespace-pre-line border text-[16px] border-gray-300 text-gray-700 px-3 py-1 overflow-auto ${
       bold ? "font-medium" : ""
     } ${className}`}
   >
@@ -52,7 +52,7 @@ export default function ItemsTable({ header, rows, onSelect }: Props) {
 
               <Th>{header.title}</Th>
               <Th>{header.flag}</Th>
-              <Th>{header.ContentType}</Th>
+              <Th>{header.contentType}</Th>
               <Th>{header.creator}</Th>
               <Th>{header.tag}</Th>
             </tr>
@@ -84,9 +84,11 @@ export default function ItemsTable({ header, rows, onSelect }: Props) {
 
               <Td>{row.title}</Td>
               <Td>{row.flag}</Td>
-              <Td>{row.ContentType}</Td>
+              <Td>{row.contentType}</Td>
               <Td>{row.creator}</Td>
-              <Td>{row.tag}</Td>
+              <Td>
+                <div className="max-w-[340px] max-h-[60px]">{row.tag}</div>
+              </Td>
             </tr>
           ))}
         </tbody>

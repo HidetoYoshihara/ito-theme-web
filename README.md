@@ -42,3 +42,7 @@ npm install -D standard-version
 
 0.→1.に変更できる！(以降はfeat!でバージョンアップできるはず。)
 npx standard-version --release-as major
+
+TailwindCSSのフォーマッター
+npm install -D prettier prettier-plugin-tailwindcss
+.prettierrc作成。

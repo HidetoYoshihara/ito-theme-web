@@ -216,7 +216,7 @@ export default function Blackboard({
         {/* #タグ */}
         <div className="absolute top-[50%] left-[5%] flex items-center">
           <div className="font-bold w-[52px]">{header.tag}</div>
-          <div className="text-2xl border-b px-3 w-[500px] h-[34px]">
+          <div className="text-2xl border-b px-3 w-[620px] h-[34px] truncate">
             {effective?.tag}
           </div>
         </div>
