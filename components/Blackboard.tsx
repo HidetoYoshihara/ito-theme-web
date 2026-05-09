@@ -119,7 +119,7 @@ export default function Blackboard({
   return (
     <div className="flex justify-center">
       <div
-        className={`relative w-full max-w-[1240px] h-[440px] text-white/90 ${className}`}
+        className={`relative h-[440px] w-full max-w-[1240px] text-white/90 ${className}`}
       >
         <img
           src="/images/ito.png"
@@ -131,7 +131,7 @@ export default function Blackboard({
         <img
           src="/images/スピーカー.png"
           alt="スピーカー"
-          className="absolute top-[-62px] left-1/2 -translate-x-1/2 w-[120px]"
+          className="absolute top-[-62px] left-1/2 w-[120px] -translate-x-1/2"
         />
 
         {/* <SchoolClock /> */}
@@ -144,7 +144,7 @@ export default function Blackboard({
         <img
           src="/images/黒板.png"
           alt="黒板"
-          className="absolute w-full h-full"
+          className="absolute h-full w-full"
         />
 
         <div className="absolute right-[90px]">
@@ -162,7 +162,7 @@ export default function Blackboard({
         <img
           src="/images/黒板けし.png"
           alt="黒板けし"
-          className={`absolute bottom-[34px] right-[10%] h-[50px] ${isSpinning ? "opacity-40 cursor-not-allowed pointer-events-none grayscale" : "cursor-pointer"}`}
+          className={`absolute right-[10%] bottom-[34px] h-[50px] ${isSpinning ? "pointer-events-none cursor-not-allowed opacity-40 grayscale" : "cursor-pointer"}`}
           role="button"
           tabIndex={isSpinning ? -1 : 0}
           aria-label="黒板けし（ランダム表示）"
@@ -189,34 +189,34 @@ export default function Blackboard({
         <img
           src="/images/チョーク白.png"
           alt="チョーク白"
-          className="absolute bottom-[40px] right-[45%] h-[20px]"
+          className="absolute right-[45%] bottom-[40px] h-[20px]"
         />
 
         <img
           src="/images/チョーク赤.png"
           alt="チョーク赤"
-          className="absolute bottom-[40px] right-[34%] h-[20px]"
+          className="absolute right-[34%] bottom-[40px] h-[20px]"
         />
 
         <img
           src="/images/文字.png"
           alt="文字"
-          className="absolute bottom-[50px] right-[5%] w-[36px] opacity-85"
+          className="absolute right-[5%] bottom-[50px] w-[36px] opacity-85"
         />
 
         {/* お題 */}
         {/* FIXME：レスポンシブ未対応(スマホ側) */}
         <div className="absolute top-[14%] left-[5%] flex items-center">
-          <div className="font-bold w-[52px]">{header.title}</div>
-          <div className="text-4xl whitespace-pre-line border-b px-2 w-[1000px] h-[132px] flex items-center">
+          <div className="w-[52px] font-bold">{header.title}</div>
+          <div className="flex h-[132px] w-[1000px] items-center border-b px-2 text-4xl whitespace-pre-line">
             {effective?.title ?? "### 黒板けしをクリック！ ###"}
           </div>
         </div>
 
         {/* #タグ */}
         <div className="absolute top-[50%] left-[5%] flex items-center">
-          <div className="font-bold w-[52px]">{header.tag}</div>
-          <div className="text-2xl border-b px-3 w-[620px] h-[34px] truncate">
+          <div className="w-[52px] font-bold">{header.tag}</div>
+          <div className="h-[34px] w-[620px] truncate border-b px-3 text-2xl">
             {effective?.tag}
           </div>
         </div>
@@ -225,21 +225,21 @@ export default function Blackboard({
         <div className="absolute top-[66%] left-[8%] flex items-center gap-6">
           <DivFlex>
             <div className="font-bold">{header.creator}</div>
-            <div className="text-xl w-[150px] border-b h-[32px] px-2 text-center">
+            <div className="h-[32px] w-[150px] border-b px-2 text-center text-xl">
               {effective?.creator}
             </div>
           </DivFlex>
 
           <DivFlex>
             <div className="font-bold">{header.flag}</div>
-            <div className="text-xl w-[60px] border-b h-[32px] px-2 text-center">
+            <div className="h-[32px] w-[60px] border-b px-2 text-center text-xl">
               {effective?.flag}
             </div>
           </DivFlex>
 
           <DivFlex>
             <div className="font-bold">{"表示中／総数"}</div>
-            <div className="text-xl w-[140px] border-b h-[32px] px-2 text-center">
+            <div className="h-[32px] w-[140px] border-b px-2 text-center text-xl">
               {items.length}／{totalItems}
               {/* {filterdItems}／{totalItems} */}
             </div>
@@ -251,7 +251,7 @@ export default function Blackboard({
           {/* 成功ボタン→インクリメント */}
           <button
             type="button"
-            className="px-2 py-1 bg-green-600/70 rounded text-white/70 hover:bg-green-500 disabled:opacity-40 cursor-pointer"
+            className="cursor-pointer rounded bg-green-600/70 px-2 py-1 text-white/70 hover:bg-green-500 disabled:opacity-40"
             onClick={() => setStreak((s) => s + 1)}
             aria-label="成功（増加）"
           >
@@ -260,7 +260,7 @@ export default function Blackboard({
 
           <div className="px-3 text-center">
             <span
-              className={`px-2 font-bold text-[18px] ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}
+              className={`px-2 text-[18px] font-bold ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}
             >
               {streak}
             </span>
@@ -270,7 +270,7 @@ export default function Blackboard({
           {/* 失敗ボタン→デクリメント */}
           <button
             type="button"
-            className="px-2 py-1 bg-red-600/70 rounded text-white/70 hover:bg-red-500 disabled:opacity-40 cursor-pointer"
+            className="cursor-pointer rounded bg-red-600/70 px-2 py-1 text-white/70 hover:bg-red-500 disabled:opacity-40"
             onClick={() => setStreak((s) => s - 1)}
             aria-label="失敗（減少）"
           >
@@ -280,7 +280,7 @@ export default function Blackboard({
           {/* クリアボタン→クリア */}
           <button
             type="button"
-            className="px-2 py-1 bg-gray-600/70 rounded text-white/70 text-[10px] hover:bg-gray-500 disabled:opacity-40 cursor-pointer"
+            className="cursor-pointer rounded bg-gray-600/70 px-2 py-1 text-[10px] text-white/70 hover:bg-gray-500 disabled:opacity-40"
             onClick={() => setStreak(0)}
             aria-label="クリア"
           >

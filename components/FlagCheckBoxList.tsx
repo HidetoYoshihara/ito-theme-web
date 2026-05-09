@@ -29,6 +29,9 @@ export default function FlagCheckBoxList({
     onChange([]);
   };
 
+  // console.log({ flags, selectedFlags });
+  // console.log(selectedFlags);
+
   return (
     <div className="mb-4 flex flex-col items-center">
       <div className="w-[1000px]">

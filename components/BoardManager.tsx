@@ -24,6 +24,16 @@ export default function BoardManager({ items, header }: Props) {
   const [pending, setPending] = useState<Item | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+  // フラグを抽出（⚠️は後ろに回す）
+  // const flags = Array.from(new Set(items.map((item) => item.flag)));
+  const flags = Array.from(new Set(items.map((item) => item.flag))).sort(
+    (a, b) => {
+      if (a === "⚠️") return 1;
+      if (b === "⚠️") return -1;
+      return 0;
+    },
+  );
+
   // フラグ絞り込み用
   const [selectedFlags, setSelectedFlags] = useState<string[]>([]);
 
@@ -46,7 +56,8 @@ export default function BoardManager({ items, header }: Props) {
    * ------------------------- */
   useEffect(() => {
     const uniqueFlags = Array.from(new Set(items.map((item) => item.flag)));
-    setSelectedFlags(uniqueFlags);
+    const defaultSelectedFlags = uniqueFlags.filter((flag) => flag !== "⚠️");
+    setSelectedFlags(defaultSelectedFlags);
   }, [items]);
 
   /* -------------------------
@@ -57,7 +68,10 @@ export default function BoardManager({ items, header }: Props) {
       item.tag.split("#").filter((t) => t.trim() !== ""),
     );
     const uniqueTags = Array.from(new Set(allTags));
-    setSelectedTags(uniqueTags);
+    const defaultSelectedTags = uniqueTags.filter(
+      (tag) => tag.trim() !== "R指定",
+    );
+    setSelectedTags(defaultSelectedTags);
   }, [items]);
 
   /* -------------------------
@@ -130,7 +144,7 @@ export default function BoardManager({ items, header }: Props) {
       />
 
       <FlagCheckBoxList
-        flags={Array.from(new Set(items.map((item) => item.flag)))}
+        flags={flags}
         selectedFlags={selectedFlags}
         onChange={setSelectedFlags}
       />

@@ -29,6 +29,9 @@ export default function TagCheckBoxList({
     onChange([]);
   };
 
+  // console.log(tags);
+  // console.log(selectedTags);
+
   return (
     <div className="mb-4 flex flex-col items-center">
       <div className="w-[1000px]">

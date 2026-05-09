@@ -46,3 +46,12 @@ npx standard-version --release-as major
 TailwindCSSのフォーマッター
 npm install -D prettier prettier-plugin-tailwindcss
 .prettierrc作成。
+
+## 課題
+
+◎追加する機能
+・タイマー機能実装
+・一度選択されたお題のグレーアウト機能
+
+◎改善したいこと
+・チェックボックスデザインをモダンなデザインに更新する
