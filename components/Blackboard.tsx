@@ -5,6 +5,8 @@ import type { Item } from "@/app/page";
 // import SchoolClock from "./SchoolClock";
 import dynamic from "next/dynamic";
 
+import CountdownTimer from "@/components/CountdownTimer";
+
 const SchoolClock = dynamic(() => import("./SchoolClock"), {
   ssr: false,
 });
@@ -286,6 +288,10 @@ export default function Blackboard({
           >
             クリア
           </button>
+        </div>
+
+        <div className="absolute right-[150px] bottom-[88px]">
+          <CountdownTimer />
         </div>
       </div>
     </div>
