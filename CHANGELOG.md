@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.0.1...v2.0.2) (2026-05-09)
+
+
+### Bug Fixes
+
+* チェックボックスの初期状態を変更 ([8161581](https://github.com/HidetoYoshihara/ito-theme-web/commit/81615818cbb057bac68c51e6c679321f40c708b1))
+* レイアウト修正 ([b9dc029](https://github.com/HidetoYoshihara/ito-theme-web/commit/b9dc02969f3e6c4c36173560f503f59f0b804a4d))
+
 ### [2.0.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.0.0...v2.0.1) (2026-01-25)
 
 
