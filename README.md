@@ -50,7 +50,6 @@ npm install -D prettier prettier-plugin-tailwindcss
 ## 課題
 
 ◎追加する機能
-・タイマー機能実装
 ・一度選択されたお題のグレーアウト機能
 
 ◎改善したいこと

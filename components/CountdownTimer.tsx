@@ -205,7 +205,6 @@ export default function Timer() {
 
       {/* ボタン */}
       <div className="flex gap-2 text-sm">
-        {/* 設定 */}
         <button
           onClick={handleSetTime}
           className="rounded bg-gray-500/70 px-3 py-1 text-white/80 transition-all duration-100 active:scale-90"
@@ -213,7 +212,6 @@ export default function Timer() {
           設定
         </button>
 
-        {/* 開始・停止 */}
         <button
           onClick={handleToggleTimer}
           className={`rounded px-3 py-1 text-white/80 transition-all duration-100 active:scale-90 ${isRunning ? "bg-yellow-500/70" : "bg-green-500/70"} `}
@@ -221,7 +219,6 @@ export default function Timer() {
           {isRunning ? "停止" : "開始"}
         </button>
 
-        {/* リセット */}
         <button
           onClick={handleReset}
           className="rounded bg-red-500/70 px-3 py-1 text-white/80 transition-all duration-100 active:scale-90"
@@ -229,7 +226,6 @@ export default function Timer() {
           リセット
         </button>
 
-        {/* クリア */}
         <button
           onClick={handleClear}
           className="rounded bg-blue-500/70 px-3 py-1 text-white/80 transition-all duration-100 active:scale-90"
