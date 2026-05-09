@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.0.2...v2.0.3) (2026-05-09)
+
+
+### Bug Fixes
+
+* [タイマー]デザイン ([189a7fd](https://github.com/HidetoYoshihara/ito-theme-web/commit/189a7fdd785c916a3fbe93431ef683ecb3798467))
+* [タイマー]デザイン ([f723754](https://github.com/HidetoYoshihara/ito-theme-web/commit/f723754b8c7293f917c831354e2365ef6867546e))
+
 ### [2.0.2](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.0.1...v2.0.2) (2026-05-09)
 
 
