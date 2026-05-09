@@ -123,9 +123,8 @@ export default function Timer() {
     if (!isRunning) return "text-white/30";
 
     if (timeLeft <= 10) return "text-red-400 animate-pulse";
-
-    if (timeLeft <= 30) return "text-orange-300";
-
+    if (timeLeft <= 20) return "text-red-400";
+    if (timeLeft <= 40) return "text-orange-300";
     if (timeLeft <= 60) return "text-yellow-200";
 
     return "text-white/85";
