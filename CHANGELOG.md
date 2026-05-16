@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.1.0...v2.1.1) (2026-05-16)
+
+
+### Bug Fixes
+
+* タイマーの色変更ロジックを修正。 ([774c7aa](https://github.com/HidetoYoshihara/ito-theme-web/commit/774c7aa7245a782111e732035ce737a04648027c))
+
 ## [2.1.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.0.3...v2.1.0) (2026-05-09)
 
 
