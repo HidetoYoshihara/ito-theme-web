@@ -122,7 +122,13 @@ export default function Timer() {
   const timerColor = (() => {
     if (!isRunning) return "text-white/30";
 
-    if (timeLeft <= 10) return "text-red-400 animate-pulse";
+    // FIXME: できれば0.5秒間隔の点滅にしたい。
+    // if (timeLeft <= 10) return "text-red-400";
+    if (timeLeft <= 10) {
+      return timeLeft % 2 === 0
+        ? "text-red-400 opacity-100"
+        : "text-red-400 opacity-40";
+    }
     if (timeLeft <= 20) return "text-red-400";
     if (timeLeft <= 40) return "text-orange-300";
     if (timeLeft <= 60) return "text-yellow-200";
