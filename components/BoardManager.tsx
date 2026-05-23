@@ -22,6 +22,7 @@ export default function BoardManager({ items, header }: Props) {
 
   // テーブル選択 → 確認モーダル用
   const [pending, setPending] = useState<Item | null>(null);
+  const [pendingIndex, setPendingIndex] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   // フラグを抽出（⚠️は後ろに回す）
@@ -77,8 +78,9 @@ export default function BoardManager({ items, header }: Props) {
   /* -------------------------
    * テーブルから選択 → 確認
    * ------------------------- */
-  const openConfirm = (item: Item) => {
+  const openConfirm = (item: Item, index?: number) => {
     setPending(item);
+    setPendingIndex(typeof index === "number" ? index : null);
     setModalOpen(true);
   };
 
@@ -179,7 +181,9 @@ export default function BoardManager({ items, header }: Props) {
               </h3>
 
               <div className="mb-4 flex flex-col gap-2 font-medium whitespace-pre-line">
-                <div>--- No.{pending.id} ---</div>
+                <div>
+                  --- No.{pendingIndex !== null ? pendingIndex + 1 : pending?.id} ---
+                </div>
                 <div>{pending.title}</div>
               </div>
 

@@ -5,7 +5,7 @@ import type { Item } from "@/app/page";
 type Props = {
   header: Item[];
   rows: Item[];
-  onSelect?: (item: Item) => void;
+  onSelect?: (item: Item, index: number) => void;
 };
 
 /* ======================
@@ -67,12 +67,12 @@ export default function ItemsTable({ header, rows, onSelect }: Props) {
             >
               <Td
                 bold
-                onClick={() => onSelect?.(row)}
+                onClick={() => onSelect?.(row, rowIndex)}
                 onKeyDown={(e) => {
                   const k = (e as React.KeyboardEvent).key;
                   if (k === "Enter" || k === " " || k === "Space") {
                     e.preventDefault();
-                    onSelect?.(row);
+                    onSelect?.(row, rowIndex);
                   }
                 }}
                 role={onSelect ? "button" : undefined}
