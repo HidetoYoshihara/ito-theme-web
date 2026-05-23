@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function Timer() {
+  const [showInfo, setShowInfo] = useState(false);
   /* -------------------------
    * 初期値
    * ------------------------- */
@@ -144,7 +145,44 @@ export default function Timer() {
   const displaySeconds = String(timeLeft % 60).padStart(2, "0");
 
   return (
-    <div className="flex w-[300px] flex-col items-center gap-2 rounded border p-2">
+    <div className="relative flex w-[340px] flex-col items-center gap-2 rounded border p-2">
+      <button
+        type="button"
+        className="absolute top-2 right-2 rounded-full border border-white/20 bg-black/20 px-2 py-1 text-sm text-white/80 transition hover:bg-white/10"
+        onClick={() => setShowInfo((prev) => !prev)}
+        aria-expanded={showInfo}
+        aria-label="タイマーの説明を表示"
+      >
+        ℹ️
+      </button>
+
+      {showInfo && (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-10 bg-transparent"
+            onClick={() => setShowInfo(false)}
+            aria-hidden="true"
+          />
+          <div className="absolute top-10 right-2 z-20 w-[300px] rounded-xl border border-white/20 bg-black/90 p-3 text-left text-xs text-white/80 shadow-lg">
+            <div className="mb-2 font-semibold text-white">タイマーの用途</div>
+            <p className="leading-tight">
+              回答時間を管理するためのタイマーです。
+              <br />
+              セットして開始すると、残り時間を確認できます。
+            </p>
+            <ul className="mt-2 list-disc space-y-1 pl-4 text-[11px] text-white/75">
+              <li>「設定」で時間を反映します。</li>
+              <li>「開始」でカウントダウンが始まります。</li>
+              <li>0になると音と通知でお知らせします。</li>
+              <li>
+                「リセット」は現在設定値に戻し、「クリア」は初期値に戻します。
+              </li>
+            </ul>
+          </div>
+        </>
+      )}
+
       {/* 設定 */}
       <div className="flex items-center gap-1 text-white/80">
         {/* 分 十の位 */}
