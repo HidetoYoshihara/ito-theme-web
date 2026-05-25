@@ -69,8 +69,9 @@ export default function BoardManager({ items, header }: Props) {
       item.tag.split("#").filter((t) => t.trim() !== ""),
     );
     const uniqueTags = Array.from(new Set(allTags));
+    const excludedTags = ["R指定", "ネタ"];
     const defaultSelectedTags = uniqueTags.filter(
-      (tag) => tag.trim() !== "R指定",
+      (tag) => !excludedTags.includes(tag.trim()),
     );
     setSelectedTags(defaultSelectedTags);
   }, [items]);
@@ -182,7 +183,8 @@ export default function BoardManager({ items, header }: Props) {
 
               <div className="mb-4 flex flex-col gap-2 font-medium whitespace-pre-line">
                 <div>
-                  --- No.{pendingIndex !== null ? pendingIndex + 1 : pending?.id} ---
+                  --- No.
+                  {pendingIndex !== null ? pendingIndex + 1 : pending?.id} ---
                 </div>
                 <div>{pending.title}</div>
               </div>
