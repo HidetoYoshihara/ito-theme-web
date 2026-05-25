@@ -6,6 +6,7 @@ import type { Item } from "@/app/page";
 import dynamic from "next/dynamic";
 
 import CountdownTimer from "@/components/CountdownTimer";
+import { images } from "@/lib/imagePaths";
 
 const SchoolClock = dynamic(() => import("./SchoolClock"), {
   ssr: false,
@@ -124,14 +125,14 @@ export default function Blackboard({
         className={`relative h-[440px] w-full max-w-[1240px] text-white/90 ${className}`}
       >
         <img
-          src="/images/ito.png"
+          src={images.ito}
           alt="ito"
           className={`absolute top-[-32px] left-[-40px] w-[60px] ${flip ? "ito-flip" : ""}`}
           onAnimationEnd={() => setFlip(false)}
         />
 
         <img
-          src="/images/スピーカー.png"
+          src={images.speaker}
           alt="スピーカー"
           className="absolute top-[-62px] left-1/2 w-[120px] -translate-x-1/2"
         />
@@ -144,7 +145,7 @@ export default function Blackboard({
 
         {/* レスポンシブ未対応 */}
         <img
-          src="/images/黒板.png"
+          src={images.blackboard}
           alt="黒板"
           className="absolute h-full w-full"
         />
@@ -162,7 +163,7 @@ export default function Blackboard({
         </div>
 
         <img
-          src="/images/黒板けし.png"
+          src={images.blackboardEraser}
           alt="黒板けし"
           className={`absolute right-[10%] bottom-[34px] h-[50px] ${isSpinning ? "pointer-events-none cursor-not-allowed opacity-40 grayscale" : "cursor-pointer"}`}
           role="button"
@@ -189,19 +190,19 @@ export default function Blackboard({
         />
 
         <img
-          src="/images/チョーク白.png"
+          src={images.chalkWhite}
           alt="チョーク白"
           className="absolute right-[45%] bottom-[40px] h-[20px]"
         />
 
         <img
-          src="/images/チョーク赤.png"
+          src={images.chalkRed}
           alt="チョーク赤"
           className="absolute right-[34%] bottom-[40px] h-[20px]"
         />
 
         <img
-          src="/images/文字.png"
+          src={images.letters}
           alt="文字"
           className="absolute right-[5%] bottom-[50px] w-[36px] opacity-85"
         />
