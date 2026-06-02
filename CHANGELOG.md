@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.2.0...v2.3.0) (2026-06-02)
+
+
+### Features
+
+* 恋愛タグのスライドインアニメーションを追加し、ルーレット完了カウントを管理 ([c64c786](https://github.com/HidetoYoshihara/ito-theme-web/commit/c64c78646e8777fe213bc9742b04eb7123c8332d))
+* 画像パスを管理するimagePathsモジュールを追加し、Blackboardコンポーネントで使用 ([3858151](https://github.com/HidetoYoshihara/ito-theme-web/commit/38581519658f4e7b017e1e5c3f10f00b5029700b))
+
+
+### Bug Fixes
+
+* タグフィルタリングに除外タグ機能を追加し、表示を改善 ([4a1fa1b](https://github.com/HidetoYoshihara/ito-theme-web/commit/4a1fa1bdf479f4a8ef0d32ccb5ef4772463f3beb))
+
 ## [2.2.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.1.1...v2.2.0) (2026-05-23)
 
 
