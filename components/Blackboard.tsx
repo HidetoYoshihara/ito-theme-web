@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { Item } from "@/app/page";
 // import SchoolClock from "./SchoolClock";
 import dynamic from "next/dynamic";
@@ -19,6 +19,7 @@ type Props = {
   selected?: Item | null;
   onPickRandom?: () => void;
   totalItems: number;
+  rouletteCompleteCount?: number;
 };
 
 const DivFlex = ({
@@ -36,6 +37,7 @@ export default function Blackboard({
   selected,
   onPickRandom,
   totalItems,
+  rouletteCompleteCount,
 }: Props) {
   const today = new Date();
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
@@ -50,8 +52,23 @@ export default function Blackboard({
 
   // クリック時にito画像を横回転させるフリップ状態
   const [flip, setFlip] = useState(false);
+  const [showLoveTag, setShowLoveTag] = useState(false);
+  const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
+    useState(0);
 
   const effective = selected ?? selectedInternal;
+  const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
+  const completedRouletteCount =
+    (rouletteCompleteCount ?? 0) + localRouletteCompleteCount;
+  const prevRouletteCompleteCountRef = useRef(completedRouletteCount);
+
+  useEffect(() => {
+    if (completedRouletteCount === prevRouletteCompleteCountRef.current) return;
+    prevRouletteCompleteCountRef.current = completedRouletteCount;
+    if (!isLoveTag) return;
+
+    setShowLoveTag(true);
+  }, [completedRouletteCount, isLoveTag]);
 
   // ローカルで使うウエイト
   const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -82,6 +99,9 @@ export default function Blackboard({
   const showRandom = async () => {
     // 二重押下防止
     if (isSpinning) return;
+
+    // 恋愛スライドは毎回クリアして、最終決定時に再表示
+    setShowLoveTag(false);
 
     // アニメーションを確実に再発火させる（同じ値を set しても再発火しないため）
     setFlip(false);
@@ -116,6 +136,7 @@ export default function Blackboard({
       await wait(delay);
     }
 
+    setLocalRouletteCompleteCount((count) => count + 1);
     setIsSpinning(false);
   };
 
@@ -207,11 +228,17 @@ export default function Blackboard({
           className="absolute right-[5%] bottom-[50px] w-[36px] opacity-85"
         />
 
+        <img
+          src={images.loveTagSlideIn}
+          alt="恋愛"
+          className={`pointer-events-none absolute top-[428px] right-[140px] w-[260px] opacity-0 ${showLoveTag ? "love-tag-slide-in" : ""}`}
+        />
+
         {/* お題 */}
         {/* FIXME：レスポンシブ未対応(スマホ側) */}
-        <div className="absolute top-[14%] left-[5%] flex items-center">
+        <div className="absolute top-[8%] left-[5%] flex items-center">
           <div className="w-[52px] font-bold">{header.title}</div>
-          <div className="flex h-[132px] w-[1000px] items-center border-b px-2 text-4xl whitespace-pre-line">
+          <div className="flex h-[160px] w-[1000px] items-center border-b px-2 text-4xl whitespace-pre-line">
             {effective?.title ?? "### 黒板けしをクリック！ ###"}
           </div>
         </div>

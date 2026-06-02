@@ -74,3 +74,22 @@ body {
     transform: perspective(600px) rotateY(calc(360deg * 5));
   }
 }
+
+.love-tag-slide-in {
+  animation: love-tag-slide-in 0.8s ease-out forwards;
+}
+
+@keyframes love-tag-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-140%) scale(0.94);
+  }
+  40% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}

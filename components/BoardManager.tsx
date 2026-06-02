@@ -40,6 +40,7 @@ export default function BoardManager({ items, header }: Props) {
 
   // タグ絞り込み用
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [rouletteCompleteCount, setRouletteCompleteCount] = useState(0);
 
   /* -------------------------
    * 初期選択（items / header 変更に追従）
@@ -69,7 +70,7 @@ export default function BoardManager({ items, header }: Props) {
       item.tag.split("#").filter((t) => t.trim() !== ""),
     );
     const uniqueTags = Array.from(new Set(allTags));
-    const excludedTags = ["R指定", "ネタ"];
+    const excludedTags = ["R指定", "マニアック"];
     const defaultSelectedTags = uniqueTags.filter(
       (tag) => !excludedTags.includes(tag.trim()),
     );
@@ -111,16 +112,18 @@ export default function BoardManager({ items, header }: Props) {
     if (filteredItems.length === 0) return;
 
     const spins = 12; // 回転数（10〜16くらいが気持ちいい）
+    let next: Item = filteredItems[0];
 
     for (let i = 0; i < spins; i++) {
-      const next =
-        filteredItems[Math.floor(Math.random() * filteredItems.length)];
+      next = filteredItems[Math.floor(Math.random() * filteredItems.length)];
       setSelected(next);
 
       // 後半になるほど遅くなる
       const delay = 80 + i * (20 + i);
       await wait(delay);
     }
+
+    setRouletteCompleteCount((count) => count + 1);
   };
 
   /* -------------------------
@@ -144,6 +147,7 @@ export default function BoardManager({ items, header }: Props) {
         selected={selected}
         onPickRandom={pickRandom}
         totalItems={items.length}
+        rouletteCompleteCount={rouletteCompleteCount}
       />
 
       <FlagCheckBoxList
