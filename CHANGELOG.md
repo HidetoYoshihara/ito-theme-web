@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.4.0...v2.4.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* ルーレット機能にスピン状態を追加し、ボードマネージャーでの状態管理を強化 ([d1cd6c7](https://github.com/HidetoYoshihara/ito-theme-web/commit/d1cd6c74c5b028a9234e645289bd6bfdb1c7382f))
+
 ## [2.4.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.3.1...v2.4.0) (2026-06-03)
 
 
