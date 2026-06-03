@@ -147,6 +147,7 @@ export default function BoardManager({ items, header }: Props) {
   const isRTag = Boolean(effective?.tag?.includes("R指定"));
   const isFirstItem = effective?.id === 0;
 
+  // 背景色の設定
   const bodyBackground = effective
     ? isFirstItem
       ? "rainbow"
@@ -155,7 +156,7 @@ export default function BoardManager({ items, header }: Props) {
         : isHorrorTag
           ? "#120008"
           : isDangerTag
-            ? "#c62828"
+            ? "#e08a8d"
             : isContentTag
               ? "#ffffb0"
               : isFairyTag
@@ -168,7 +169,7 @@ export default function BoardManager({ items, header }: Props) {
   const bodyTextColor = effective
     ? isFirstItem
       ? "#1f2937"
-      : isHorrorTag || isRTag || isDangerTag
+      : isHorrorTag || isRTag
         ? "#ffffff"
         : "#1f2937"
     : "#000";
