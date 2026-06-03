@@ -42,6 +42,7 @@ export default function BoardManager({ items, header }: Props) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [rouletteCompleteCount, setRouletteCompleteCount] = useState(0);
   const [decidedItem, setDecidedItem] = useState<Item | null>(null);
+  const [isRouletteSpinning, setIsRouletteSpinning] = useState(false);
 
   /* -------------------------
    * 初期選択（items / header 変更に追従）
@@ -117,6 +118,7 @@ export default function BoardManager({ items, header }: Props) {
 
     // ルーレット開始時に背景をリセット
     setDecidedItem(null);
+    setIsRouletteSpinning(true);
 
     const spins = 12; // 回転数（10〜16くらいが気持ちいい）
     let next: Item = filteredItems[0];
@@ -133,6 +135,7 @@ export default function BoardManager({ items, header }: Props) {
     setRouletteCompleteCount((count) => count + 1);
     // ルーレット完了後に背景色を適用
     setDecidedItem(next);
+    setIsRouletteSpinning(false);
   };
 
   const effective = decidedItem;
@@ -210,6 +213,7 @@ export default function BoardManager({ items, header }: Props) {
         onPickRandom={pickRandom}
         totalItems={items.length}
         rouletteCompleteCount={rouletteCompleteCount}
+        isExternalSpinning={isRouletteSpinning}
       />
 
       <FlagCheckBoxList

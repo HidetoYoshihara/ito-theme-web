@@ -153,7 +153,7 @@ export default function Timer() {
         aria-expanded={showInfo}
         aria-label="タイマーの説明を表示"
       >
-        ℹ️
+        ？
       </button>
 
       {showInfo && (

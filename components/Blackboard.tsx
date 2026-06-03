@@ -20,6 +20,7 @@ type Props = {
   onPickRandom?: () => void;
   totalItems: number;
   rouletteCompleteCount?: number;
+  isExternalSpinning?: boolean;
 };
 
 const DivFlex = ({
@@ -38,6 +39,7 @@ export default function Blackboard({
   onPickRandom,
   totalItems,
   rouletteCompleteCount,
+  isExternalSpinning = false,
 }: Props) {
   const today = new Date();
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
@@ -78,10 +80,18 @@ export default function Blackboard({
 
   useEffect(() => {
     // 直接選択でお題が恋愛になった場合にもスライドを表示する
+    if (isExternalSpinning) return;
     if (isLoveTag) {
       setShowLoveTag(true);
     }
-  }, [isLoveTag, effective?.id]);
+  }, [isLoveTag, effective?.id, isExternalSpinning]);
+
+  useEffect(() => {
+    // No.1（id===0）が選択されたときはスライドを表示しない
+    if (effective?.id === 0) {
+      setShowLoveTag(false);
+    }
+  }, [effective?.id]);
 
   // ローカルで使うウエイト
   const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
