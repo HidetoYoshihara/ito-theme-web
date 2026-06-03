@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.3.0...v2.3.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* Blackboardコンポーネントの構造を整理し、可読性を向上 ([f4d0e10](https://github.com/HidetoYoshihara/ito-theme-web/commit/f4d0e103baa91abc6402f2e932b61f76f72e02a8))
+
 ## [2.3.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.2.0...v2.3.0) (2026-06-02)
 
 
