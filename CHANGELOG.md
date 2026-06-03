@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.4.1...v2.4.2) (2026-06-03)
+
+
+### Bug Fixes
+
+* レイアウトコンポーネントの子要素を一行に統合し、tsconfigにd.tsファイルを含める設定を追加 ([9916007](https://github.com/HidetoYoshihara/ito-theme-web/commit/9916007df13a88ad3044d4ff3878b3868115e742))
+
 ### [2.4.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.4.0...v2.4.1) (2026-06-03)
 
 
