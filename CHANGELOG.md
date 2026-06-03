@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.3.1...v2.4.0) (2026-06-03)
+
+
+### Features
+
+* ルーレット機能に背景色の変更を追加し、選択されたタグに応じたスタイルを適用 ([3dfd314](https://github.com/HidetoYoshihara/ito-theme-web/commit/3dfd314ccff69a56d1e5f11fa4049dd22b791171))
+
+
+### Bug Fixes
+
+* ボードマネージャーでタグに応じた背景色とテキスト色の設定を強化 ([d94ca66](https://github.com/HidetoYoshihara/ito-theme-web/commit/d94ca6638ef1d83f930e9756097c1beec7ca4fdc))
+
 ### [2.3.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.3.0...v2.3.1) (2026-06-03)
 
 
