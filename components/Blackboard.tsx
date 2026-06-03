@@ -70,6 +70,19 @@ export default function Blackboard({
     setShowLoveTag(true);
   }, [completedRouletteCount, isLoveTag]);
 
+  useEffect(() => {
+    if (!isLoveTag) {
+      setShowLoveTag(false);
+    }
+  }, [isLoveTag]);
+
+  useEffect(() => {
+    // 直接選択でお題が恋愛になった場合にもスライドを表示する
+    if (isLoveTag) {
+      setShowLoveTag(true);
+    }
+  }, [isLoveTag, effective?.id]);
+
   // ローカルで使うウエイト
   const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 

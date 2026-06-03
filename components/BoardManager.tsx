@@ -137,30 +137,55 @@ export default function BoardManager({ items, header }: Props) {
 
   const effective = decidedItem;
   const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
-  const isHorrorTag = Boolean(
-    effective?.tag?.includes("ホラー") || effective?.tag?.includes("恐怖"),
-  );
-  const bodyBackgroundColor = effective
-    ? isLoveTag
-      ? "#ffe7f8"
-      : isHorrorTag
-        ? "#120008"
-        : "#e9e9de"
+  const isHorrorTag = Boolean(effective?.tag?.includes("ホラー"));
+  const isDangerTag = Boolean(effective?.tag?.includes("ヤバい"));
+  const isContentTag = Boolean(effective?.tag?.includes("コンテンツ系"));
+  const isFairyTag = Boolean(effective?.tag?.includes("童話"));
+  const isRTag = Boolean(effective?.tag?.includes("R指定"));
+  const isFirstItem = effective?.id === 0;
+
+  const bodyBackground = effective
+    ? isFirstItem
+      ? "rainbow"
+      : isLoveTag
+        ? "#ffe7f8"
+        : isHorrorTag
+          ? "#120008"
+          : isDangerTag
+            ? "#c62828"
+            : isContentTag
+              ? "#ffffb0"
+              : isFairyTag
+                ? "#e6fff0"
+                : isRTag
+                  ? "#7f2b68"
+                  : "#e9e9de"
     : "#e9e9de";
+
   const bodyTextColor = effective
-    ? isHorrorTag
-      ? "#ffffff"
-      : "#1f2937"
-    : "#1f2937";
+    ? isFirstItem
+      ? "#1f2937"
+      : isHorrorTag || isRTag || isDangerTag
+        ? "#ffffff"
+        : "#1f2937"
+    : "#000";
 
   useEffect(() => {
-    document.body.style.backgroundColor = bodyBackgroundColor;
+    if (bodyBackground === "rainbow") {
+      document.body.style.background =
+        "linear-gradient(90deg, #ff4fcf 0%, #ffcd1d 22%, #77f7a4 45%, #6ba7ff 68%, #d77dff 100%)";
+      document.body.style.backgroundColor = "";
+    } else {
+      document.body.style.background = "";
+      document.body.style.backgroundColor = bodyBackground;
+    }
     document.body.style.color = bodyTextColor;
     return () => {
+      document.body.style.background = "";
       document.body.style.backgroundColor = "";
       document.body.style.color = "";
     };
-  }, [bodyBackgroundColor, bodyTextColor]);
+  }, [bodyBackground, bodyTextColor]);
 
   /* -------------------------
    * selected の調整（フィルタリング変更に追従）
@@ -217,7 +242,7 @@ export default function BoardManager({ items, header }: Props) {
         pending &&
         createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="flex min-h-[200px] w-full max-w-[500px] flex-col rounded-lg bg-white p-6">
+            <div className="flex min-h-[200px] w-full max-w-[500px] flex-col rounded-lg bg-white p-6 text-black">
               <h3 className="mb-3 text-lg font-bold">
                 このお題に変更しますか？
               </h3>
