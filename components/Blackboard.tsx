@@ -142,184 +142,191 @@ export default function Blackboard({
 
   return (
     <div className="flex justify-center">
-      <div
-        className={`relative h-[440px] w-full max-w-[1240px] text-white/90 ${className}`}
-      >
-        <img
-          src={images.ito}
-          alt="ito"
-          className={`absolute top-[-32px] left-[-40px] w-[60px] ${flip ? "ito-flip" : ""}`}
-          onAnimationEnd={() => setFlip(false)}
-        />
+      {/* 全体ラッパー（周辺装飾と黒板の位置関係を管理） */}
+      <div className="relative w-full max-w-[1240px]">
+        {/* 周辺装飾コンテナ（周辺画像のみ） */}
+        <div className="pointer-events-none absolute inset-0">
+          <img
+            src={images.ito}
+            alt="ito"
+            className={`absolute top-[-32px] left-[-40px] w-[60px] ${flip ? "ito-flip" : ""}`}
+            onAnimationEnd={() => setFlip(false)}
+          />
 
-        <img
-          src={images.speaker}
-          alt="スピーカー"
-          className="absolute top-[-62px] left-1/2 w-[120px] -translate-x-1/2"
-        />
+          <img
+            src={images.speaker}
+            alt="スピーカー"
+            className="absolute top-[-62px] left-1/2 w-[120px] -translate-x-1/2"
+          />
 
-        {/* <SchoolClock /> */}
-        <SchoolClock
-          size={100}
-          className="absolute top-[-60px] right-[-60px]"
-        />
-
-        {/* レスポンシブ未対応 */}
-        <img
-          src={images.blackboard}
-          alt="黒板"
-          className="absolute h-full w-full"
-        />
-
-        <div className="absolute right-[90px]">
-          <div className="absolute top-[110px] w-[20px] text-center">
-            {month}
-          </div>
-          <div className="absolute top-[160px] w-[20px] text-center">
-            {date}
-          </div>
-          <div className="absolute top-[204px] w-[20px] text-center">
-            {weekday}
-          </div>
+          {/* 時計 */}
+          <SchoolClock
+            size={100}
+            className="absolute top-[-60px] right-[-60px]"
+          />
         </div>
 
-        <img
-          src={images.blackboardEraser}
-          alt="黒板けし"
-          className={`absolute right-[10%] bottom-[34px] h-[50px] ${isSpinning ? "pointer-events-none cursor-not-allowed opacity-40 grayscale" : "cursor-pointer"}`}
-          role="button"
-          tabIndex={isSpinning ? -1 : 0}
-          aria-label="黒板けし（ランダム表示）"
-          aria-disabled={isSpinning}
-          onClick={() => {
-            if (isSpinning) return;
-            void showRandom();
-          }}
-          onKeyDown={(e) => {
-            if (isSpinning) return;
-            const k = (e as React.KeyboardEvent).key;
-            if (
-              k === "Enter" ||
-              k === " " ||
-              k === "Spacebar" ||
-              k === "Space"
-            ) {
-              e.preventDefault();
+        {/* 黒板コンテナ（黒板背景とその内容） */}
+        <div
+          className={`relative mt-8 h-[440px] w-full text-white/90 ${className}`}
+        >
+          {/* レスポンシブ未対応 */}
+          <img
+            src={images.blackboard}
+            alt="黒板"
+            className="absolute h-full w-full"
+          />
+
+          <div className="absolute right-[90px]">
+            <div className="absolute top-[110px] w-[20px] text-center">
+              {month}
+            </div>
+            <div className="absolute top-[160px] w-[20px] text-center">
+              {date}
+            </div>
+            <div className="absolute top-[204px] w-[20px] text-center">
+              {weekday}
+            </div>
+          </div>
+
+          <img
+            src={images.blackboardEraser}
+            alt="黒板けし"
+            className={`absolute right-[10%] bottom-[34px] h-[50px] ${isSpinning ? "pointer-events-none cursor-not-allowed opacity-40 grayscale" : "cursor-pointer"}`}
+            role="button"
+            tabIndex={isSpinning ? -1 : 0}
+            aria-label="黒板けし（ランダム表示）"
+            aria-disabled={isSpinning}
+            onClick={() => {
+              if (isSpinning) return;
               void showRandom();
-            }
-          }}
-        />
+            }}
+            onKeyDown={(e) => {
+              if (isSpinning) return;
+              const k = (e as React.KeyboardEvent).key;
+              if (
+                k === "Enter" ||
+                k === " " ||
+                k === "Spacebar" ||
+                k === "Space"
+              ) {
+                e.preventDefault();
+                void showRandom();
+              }
+            }}
+          />
 
-        <img
-          src={images.chalkWhite}
-          alt="チョーク白"
-          className="absolute right-[45%] bottom-[40px] h-[20px]"
-        />
+          <img
+            src={images.chalkWhite}
+            alt="チョーク白"
+            className="absolute right-[45%] bottom-[40px] h-[20px]"
+          />
 
-        <img
-          src={images.chalkRed}
-          alt="チョーク赤"
-          className="absolute right-[34%] bottom-[40px] h-[20px]"
-        />
+          <img
+            src={images.chalkRed}
+            alt="チョーク赤"
+            className="absolute right-[34%] bottom-[40px] h-[20px]"
+          />
 
-        <img
-          src={images.letters}
-          alt="文字"
-          className="absolute right-[5%] bottom-[50px] w-[36px] opacity-85"
-        />
+          <img
+            src={images.letters}
+            alt="文字"
+            className="absolute right-[5%] bottom-[50px] w-[36px] opacity-85"
+          />
 
-        <img
-          src={images.loveTagSlideIn}
-          alt="恋愛"
-          className={`pointer-events-none absolute top-[428px] right-[140px] w-[260px] opacity-0 ${showLoveTag ? "love-tag-slide-in" : ""}`}
-        />
+          <img
+            src={images.loveTagSlideIn}
+            alt="恋愛"
+            className={`pointer-events-none absolute top-[428px] right-[140px] w-[260px] opacity-0 ${showLoveTag ? "love-tag-slide-in" : ""}`}
+          />
 
-        {/* お題 */}
-        {/* FIXME：レスポンシブ未対応(スマホ側) */}
-        <div className="absolute top-[8%] left-[5%] flex items-center">
-          <div className="w-[52px] font-bold">{header.title}</div>
-          <div className="flex h-[160px] w-[1000px] items-center border-b px-2 text-4xl whitespace-pre-line">
-            {effective?.title ?? "### 黒板けしをクリック！ ###"}
+          {/* お題 */}
+          {/* FIXME：レスポンシブ未対応(スマホ側) */}
+          <div className="absolute top-[8%] left-[5%] flex items-center">
+            <div className="w-[52px] font-bold">{header.title}</div>
+            <div className="flex h-[160px] w-[1000px] items-center border-b px-2 text-4xl whitespace-pre-line">
+              {effective?.title ?? "### 黒板けしをクリック！ ###"}
+            </div>
           </div>
-        </div>
 
-        {/* #タグ */}
-        <div className="absolute top-[50%] left-[5%] flex items-center">
-          <div className="w-[52px] font-bold">{header.tag}</div>
-          <div className="h-[34px] w-[620px] truncate border-b px-3 text-2xl">
-            {effective?.tag}
+          {/* #タグ */}
+          <div className="absolute top-[50%] left-[5%] flex items-center">
+            <div className="w-[52px] font-bold">{header.tag}</div>
+            <div className="h-[34px] w-[620px] truncate border-b px-3 text-2xl">
+              {effective?.tag}
+            </div>
           </div>
-        </div>
 
-        {/* 制作者・フラグ・表示／総数 */}
-        <div className="absolute top-[66%] left-[8%] flex items-center gap-6">
-          <DivFlex>
-            <div className="font-bold">{header.creator}</div>
-            <div className="h-[32px] w-[150px] border-b px-2 text-center text-xl">
-              {effective?.creator}
-            </div>
-          </DivFlex>
+          {/* 制作者・フラグ・表示／総数 */}
+          <div className="absolute top-[66%] left-[8%] flex items-center gap-6">
+            <DivFlex>
+              <div className="font-bold">{header.creator}</div>
+              <div className="h-[32px] w-[150px] border-b px-2 text-center text-xl">
+                {effective?.creator}
+              </div>
+            </DivFlex>
 
-          <DivFlex>
-            <div className="font-bold">{header.flag}</div>
-            <div className="h-[32px] w-[60px] border-b px-2 text-center text-xl">
-              {effective?.flag}
-            </div>
-          </DivFlex>
+            <DivFlex>
+              <div className="font-bold">{header.flag}</div>
+              <div className="h-[32px] w-[60px] border-b px-2 text-center text-xl">
+                {effective?.flag}
+              </div>
+            </DivFlex>
 
-          <DivFlex>
-            <div className="font-bold">{"表示中／総数"}</div>
-            <div className="h-[32px] w-[140px] border-b px-2 text-center text-xl">
-              {items.length}／{totalItems}
-              {/* {filterdItems}／{totalItems} */}
-            </div>
-          </DivFlex>
-        </div>
+            <DivFlex>
+              <div className="font-bold">{"表示中／総数"}</div>
+              <div className="h-[32px] w-[140px] border-b px-2 text-center text-xl">
+                {items.length}／{totalItems}
+                {/* {filterdItems}／{totalItems} */}
+              </div>
+            </DivFlex>
+          </div>
 
-        {/* 連チャンカウンター */}
-        <div className="absolute top-[30px] right-[60px] flex items-center gap-2">
-          {/* 成功ボタン→インクリメント */}
-          <button
-            type="button"
-            className="cursor-pointer rounded bg-green-600/70 px-2 py-1 text-white/70 hover:bg-green-500 disabled:opacity-40"
-            onClick={() => setStreak((s) => s + 1)}
-            aria-label="成功（増加）"
-          >
-            成功
-          </button>
-
-          <div className="px-3 text-center">
-            <span
-              className={`px-2 text-[18px] font-bold ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}
+          {/* 連チャンカウンター */}
+          <div className="absolute top-[30px] right-[60px] flex items-center gap-2">
+            {/* 成功ボタン→インクリメント */}
+            <button
+              type="button"
+              className="cursor-pointer rounded bg-green-600/70 px-2 py-1 text-white/70 hover:bg-green-500 disabled:opacity-40"
+              onClick={() => setStreak((s) => s + 1)}
+              aria-label="成功（増加）"
             >
-              {streak}
-            </span>
-            <div className="text-xs text-white/70">連チャン！</div>
+              成功
+            </button>
+
+            <div className="px-3 text-center">
+              <span
+                className={`px-2 text-[18px] font-bold ${streak > 0 ? "text-green-300/70" : streak < 0 ? "text-red-300/70" : "text-white/70"}`}
+              >
+                {streak}
+              </span>
+              <div className="text-xs text-white/70">連チャン！</div>
+            </div>
+
+            {/* 失敗ボタン→デクリメント */}
+            <button
+              type="button"
+              className="cursor-pointer rounded bg-red-600/70 px-2 py-1 text-white/70 hover:bg-red-500 disabled:opacity-40"
+              onClick={() => setStreak((s) => s - 1)}
+              aria-label="失敗（減少）"
+            >
+              失敗
+            </button>
+
+            {/* クリアボタン→クリア */}
+            <button
+              type="button"
+              className="cursor-pointer rounded bg-gray-600/70 px-2 py-1 text-[10px] text-white/70 hover:bg-gray-500 disabled:opacity-40"
+              onClick={() => setStreak(0)}
+              aria-label="クリア"
+            >
+              クリア
+            </button>
           </div>
 
-          {/* 失敗ボタン→デクリメント */}
-          <button
-            type="button"
-            className="cursor-pointer rounded bg-red-600/70 px-2 py-1 text-white/70 hover:bg-red-500 disabled:opacity-40"
-            onClick={() => setStreak((s) => s - 1)}
-            aria-label="失敗（減少）"
-          >
-            失敗
-          </button>
-
-          {/* クリアボタン→クリア */}
-          <button
-            type="button"
-            className="cursor-pointer rounded bg-gray-600/70 px-2 py-1 text-[10px] text-white/70 hover:bg-gray-500 disabled:opacity-40"
-            onClick={() => setStreak(0)}
-            aria-label="クリア"
-          >
-            クリア
-          </button>
-        </div>
-
-        <div className="absolute right-[150px] bottom-[88px]">
-          <CountdownTimer />
+          <div className="absolute right-[150px] bottom-[88px]">
+            <CountdownTimer />
+          </div>
         </div>
       </div>
     </div>
