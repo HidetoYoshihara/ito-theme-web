@@ -41,6 +41,7 @@ export default function BoardManager({ items, header }: Props) {
   // タグ絞り込み用
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [rouletteCompleteCount, setRouletteCompleteCount] = useState(0);
+  const [decidedItem, setDecidedItem] = useState<Item | null>(null);
 
   /* -------------------------
    * 初期選択（items / header 変更に追従）
@@ -87,7 +88,10 @@ export default function BoardManager({ items, header }: Props) {
   };
 
   const confirmApply = () => {
-    if (pending) setSelected(pending);
+    if (pending) {
+      setSelected(pending);
+      setDecidedItem(pending);
+    }
     setPending(null);
     setModalOpen(false);
     window.scrollTo(0, 0);
@@ -111,6 +115,9 @@ export default function BoardManager({ items, header }: Props) {
   const pickRandom = async () => {
     if (filteredItems.length === 0) return;
 
+    // ルーレット開始時に背景をリセット
+    setDecidedItem(null);
+
     const spins = 12; // 回転数（10〜16くらいが気持ちいい）
     let next: Item = filteredItems[0];
 
@@ -124,7 +131,36 @@ export default function BoardManager({ items, header }: Props) {
     }
 
     setRouletteCompleteCount((count) => count + 1);
+    // ルーレット完了後に背景色を適用
+    setDecidedItem(next);
   };
+
+  const effective = decidedItem;
+  const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
+  const isHorrorTag = Boolean(
+    effective?.tag?.includes("ホラー") || effective?.tag?.includes("恐怖"),
+  );
+  const bodyBackgroundColor = effective
+    ? isLoveTag
+      ? "#ffe7f8"
+      : isHorrorTag
+        ? "#120008"
+        : "#e9e9de"
+    : "#e9e9de";
+  const bodyTextColor = effective
+    ? isHorrorTag
+      ? "#ffffff"
+      : "#1f2937"
+    : "#1f2937";
+
+  useEffect(() => {
+    document.body.style.backgroundColor = bodyBackgroundColor;
+    document.body.style.color = bodyTextColor;
+    return () => {
+      document.body.style.backgroundColor = "";
+      document.body.style.color = "";
+    };
+  }, [bodyBackgroundColor, bodyTextColor]);
 
   /* -------------------------
    * selected の調整（フィルタリング変更に追従）
@@ -136,6 +172,7 @@ export default function BoardManager({ items, header }: Props) {
       !filteredItems.includes(selected)
     ) {
       setSelected(filteredItems[0]);
+      setDecidedItem(null);
     }
   }, [filteredItems, selected]);
 
