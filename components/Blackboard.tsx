@@ -21,6 +21,8 @@ type Props = {
   totalItems: number;
   rouletteCompleteCount?: number;
   isExternalSpinning?: boolean;
+  fontClass?: "font-hachi" | "font-kaisei" | "font-yusei";
+  setFontClass?: (value: "font-hachi" | "font-kaisei" | "font-yusei") => void;
 };
 
 const DivFlex = ({
@@ -40,6 +42,8 @@ export default function Blackboard({
   totalItems,
   rouletteCompleteCount,
   isExternalSpinning = false,
+  fontClass,
+  setFontClass,
 }: Props) {
   const today = new Date();
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
@@ -57,6 +61,7 @@ export default function Blackboard({
   const [showLoveTag, setShowLoveTag] = useState(false);
   const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
     useState(0);
+  const [showFontModal, setShowFontModal] = useState(false);
 
   const effective = selected ?? selectedInternal;
   const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
@@ -191,7 +196,7 @@ export default function Blackboard({
 
         {/* 黒板コンテナ（黒板背景とその内容） */}
         <div
-          className={`font-hachi relative mt-8 h-[440px] w-full text-white/90 ${className}`}
+          className={`${fontClass ?? "font-hachi"} relative mt-8 h-[440px] w-full text-white/90 ${className}`}
         >
           {/* レスポンシブ未対応 */}
           <img
@@ -263,6 +268,69 @@ export default function Blackboard({
             className={`pointer-events-none absolute top-[428px] right-[140px] w-[260px] opacity-0 ${showLoveTag ? "love-tag-slide-in" : ""}`}
           />
 
+          <button
+            type="button"
+            className="absolute right-9 bottom-12 z-30 h-8 w-8 rounded-full border border-white/30 bg-black/20 transition hover:bg-white/20"
+            onClick={() => setShowFontModal(true)}
+            aria-label="黒板フォント設定"
+          >
+            <div className="flex items-center justify-center text-lg text-white">
+              ⚙
+            </div>
+          </button>
+
+          {showFontModal && (
+            <>
+              <button
+                type="button"
+                className="absolute inset-0 z-30 bg-black/40"
+                onClick={() => setShowFontModal(false)}
+                aria-hidden="true"
+              />
+              <div className="absolute right-6 bottom-20 z-40 w-[300px] rounded-2xl border border-white/20 bg-gray-300 p-4 shadow-xl">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="text-base font-semibold text-slate-700">
+                    黒板フォント設定
+                  </div>
+                  <button
+                    type="button"
+                    className="text-sm text-slate-500"
+                    onClick={() => setShowFontModal(false)}
+                  >
+                    閉じる
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { label: "Hachi Maru Pop", value: "font-hachi" },
+                    { label: "Kaisei Decol", value: "font-kaisei" },
+                    { label: "Yusei Magic", value: "font-yusei" },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      className={`w-full rounded border px-3 py-2 text-left text-sm transition ${
+                        fontClass === option.value
+                          ? "border-blue-500 bg-blue-500 text-white"
+                          : "border-gray-200 bg-slate-50 text-slate-700 hover:border-slate-400"
+                      }`}
+                      onClick={() => {
+                        setFontClass?.(
+                          option.value as
+                            | "font-hachi"
+                            | "font-kaisei"
+                            | "font-yusei",
+                        );
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
           {/* お題 */}
           {/* FIXME：レスポンシブ未対応(スマホ側) */}
           <div className="absolute top-[8%] left-[5%] flex items-center">
@@ -272,7 +340,7 @@ export default function Blackboard({
             </div>
           </div>
 
-          {/* #タグ */}
+          {/* タグ */}
           <div className="absolute top-[50%] left-[5%] flex items-center">
             <div className="w-[52px] font-bold">{header.tag}</div>
             <div className="h-[34px] w-[620px] truncate border-b px-3 text-2xl">

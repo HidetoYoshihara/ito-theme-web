@@ -40,6 +40,9 @@ export default function BoardManager({ items, header }: Props) {
 
   // タグ絞り込み用
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedFontClass, setSelectedFontClass] = useState<
+    "font-hachi" | "font-kaisei" | "font-yusei"
+  >("font-hachi");
   const [rouletteCompleteCount, setRouletteCompleteCount] = useState(0);
   const [decidedItem, setDecidedItem] = useState<Item | null>(null);
   const [isRouletteSpinning, setIsRouletteSpinning] = useState(false);
@@ -215,6 +218,8 @@ export default function BoardManager({ items, header }: Props) {
         totalItems={items.length}
         rouletteCompleteCount={rouletteCompleteCount}
         isExternalSpinning={isRouletteSpinning}
+        fontClass={selectedFontClass}
+        setFontClass={setSelectedFontClass}
       />
 
       <FlagCheckBoxList

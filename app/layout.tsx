@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Hachi_Maru_Pop } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Hachi_Maru_Pop,
+  Kaisei_Decol,
+  Yusei_Magic,
+} from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,11 +18,26 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// ---------------------------
+// 黒板用のフォント。
 const hachiMaruPop = Hachi_Maru_Pop({
   variable: "--font-hachi-maru-pop",
   subsets: ["latin"],
   weight: "400",
 });
+
+const kaiseiDecol = Kaisei_Decol({
+  variable: "--font-kaisei-decol",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const yuseiMagic = Yusei_Magic({
+  variable: "--font-yusei-magic",
+  subsets: ["latin"],
+  weight: ["400"], // 400のみ
+});
+// ---------------------------
 
 // Responsive viewport settings
 // export const viewport = {
@@ -46,7 +67,7 @@ export default function RootLayout({
         {/* <link rel="apple-touch-icon" href="/icon.png" /> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${hachiMaruPop.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${hachiMaruPop.variable} ${kaiseiDecol.variable} ${yuseiMagic.variable} antialiased`}
       >
         <main className="scale-root">{children}</main>
       </body>
