@@ -191,7 +191,7 @@ export default function Blackboard({
 
         {/* 黒板コンテナ（黒板背景とその内容） */}
         <div
-          className={`relative mt-8 h-[440px] w-full text-white/90 ${className}`}
+          className={`font-hachi relative mt-8 h-[440px] w-full text-white/90 ${className}`}
         >
           {/* レスポンシブ未対応 */}
           <img

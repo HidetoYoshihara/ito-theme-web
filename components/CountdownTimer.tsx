@@ -145,7 +145,10 @@ export default function Timer() {
   const displaySeconds = String(timeLeft % 60).padStart(2, "0");
 
   return (
-    <div className="relative flex w-[340px] flex-col items-center gap-2 rounded border p-2">
+    <div
+      className="font-default relative flex w-[340px] flex-col items-center gap-2 rounded border p-2"
+      style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
+    >
       <button
         type="button"
         className="absolute top-2 right-2 rounded-full border border-white/20 bg-black/20 px-2 py-1 text-sm text-white/80 transition hover:bg-white/10"

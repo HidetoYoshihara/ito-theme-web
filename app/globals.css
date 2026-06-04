@@ -12,6 +12,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@layer utilities {
+  .font-hachi {
+    font-family: var(--font-hachi-maru-pop), var(--font-geist-sans), sans-serif;
+  }
+  .font-default {
+    font-family: Arial, Helvetica, sans-serif !important;
+  }
+}
+
 /* ダークモード時の設定らしい。 */
 /* @media (prefers-color-scheme: dark) {
   :root {

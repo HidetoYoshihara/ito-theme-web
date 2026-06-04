@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Hachi_Maru_Pop } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +10,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const hachiMaruPop = Hachi_Maru_Pop({
+  variable: "--font-hachi-maru-pop",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 // Responsive viewport settings
@@ -40,7 +46,7 @@ export default function RootLayout({
         {/* <link rel="apple-touch-icon" href="/icon.png" /> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${hachiMaruPop.variable} antialiased`}
       >
         <main className="scale-root">{children}</main>
       </body>
