@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.5.0...v2.6.0) (2026-06-04)
+
+
+### Features
+
+* 新しいフォント設定を追加し、黒板コンポーネントに適用 ([ac7626b](https://github.com/HidetoYoshihara/ito-theme-web/commit/ac7626bfb598d4d2543b35951dca2c89b655771d))
+
+
+### Bug Fixes
+
+* 初期選択のロジックを修正し、タグチェックボックスのスタイルを改善 ([34cc041](https://github.com/HidetoYoshihara/ito-theme-web/commit/34cc04189624abb6b18d637f393a09e198288e9a))
+
 ## [2.5.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.4.2...v2.5.0) (2026-06-04)
 
 
