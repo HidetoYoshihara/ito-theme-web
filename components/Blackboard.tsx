@@ -52,9 +52,7 @@ export default function Blackboard({
   const date = today.getDate();
   const weekday = weekdays[today.getDay()];
 
-  const [selectedInternal, setSelected] = useState<Item | null>(
-    Array.isArray(items) && items.length ? items[0] : (header ?? null),
-  );
+  const [selectedInternal, setSelected] = useState<Item | null>(null);
 
   // クリック時にito画像を横回転させるフリップ状態
   const [flip, setFlip] = useState(false);
@@ -336,7 +334,8 @@ export default function Blackboard({
           <div className="absolute top-[8%] left-[5%] flex items-center">
             <div className="w-[52px] font-bold">{header.title}</div>
             <div className="flex h-[160px] w-[1000px] items-center border-b px-2 text-4xl whitespace-pre-line">
-              {effective?.title ?? "### 黒板けしをクリック！ ###"}
+              {effective?.title ??
+                "＃黒板消しを押下してランダムにお題を決定！＃"}
             </div>
           </div>
 
@@ -344,7 +343,7 @@ export default function Blackboard({
           <div className="absolute top-[50%] left-[5%] flex items-center">
             <div className="w-[52px] font-bold">{header.tag}</div>
             <div className="h-[34px] w-[620px] truncate border-b px-3 text-2xl">
-              {effective?.tag}
+              {effective?.tag ?? ""}
             </div>
           </div>
 
@@ -353,14 +352,14 @@ export default function Blackboard({
             <DivFlex>
               <div className="font-bold">{header.creator}</div>
               <div className="h-[32px] w-[150px] border-b px-2 text-center text-xl">
-                {effective?.creator}
+                {effective?.creator ?? "H,Y"}
               </div>
             </DivFlex>
 
             <DivFlex>
               <div className="font-bold">{header.flag}</div>
               <div className="h-[32px] w-[60px] border-b px-2 text-center text-xl">
-                {effective?.flag}
+                {effective?.flag ?? ""}
               </div>
             </DivFlex>
 

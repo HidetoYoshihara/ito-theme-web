@@ -42,7 +42,7 @@ export default function TagCheckBoxList({
           <div className="relative">
             <button
               type="button"
-              className="h-8 w-8 rounded-full border border-gray-300 bg-white text-sm text-slate-700 shadow-sm transition hover:bg-slate-50"
+              className="h-8 w-8 rounded-full border border-gray-300 bg-gray-100 text-sm text-slate-700 shadow-sm transition hover:bg-slate-50"
               onClick={() => setShowInfo((prev) => !prev)}
               aria-expanded={showInfo}
               aria-label="タグ絞り込みの説明を表示"
@@ -58,7 +58,7 @@ export default function TagCheckBoxList({
                   onClick={() => setShowInfo(false)}
                   aria-hidden="true"
                 />
-                <div className="absolute top-full right-0 z-20 mt-2 w-[320px] rounded-xl border border-black/10 bg-white p-4 text-left text-sm shadow-lg">
+                <div className="absolute top-full right-0 z-20 mt-2 w-[320px] rounded-xl border border-black/10 bg-gray-200 p-4 text-left text-sm shadow-lg">
                   <div className="mb-2 font-semibold">タグの説明</div>
                   <p className="leading-tight text-slate-700">
                     選択したタグに応じて、黒板けしで表示されるお題の背景やスライドが変わります。
@@ -73,9 +73,6 @@ export default function TagCheckBoxList({
                     <li>R指定：紫系背景</li>
                     <li>※No.1のお題は虹色背景</li>
                   </ul>
-                  <p className="mt-3 text-xs text-slate-500">
-                    画面外をクリックすると閉じます。
-                  </p>
                 </div>
               </>
             )}

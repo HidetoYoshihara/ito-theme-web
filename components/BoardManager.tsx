@@ -51,9 +51,7 @@ export default function BoardManager({ items, header }: Props) {
    * 初期選択（items / header 変更に追従）
    * ------------------------- */
   useEffect(() => {
-    if (items.length > 0) {
-      setSelected(items[0]);
-    } else {
+    if (items.length === 0) {
       setSelected(header ?? null);
     }
   }, [items, header]);
