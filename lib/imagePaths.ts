@@ -9,4 +9,7 @@ export const images = {
   chalkRed: "/images/チョーク赤.png",
   letters: "/images/文字.png",
   loveTagSlideIn: "/images/夕景イエスタデイ - 榎本貴音.png",
+  heartString: "/images/blackboard-decor/ハート-紐.png",
+  faceGabi: "/images/blackboard-decor/フェイス(がび)-.png",
+  faceTsurutsuru: "/images/blackboard-decor/フェイス(つるつる).png",
 } as const;

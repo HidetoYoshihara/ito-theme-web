@@ -56,6 +56,7 @@ export default function Blackboard({
 
   // クリック時にito画像を横回転させるフリップ状態
   const [flip, setFlip] = useState(false);
+  // 恋愛タグスライドの表示状態
   const [showLoveTag, setShowLoveTag] = useState(false);
   const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
     useState(0);
@@ -190,6 +191,22 @@ export default function Blackboard({
             size={100}
             className="absolute top-[-60px] right-[-60px]"
           />
+
+          {/* 黒板の右隣 */}
+          {isLoveTag && showLoveTag && (
+            <img
+              src={images.faceTsurutsuru}
+              className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
+            />
+          )}
+
+          {/* 黒板の左隣 */}
+          {isLoveTag && showLoveTag && (
+            <img
+              src={images.faceGabi}
+              className="pointer-events-none absolute top-1/2 left-[-80px] w-[100px] -translate-y-1/2"
+            />
+          )}
         </div>
 
         {/* 黒板コンテナ（黒板背景とその内容） */}
@@ -347,15 +364,17 @@ export default function Blackboard({
             </div>
           </div>
 
-          {/* 制作者・フラグ・表示／総数 */}
-          <div className="absolute top-[66%] left-[8%] flex items-center gap-6">
+          {/* 制作者 , フラグ , 表示／総数 */}
+          <div className="absolute top-[66%] left-[7%] flex items-center gap-6">
+            {/* 制作者 */}
             <DivFlex>
               <div className="font-bold">{header.creator}</div>
-              <div className="h-[32px] w-[150px] border-b px-2 text-center text-xl">
+              <div className="h-[32px] w-[168px] border-b px-2 text-center text-xl">
                 {effective?.creator ?? "H,Y"}
               </div>
             </DivFlex>
 
+            {/* フラグ */}
             <DivFlex>
               <div className="font-bold">{header.flag}</div>
               <div className="h-[32px] w-[60px] border-b px-2 text-center text-xl">
@@ -363,6 +382,7 @@ export default function Blackboard({
               </div>
             </DivFlex>
 
+            {/* 表示／総数 */}
             <DivFlex>
               <div className="font-bold">{"表示中／総数"}</div>
               <div className="h-[32px] w-[140px] border-b px-2 text-center text-xl">
