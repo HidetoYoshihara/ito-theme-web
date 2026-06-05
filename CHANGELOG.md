@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.0...v2.6.1) (2026-06-05)
+
+
+### Bug Fixes
+
+* 黒板の両隣に画像表示機能追加 ([4ad5ae5](https://github.com/HidetoYoshihara/ito-theme-web/commit/4ad5ae5de174c7c5615878621a173b35d5c8bd55))
+
 ## [2.6.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.5.0...v2.6.0) (2026-06-04)
 
 
