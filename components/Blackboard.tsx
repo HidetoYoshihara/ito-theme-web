@@ -55,47 +55,70 @@ export default function Blackboard({
   const [selectedInternal, setSelected] = useState<Item | null>(null);
 
   // クリック時にito画像を横回転させるフリップ状態
+  // クリック時にito画像を横回転させるフリップ状態（アニメーション制御）
   const [flip, setFlip] = useState(false);
   // 恋愛タグスライドの表示状態
+  // 恋愛タグスライドの表示状態（スライド表示のトグル）
   const [showLoveTag, setShowLoveTag] = useState(false);
+  // ホラータグの表示状態（手形表示のトグル）
+  const [showHorrorTag, setShowHorrorTag] = useState(false);
+  // 内部で増加させるルーレット完了カウント（外部の値と合算して監視する）
   const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
     useState(0);
   const [showFontModal, setShowFontModal] = useState(false);
 
   const effective = selected ?? selectedInternal;
   const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
+  const isHorrorTag = Boolean(effective?.tag?.includes("ホラー"));
   const completedRouletteCount =
     (rouletteCompleteCount ?? 0) + localRouletteCompleteCount;
-  const prevRouletteCompleteCountRef = useRef(completedRouletteCount);
+  // ルーレット完了回数の差分検出用 ref（外部/内部どちらの完了も扱う）
+  const prevRouletteCompleteCountRef = useRef<number>(completedRouletteCount);
+  // 選択されたお題の id の前回値を保持（選択変更を検出するため）
+  const prevEffectiveIdRef = useRef<number | null>(effective?.id ?? null);
 
+  // ルーレット完了または選択変更があったときにタグの表示を切り替える
+  // 外部スピン中は表示操作を行わない
   useEffect(() => {
-    if (completedRouletteCount === prevRouletteCompleteCountRef.current) return;
-    prevRouletteCompleteCountRef.current = completedRouletteCount;
-    if (!isLoveTag) return;
-
-    setShowLoveTag(true);
-  }, [completedRouletteCount, isLoveTag]);
-
-  useEffect(() => {
-    if (!isLoveTag) {
-      setShowLoveTag(false);
-    }
-  }, [isLoveTag]);
-
-  useEffect(() => {
-    // 直接選択でお題が恋愛になった場合にもスライドを表示する
     if (isExternalSpinning) return;
-    if (isLoveTag) {
-      setShowLoveTag(true);
-    }
-  }, [isLoveTag, effective?.id, isExternalSpinning]);
 
-  useEffect(() => {
-    // No.1（id===0）が選択されたときはスライドを表示しない
+    // No.1（id===0）は特別扱いで常に非表示
     if (effective?.id === 0) {
       setShowLoveTag(false);
+      setShowHorrorTag(false);
+      prevRouletteCompleteCountRef.current = completedRouletteCount;
+      prevEffectiveIdRef.current = effective?.id ?? null;
+      return;
     }
-  }, [effective?.id]);
+
+    const rouletteCompleted =
+      completedRouletteCount !== prevRouletteCompleteCountRef.current;
+    const selectionChanged = effective?.id !== prevEffectiveIdRef.current;
+
+    // 次回比較のために最新値を保存
+    prevRouletteCompleteCountRef.current = completedRouletteCount;
+    prevEffectiveIdRef.current = effective?.id ?? null;
+
+    // 恋愛タグの表示切替（ルーレット完了 or 選択変更）
+    if (!isLoveTag) {
+      setShowLoveTag(false);
+    } else if (rouletteCompleted || selectionChanged) {
+      setShowLoveTag(true);
+    }
+
+    // ホラータグの表示切替（ルーレット完了 or 選択変更）
+    if (!isHorrorTag) {
+      setShowHorrorTag(false);
+    } else if (rouletteCompleted || selectionChanged) {
+      setShowHorrorTag(true);
+    }
+  }, [
+    completedRouletteCount,
+    effective?.id,
+    isExternalSpinning,
+    isLoveTag,
+    isHorrorTag,
+  ]);
 
   // ローカルで使うウエイト
   const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -127,8 +150,9 @@ export default function Blackboard({
     // 二重押下防止
     if (isSpinning) return;
 
-    // 恋愛スライドは毎回クリアして、最終決定時に再表示
+    // 恋愛スライドと手形は毎回クリアして、最終決定時に再表示
     setShowLoveTag(false);
+    setShowHorrorTag(false);
 
     // アニメーションを確実に再発火させる（同じ値を set しても再発火しないため）
     setFlip(false);
@@ -196,6 +220,14 @@ export default function Blackboard({
           {isLoveTag && showLoveTag && (
             <img
               src={images.faceTsurutsuru}
+              className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
+            />
+          )}
+
+          {/* ホラータグ用手形画像 */}
+          {isHorrorTag && showHorrorTag && (
+            <img
+              src={images.tegata}
               className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
             />
           )}

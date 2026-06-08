@@ -12,4 +12,5 @@ export const images = {
   heartString: "/images/blackboard-decor/ハート-紐.png",
   faceGabi: "/images/blackboard-decor/フェイス(がび)-.png",
   faceTsurutsuru: "/images/blackboard-decor/フェイス(つるつる).png",
+  tegata: "/images/blackboard-decor/ホラー-手形.png",
 } as const;
