@@ -68,8 +68,15 @@ export default function Blackboard({
   const [showFontModal, setShowFontModal] = useState(false);
 
   const effective = selected ?? selectedInternal;
-  const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
-  const isHorrorTag = Boolean(effective?.tag?.includes("ホラー"));
+  const tag = effective?.tag ?? "";
+  // タグのインデックスから出現順で優先度を判定（複数タグ対応）
+  const loveIndex = tag.indexOf("恋愛");
+  const horrorIndex = tag.indexOf("ホラー");
+  const isLoveTag =
+    loveIndex !== -1 && (horrorIndex === -1 || loveIndex < horrorIndex);
+  const isHorrorTag =
+    horrorIndex !== -1 && (loveIndex === -1 || horrorIndex < loveIndex);
+
   const completedRouletteCount =
     (rouletteCompleteCount ?? 0) + localRouletteCompleteCount;
   // ルーレット完了回数の差分検出用 ref（外部/内部どちらの完了も扱う）
@@ -79,6 +86,7 @@ export default function Blackboard({
 
   // ルーレット完了または選択変更があったときにタグの表示を切り替える
   // 外部スピン中は表示操作を行わない
+  // 複数タグがある場合はタグ出現順で優先度が決まる（先に現れたタグを表示）
   useEffect(() => {
     if (isExternalSpinning) return;
 
@@ -102,14 +110,14 @@ export default function Blackboard({
     // 恋愛タグの表示切替（ルーレット完了 or 選択変更）
     if (!isLoveTag) {
       setShowLoveTag(false);
-    } else if (rouletteCompleted || selectionChanged) {
+    } else if (isLoveTag && (rouletteCompleted || selectionChanged)) {
       setShowLoveTag(true);
     }
 
     // ホラータグの表示切替（ルーレット完了 or 選択変更）
     if (!isHorrorTag) {
       setShowHorrorTag(false);
-    } else if (rouletteCompleted || selectionChanged) {
+    } else if (isHorrorTag && (rouletteCompleted || selectionChanged)) {
       setShowHorrorTag(true);
     }
   }, [
@@ -224,7 +232,6 @@ export default function Blackboard({
             />
           )}
 
-          {/* ホラータグ用手形画像 */}
           {isHorrorTag && showHorrorTag && (
             <img
               src={images.tegata}
