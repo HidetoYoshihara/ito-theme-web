@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.4](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.3...v2.6.4) (2026-06-13)
+
+
+### Bug Fixes
+
+* ホラータグ時の表示画像追加2 ([d70deb6](https://github.com/HidetoYoshihara/ito-theme-web/commit/d70deb612356cbbb1038a7ecdc1ac7e1e7f297fa))
+
 ### [2.6.3](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.2...v2.6.3) (2026-06-09)
 
 
