@@ -13,4 +13,5 @@ export const images = {
   faceGabi: "/images/blackboard-decor/フェイス(がび)-.png",
   faceTsurutsuru: "/images/blackboard-decor/フェイス(つるつる).png",
   tegata: "/images/blackboard-decor/ホラー-手形.png",
+  obake1: "/images/blackboard-decor/おばけ1.png",
 } as const;

@@ -246,6 +246,13 @@ export default function Blackboard({
               className="pointer-events-none absolute top-1/2 left-[-80px] w-[100px] -translate-y-1/2"
             />
           )}
+
+          {isHorrorTag && showHorrorTag && (
+            <img
+              src={images.obake1}
+              className="pointer-events-none absolute top-1/2 left-[-80px] w-[100px] -translate-y-1/2"
+            />
+          )}
         </div>
 
         {/* 黒板コンテナ（黒板背景とその内容） */}
