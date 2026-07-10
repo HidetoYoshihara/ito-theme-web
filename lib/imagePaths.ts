@@ -2,6 +2,7 @@ import { renameSync } from "node:fs";
 
 export const images = {
   ito: "/images/ito.png",
+  r18: "/images/R18マーク.png",
   speaker: "/images/スピーカー.png",
   blackboard: "/images/黒板.png",
   blackboardEraser: "/images/黒板けし.png",

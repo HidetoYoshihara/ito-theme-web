@@ -62,6 +62,8 @@ export default function Blackboard({
   const [showLoveTag, setShowLoveTag] = useState(false);
   // ホラータグの表示状態（手形表示のトグル）
   const [showHorrorTag, setShowHorrorTag] = useState(false);
+  // R18マークの表示状態（左右に表示するトグル）
+  const [showR18Tag, setShowR18Tag] = useState(false);
   // 内部で増加させるルーレット完了カウント（外部の値と合算して監視する）
   const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
     useState(0);
@@ -69,6 +71,7 @@ export default function Blackboard({
 
   const effective = selected ?? selectedInternal;
   const tag = effective?.tag ?? "";
+  const isR18Tag = tag.indexOf("R18");
   // タグのインデックスから出現順で優先度を判定（複数タグ対応）
   const loveIndex = tag.indexOf("恋愛");
   const horrorIndex = tag.indexOf("ホラー");
@@ -94,6 +97,7 @@ export default function Blackboard({
     if (effective?.id === 0) {
       setShowLoveTag(false);
       setShowHorrorTag(false);
+      setShowR18Tag(false);
       prevRouletteCompleteCountRef.current = completedRouletteCount;
       prevEffectiveIdRef.current = effective?.id ?? null;
       return;
@@ -120,12 +124,20 @@ export default function Blackboard({
     } else if (isHorrorTag && (rouletteCompleted || selectionChanged)) {
       setShowHorrorTag(true);
     }
+
+    // R18マークの表示切替（ルーレット完了 or 選択変更）
+    if (!isR18Tag) {
+      setShowR18Tag(false);
+    } else if (isR18Tag && (rouletteCompleted || selectionChanged)) {
+      setShowR18Tag(true);
+    }
   }, [
     completedRouletteCount,
     effective?.id,
     isExternalSpinning,
     isLoveTag,
     isHorrorTag,
+    isR18Tag,
   ]);
 
   // ローカルで使うウエイト
@@ -161,6 +173,7 @@ export default function Blackboard({
     // 恋愛スライドと手形は毎回クリアして、最終決定時に再表示
     setShowLoveTag(false);
     setShowHorrorTag(false);
+    setShowR18Tag(false);
 
     // アニメーションを確実に再発火させる（同じ値を set しても再発火しないため）
     setFlip(false);
@@ -237,6 +250,21 @@ export default function Blackboard({
               src={images.tegata}
               className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
             />
+          )}
+
+          {showR18Tag && (
+            <>
+              <img
+                src={images.r18}
+                alt="R18"
+                className="pointer-events-none absolute top-1/2 right-[-80px] w-[90px] -translate-y-1/2"
+              />
+              <img
+                src={images.r18}
+                alt="R18"
+                className="pointer-events-none absolute top-1/2 left-[-80px] w-[90px] -translate-y-1/2"
+              />
+            </>
           )}
 
           {/* 黒板の左隣 */}

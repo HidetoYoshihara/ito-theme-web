@@ -163,14 +163,14 @@ export default function BoardManager({ items, header }: Props) {
               : isFairyTag
                 ? "#e6fff0"
                 : isRTag
-                  ? "#7f2b68"
+                  ? "#ffa8a8"
                   : "#e9e9de"
     : "#e9e9de";
 
   const bodyTextColor = effective
     ? isFirstItem
       ? "#1f2937"
-      : isHorrorTag || isRTag
+      : isHorrorTag
         ? "#ffffff"
         : "#1f2937"
     : "#000";
