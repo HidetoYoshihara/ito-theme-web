@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.10](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.9...v2.6.10) (2026-08-12)
+
+
+### Bug Fixes
+
+* 背景画像のサイズ修正 ([da49eef](https://github.com/HidetoYoshihara/ito-theme-web/commit/da49eefe662f22962a8d176983a6d5b218cc8cbb))
+
 ### [2.6.9](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.8...v2.6.9) (2026-08-12)
 
 ### [2.6.8](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.7...v2.6.8) (2026-08-12)
