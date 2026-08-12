@@ -9,6 +9,7 @@ import FlagCheckBoxList from "./FlagCheckBoxList";
 import TagCheckBoxList from "./TagCheckBoxList";
 
 import { images } from "@/lib/imagePaths";
+import { getTagState, parseTags } from "@/lib/tagUtils";
 
 type Props = {
   items: Item[];
@@ -109,12 +110,14 @@ export default function BoardManager({ items, header }: Props) {
   /* -------------------------
    * 黒板けし用：ルーレット抽選
    * ------------------------- */
-  const filteredItems = items.filter(
-    (item) =>
+  const filteredItems = items.filter((item) => {
+    const tags = parseTags(item.tag);
+    return (
       selectedFlags.includes(item.flag) &&
       (selectedTags.length === 0 ||
-        selectedTags.some((tag) => item.tag.includes(`#${tag}`))),
-  );
+        selectedTags.some((tag) => tags.includes(tag)))
+    );
+  });
 
   const pickRandom = async () => {
     if (filteredItems.length === 0) return;
@@ -142,12 +145,13 @@ export default function BoardManager({ items, header }: Props) {
   };
 
   const effective = decidedItem;
-  const isLoveTag = /(?:^|#)恋愛(?:$|#)/.test(effective?.tag ?? "");
-  const isHorrorTag = Boolean(effective?.tag?.includes("ホラー"));
-  const isDangerTag = Boolean(effective?.tag?.includes("ヤバい"));
-  const isContentTag = Boolean(effective?.tag?.includes("コンテンツ系"));
-  const isFairyTag = Boolean(effective?.tag?.includes("童話"));
-  const isRTag = /(?:^|#)R指定(?:$|#)/.test(effective?.tag ?? "");
+  const tagState = getTagState(effective?.tag ?? "");
+  const isLoveTag = tagState.isLove;
+  const isHorrorTag = tagState.isHorror;
+  const isDangerTag = tagState.isDanger;
+  const isContentTag = tagState.isContent;
+  const isFairyTag = tagState.isFairy;
+  const isRTag = tagState.isR;
   const isFirstItem = effective?.id === 0;
 
   // 背景色の設定
@@ -164,7 +168,9 @@ export default function BoardManager({ items, header }: Props) {
               ? "#ffffb0"
               : isFairyTag
                 ? "#e6fff0"
-                : "#e9e9de"
+                : isRTag
+                  ? "#9966CC"
+                  : "#e9e9de"
     : "#e9e9de";
 
   // 文字色の設定
@@ -209,8 +215,8 @@ export default function BoardManager({ items, header }: Props) {
 
   return (
     <div className="">
-      {/* R18時の背景 */}
-      {!isFirstItem && (isRTag || isLoveTag) && (
+      {/* 背景設定 */}
+      {!isFirstItem && isLoveTag && (
         <img
           src={images.bgSexy}
           className="absolute inset-0 -z-10 h-full w-full opacity-90"

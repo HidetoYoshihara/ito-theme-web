@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 
 import CountdownTimer from "@/components/CountdownTimer";
 import { images } from "@/lib/imagePaths";
+import { getTagState } from "@/lib/tagUtils";
 
 const SchoolClock = dynamic(() => import("./SchoolClock"), {
   ssr: false,
@@ -57,13 +58,12 @@ export default function Blackboard({
   // クリック時にito画像を横回転させるフリップ状態
   // クリック時にito画像を横回転させるフリップ状態（アニメーション制御）
   const [flip, setFlip] = useState(false);
-  // 恋愛タグスライドの表示状態
-  // 恋愛タグスライドの表示状態（スライド表示のトグル）
-  const [showLoveTag, setShowLoveTag] = useState(false);
-  // ホラータグの表示状態（手形表示のトグル）
-  const [showHorrorTag, setShowHorrorTag] = useState(false);
-  // R18マークの表示状態（左右に表示するトグル）
-  const [showR18Tag, setShowR18Tag] = useState(false);
+  // タグ表示の状態（恋愛・ホラー・R18）
+  const [showTags, setShowTags] = useState({
+    love: false,
+    horror: false,
+    r18: false,
+  });
   // 内部で増加させるルーレット完了カウント（外部の値と合算して監視する）
   const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
     useState(0);
@@ -71,10 +71,11 @@ export default function Blackboard({
 
   const effective = selected ?? selectedInternal;
   const tag = effective?.tag ?? "";
-  const isR18Tag = /R(?:指定|-?18)/i.test(tag);
+  const tagState = getTagState(tag);
+  const isR18Tag = tagState.isR18;
   // タグのインデックスから出現順で優先度を判定（複数タグ対応）
-  const isLoveTag = /(?:^|#)恋愛(?:$|#)/.test(tag);
-  const isHorrorTag = /(?:^|#)ホラー(?:$|#)/.test(tag);
+  const isLoveTag = tagState.isLove;
+  const isHorrorTag = tagState.isHorror;
 
   const completedRouletteCount =
     (rouletteCompleteCount ?? 0) + localRouletteCompleteCount;
@@ -91,9 +92,7 @@ export default function Blackboard({
 
     // No.1（id===0）は特別扱いで常に非表示
     if (effective?.id === 0) {
-      setShowLoveTag(false);
-      setShowHorrorTag(false);
-      setShowR18Tag(false);
+      setShowTags({ love: false, horror: false, r18: false });
       prevRouletteCompleteCountRef.current = completedRouletteCount;
       prevEffectiveIdRef.current = effective?.id ?? null;
       return;
@@ -107,26 +106,11 @@ export default function Blackboard({
     prevRouletteCompleteCountRef.current = completedRouletteCount;
     prevEffectiveIdRef.current = effective?.id ?? null;
 
-    // 恋愛タグの表示切替（ルーレット完了 or 選択変更）
-    if (!isLoveTag) {
-      setShowLoveTag(false);
-    } else if (isLoveTag && (rouletteCompleted || selectionChanged)) {
-      setShowLoveTag(true);
-    }
-
-    // ホラータグの表示切替（ルーレット完了 or 選択変更）
-    if (!isHorrorTag) {
-      setShowHorrorTag(false);
-    } else if (isHorrorTag && (rouletteCompleted || selectionChanged)) {
-      setShowHorrorTag(true);
-    }
-
-    // R18マークの表示切替（ルーレット完了 or 選択変更）
-    if (!isR18Tag) {
-      setShowR18Tag(false);
-    } else if (isR18Tag && (rouletteCompleted || selectionChanged)) {
-      setShowR18Tag(true);
-    }
+    setShowTags({
+      love: isLoveTag && (rouletteCompleted || selectionChanged),
+      horror: isHorrorTag && (rouletteCompleted || selectionChanged),
+      r18: isR18Tag && (rouletteCompleted || selectionChanged),
+    });
   }, [
     completedRouletteCount,
     effective?.id,
@@ -167,9 +151,7 @@ export default function Blackboard({
     if (isSpinning) return;
 
     // 恋愛スライドと手形は毎回クリアして、最終決定時に再表示
-    setShowLoveTag(false);
-    setShowHorrorTag(false);
-    setShowR18Tag(false);
+    setShowTags({ love: false, horror: false, r18: false });
 
     // アニメーションを確実に再発火させる（同じ値を set しても再発火しないため）
     setFlip(false);
@@ -234,21 +216,21 @@ export default function Blackboard({
           />
 
           {/* 黒板の右隣 */}
-          {isLoveTag && showLoveTag && (
+          {isLoveTag && showTags.love && (
             <img
               src={images.aiaigasa}
               className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
             />
           )}
 
-          {isHorrorTag && showHorrorTag && (
+          {isHorrorTag && showTags.horror && (
             <img
               src={images.tegata}
               className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
             />
           )}
 
-          {isR18Tag && showR18Tag && (
+          {isR18Tag && showTags.r18 && (
             <>
               <img
                 src={images.r18}
@@ -262,14 +244,14 @@ export default function Blackboard({
           )}
 
           {/* 黒板の左隣 */}
-          {isLoveTag && showLoveTag && (
+          {isLoveTag && showTags.love && (
             <img
               src={images.faceGabi}
               className="pointer-events-none absolute top-1/2 left-[-80px] w-[100px] -translate-y-1/2"
             />
           )}
 
-          {isHorrorTag && showHorrorTag && (
+          {isHorrorTag && showTags.horror && (
             <img
               src={images.obake1}
               className="pointer-events-none absolute top-1/2 left-[-80px] w-[100px] -translate-y-1/2"
@@ -348,7 +330,7 @@ export default function Blackboard({
           <img
             src={images.loveTagSlideIn}
             alt="恋愛"
-            className={`pointer-events-none absolute top-[428px] right-[140px] w-[260px] opacity-0 ${showLoveTag ? "love-tag-slide-in" : ""}`}
+            className={`pointer-events-none absolute top-[428px] right-[140px] w-[260px] opacity-0 ${showTags.love ? "love-tag-slide-in" : ""}`}
           />
 
           <button
