@@ -5,26 +5,53 @@ import React, { useState } from "react";
 type Props = {
   tags: string[];
   selectedTags: string[];
+  excludedTags?: string[];
   onChange: (selected: string[]) => void;
 };
 
 export default function TagCheckBoxList({
   tags,
   selectedTags,
+  excludedTags = [],
   onChange,
 }: Props) {
   const [showInfo, setShowInfo] = useState(false);
+  const [pendingRestrictedTag, setPendingRestrictedTag] = useState<
+    string | null
+  >(null);
 
   const handleCheckboxChange = (tag: string, checked: boolean) => {
+    if (checked && tag === "R指定") {
+      setPendingRestrictedTag(tag);
+      return;
+    }
+
     if (checked) {
-      onChange([...selectedTags, tag]);
+      onChange(
+        selectedTags.includes(tag) ? selectedTags : [...selectedTags, tag],
+      );
     } else {
       onChange(selectedTags.filter((t) => t !== tag));
     }
   };
 
+  const confirmRestrictedTag = () => {
+    if (pendingRestrictedTag) {
+      onChange(
+        selectedTags.includes(pendingRestrictedTag)
+          ? selectedTags
+          : [...selectedTags, pendingRestrictedTag],
+      );
+    }
+    setPendingRestrictedTag(null);
+  };
+
+  const cancelRestrictedTag = () => {
+    setPendingRestrictedTag(null);
+  };
+
   const selectAll = () => {
-    onChange(tags);
+    onChange(tags.filter((tag) => !excludedTags.includes(tag.trim())));
   };
 
   const deselectAll = () => {
@@ -84,13 +111,13 @@ export default function TagCheckBoxList({
             className="rounded bg-blue-500 px-2 py-1 text-sm text-white"
             onClick={selectAll}
           >
-            全選択
+            デフォルト
           </button>
           <button
             className="rounded bg-gray-500 px-2 py-1 text-sm text-white"
             onClick={deselectAll}
           >
-            全解除
+            クリア
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -105,6 +132,34 @@ export default function TagCheckBoxList({
             </label>
           ))}
         </div>
+
+        {pendingRestrictedTag && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
+            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+              <h3 className="mb-4 text-lg font-bold">年齢確認</h3>
+              <p className="mb-4 leading-relaxed text-slate-700">
+                「#R指定」を選択すると、18歳以上の方が対象となるお題を含みます。
+                続行しますか？
+              </p>
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  className="rounded border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                  onClick={cancelRestrictedTag}
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="button"
+                  className="rounded bg-purple-600 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-700"
+                  onClick={confirmRestrictedTag}
+                >
+                  18歳以上です
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

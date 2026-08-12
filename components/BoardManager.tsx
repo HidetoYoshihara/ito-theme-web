@@ -41,6 +41,8 @@ export default function BoardManager({ items, header }: Props) {
   // フラグ絞り込み用
   const [selectedFlags, setSelectedFlags] = useState<string[]>([]);
 
+  const excludedTags = ["R指定", "マニアック", "特殊"];
+
   // タグ絞り込み用
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedFontClass, setSelectedFontClass] = useState<
@@ -76,7 +78,6 @@ export default function BoardManager({ items, header }: Props) {
       item.tag.split("#").filter((t) => t.trim() !== ""),
     );
     const uniqueTags = Array.from(new Set(allTags));
-    const excludedTags = ["R指定", "マニアック"];
     const defaultSelectedTags = uniqueTags.filter(
       (tag) => !excludedTags.includes(tag.trim()),
     );
@@ -249,6 +250,7 @@ export default function BoardManager({ items, header }: Props) {
           ),
         )}
         selectedTags={selectedTags}
+        excludedTags={excludedTags}
         onChange={setSelectedTags}
       />
 

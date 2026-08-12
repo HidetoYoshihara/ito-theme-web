@@ -22,7 +22,7 @@ export default function FlagCheckBoxList({
   };
 
   const selectAll = () => {
-    onChange(flags);
+    onChange(flags.filter((flag) => flag.trim() !== "⚠️"));
   };
 
   const deselectAll = () => {
@@ -41,13 +41,13 @@ export default function FlagCheckBoxList({
             className="rounded bg-blue-500 px-2 py-1 text-sm text-white"
             onClick={selectAll}
           >
-            全選択
+            デフォルト
           </button>
           <button
             className="rounded bg-gray-500 px-2 py-1 text-sm text-white"
             onClick={deselectAll}
           >
-            全解除
+            クリア
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
