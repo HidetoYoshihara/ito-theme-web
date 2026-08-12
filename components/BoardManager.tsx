@@ -220,7 +220,7 @@ export default function BoardManager({ items, header }: Props) {
       {!isFirstItem && isLoveTag && (
         <img
           src={images.bgSexy}
-          className="absolute inset-0 -z-10 h-full w-full opacity-90"
+          className="absolute inset-0 -z-10 w-full opacity-90"
         />
       )}
       <Blackboard
