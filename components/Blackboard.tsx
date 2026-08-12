@@ -58,7 +58,7 @@ export default function Blackboard({
   // クリック時にito画像を横回転させるフリップ状態
   // クリック時にito画像を横回転させるフリップ状態（アニメーション制御）
   const [flip, setFlip] = useState(false);
-  // タグ表示の状態（恋愛・ホラー・R18）
+  // タグ表示の状態（恋愛・ホラー・R）
   const [showTags, setShowTags] = useState({
     love: false,
     horror: false,
@@ -72,10 +72,9 @@ export default function Blackboard({
   const effective = selected ?? selectedInternal;
   const tag = effective?.tag ?? "";
   const tagState = getTagState(tag);
-  const isR18Tag = tagState.isR18;
-  // タグのインデックスから出現順で優先度を判定（複数タグ対応）
+  const isRT18ag = tagState.isR;
   const isLoveTag = tagState.isLove;
-  const isHorrorTag = tagState.isHorror;
+  const isHorroRT18ag = tagState.isHorror;
 
   const completedRouletteCount =
     (rouletteCompleteCount ?? 0) + localRouletteCompleteCount;
@@ -108,16 +107,16 @@ export default function Blackboard({
 
     setShowTags({
       love: isLoveTag && (rouletteCompleted || selectionChanged),
-      horror: isHorrorTag && (rouletteCompleted || selectionChanged),
-      r18: isR18Tag && (rouletteCompleted || selectionChanged),
+      horror: isHorroRT18ag && (rouletteCompleted || selectionChanged),
+      r18: isRT18ag && (rouletteCompleted || selectionChanged),
     });
   }, [
     completedRouletteCount,
     effective?.id,
     isExternalSpinning,
     isLoveTag,
-    isHorrorTag,
-    isR18Tag,
+    isHorroRT18ag,
+    isRT18ag,
   ]);
 
   // ローカルで使うウエイト
@@ -223,14 +222,14 @@ export default function Blackboard({
             />
           )}
 
-          {isHorrorTag && showTags.horror && (
+          {isHorroRT18ag && showTags.horror && (
             <img
               src={images.tegata}
               className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
             />
           )}
 
-          {isR18Tag && showTags.r18 && (
+          {isRT18ag && showTags.r18 && (
             <>
               <img
                 src={images.r18}
@@ -251,7 +250,7 @@ export default function Blackboard({
             />
           )}
 
-          {isHorrorTag && showTags.horror && (
+          {isHorroRT18ag && showTags.horror && (
             <img
               src={images.obake1}
               className="pointer-events-none absolute top-1/2 left-[-80px] w-[100px] -translate-y-1/2"

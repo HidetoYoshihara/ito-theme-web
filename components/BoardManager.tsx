@@ -147,11 +147,11 @@ export default function BoardManager({ items, header }: Props) {
   const effective = decidedItem;
   const tagState = getTagState(effective?.tag ?? "");
   const isLoveTag = tagState.isLove;
-  const isHorrorTag = tagState.isHorror;
-  const isDangerTag = tagState.isDanger;
+  const isHorroRT18ag = tagState.isHorror;
+  const isDangeRT18ag = tagState.isDanger;
   const isContentTag = tagState.isContent;
   const isFairyTag = tagState.isFairy;
-  const isRTag = tagState.isR;
+  const isRT18ag = tagState.isR;
   const isFirstItem = effective?.id === 0;
 
   // 背景色の設定
@@ -160,15 +160,15 @@ export default function BoardManager({ items, header }: Props) {
       ? "rainbow"
       : isLoveTag
         ? "#ffe7f8"
-        : isHorrorTag
+        : isHorroRT18ag
           ? "#120008"
-          : isDangerTag
+          : isDangeRT18ag
             ? "#e08a8d"
             : isContentTag
               ? "#ffffb0"
               : isFairyTag
                 ? "#e6fff0"
-                : isRTag
+                : isRT18ag
                   ? "#9966CC"
                   : "#e9e9de"
     : "#e9e9de";
@@ -177,7 +177,7 @@ export default function BoardManager({ items, header }: Props) {
   const bodyTextColor = effective
     ? isFirstItem
       ? "#1f2937"
-      : isHorrorTag || isLoveTag || isRTag
+      : isHorroRT18ag || isLoveTag || isRT18ag
         ? "#ffffff"
         : "#1f2937"
     : "#000";

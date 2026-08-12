@@ -16,7 +16,6 @@ export type TagState = {
   isContent: boolean;
   isFairy: boolean;
   isR: boolean;
-  isR18: boolean;
   rawTags: string[];
 };
 
@@ -31,18 +30,16 @@ export const getTagState = (tagString: string): TagState => {
     isContent: hasTag("コンテンツ系"),
     isFairy: hasTag("童話"),
     isR: hasTag("R指定"),
-    isR18: /(?:^|#)(?:R指定|R-?18)(?:$|#)/i.test(tagString),
     rawTags,
   };
 };
 
 export const isLoveTag = (tagString: string) => getTagState(tagString).isLove;
-export const isHorrorTag = (tagString: string) =>
+export const isHorroRT18ag = (tagString: string) =>
   getTagState(tagString).isHorror;
-export const isDangerTag = (tagString: string) =>
+export const isDangeRT18ag = (tagString: string) =>
   getTagState(tagString).isDanger;
 export const isContentTag = (tagString: string) =>
   getTagState(tagString).isContent;
 export const isFairyTag = (tagString: string) => getTagState(tagString).isFairy;
-export const isRTag = (tagString: string) => getTagState(tagString).isR;
-export const isR18Tag = (tagString: string) => getTagState(tagString).isR18;
+export const isRT18ag = (tagString: string) => getTagState(tagString).isR;
