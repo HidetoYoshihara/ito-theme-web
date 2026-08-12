@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.6.8](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.7...v2.6.8) (2026-08-12)
+
+
+### Bug Fixes
+
+* 背景色の処理を修正2 ([5745e7f](https://github.com/HidetoYoshihara/ito-theme-web/commit/5745e7f0d36270f1bcd917fca54233f07f18fac0))
+* 背景色の処理を修正3 ([0f642c4](https://github.com/HidetoYoshihara/ito-theme-web/commit/0f642c4a7aa5cbbacf7462c0674703389d4c1f00))
+
 ### [2.6.7](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.6...v2.6.7) (2026-08-12)
 
 
