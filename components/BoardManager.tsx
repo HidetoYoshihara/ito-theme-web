@@ -8,6 +8,8 @@ import ItemsTable from "./ItemsTable";
 import FlagCheckBoxList from "./FlagCheckBoxList";
 import TagCheckBoxList from "./TagCheckBoxList";
 
+import { images } from "@/lib/imagePaths";
+
 type Props = {
   items: Item[];
   header: Item;
@@ -140,12 +142,12 @@ export default function BoardManager({ items, header }: Props) {
   };
 
   const effective = decidedItem;
-  const isLoveTag = Boolean(effective?.tag?.includes("恋愛"));
+  const isLoveTag = /(?:^|#)恋愛(?:$|#)/.test(effective?.tag ?? "");
   const isHorrorTag = Boolean(effective?.tag?.includes("ホラー"));
   const isDangerTag = Boolean(effective?.tag?.includes("ヤバい"));
   const isContentTag = Boolean(effective?.tag?.includes("コンテンツ系"));
   const isFairyTag = Boolean(effective?.tag?.includes("童話"));
-  const isRTag = Boolean(effective?.tag?.includes("R指定"));
+  const isRTag = /(?:^|#)R指定(?:$|#)/.test(effective?.tag ?? "");
   const isFirstItem = effective?.id === 0;
 
   // 背景色の設定
@@ -162,15 +164,14 @@ export default function BoardManager({ items, header }: Props) {
               ? "#ffffb0"
               : isFairyTag
                 ? "#e6fff0"
-                : isRTag
-                  ? "#ffa8a8"
-                  : "#e9e9de"
+                : "#e9e9de"
     : "#e9e9de";
 
+  // 文字色の設定
   const bodyTextColor = effective
     ? isFirstItem
       ? "#1f2937"
-      : isHorrorTag
+      : isHorrorTag || isLoveTag || isRTag
         ? "#ffffff"
         : "#1f2937"
     : "#000";
@@ -207,7 +208,14 @@ export default function BoardManager({ items, header }: Props) {
   }, [filteredItems, selected]);
 
   return (
-    <div>
+    <div className="">
+      {/* R18時の背景 */}
+      {!isFirstItem && (isRTag || isLoveTag) && (
+        <img
+          src={images.bgSexy}
+          className="absolute inset-0 -z-10 h-full w-full opacity-90"
+        />
+      )}
       <Blackboard
         items={filteredItems}
         header={header}

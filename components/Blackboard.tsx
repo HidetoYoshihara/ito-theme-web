@@ -71,14 +71,10 @@ export default function Blackboard({
 
   const effective = selected ?? selectedInternal;
   const tag = effective?.tag ?? "";
-  const isR18Tag = tag.indexOf("R18");
+  const isR18Tag = /R(?:指定|-?18)/i.test(tag);
   // タグのインデックスから出現順で優先度を判定（複数タグ対応）
-  const loveIndex = tag.indexOf("恋愛");
-  const horrorIndex = tag.indexOf("ホラー");
-  const isLoveTag =
-    loveIndex !== -1 && (horrorIndex === -1 || loveIndex < horrorIndex);
-  const isHorrorTag =
-    horrorIndex !== -1 && (loveIndex === -1 || horrorIndex < loveIndex);
+  const isLoveTag = /(?:^|#)恋愛(?:$|#)/.test(tag);
+  const isHorrorTag = /(?:^|#)ホラー(?:$|#)/.test(tag);
 
   const completedRouletteCount =
     (rouletteCompleteCount ?? 0) + localRouletteCompleteCount;
@@ -240,7 +236,7 @@ export default function Blackboard({
           {/* 黒板の右隣 */}
           {isLoveTag && showLoveTag && (
             <img
-              src={images.faceTsurutsuru}
+              src={images.aiaigasa}
               className="pointer-events-none absolute top-1/2 right-[-80px] w-[100px] -translate-y-1/2"
             />
           )}
@@ -252,16 +248,14 @@ export default function Blackboard({
             />
           )}
 
-          {showR18Tag && (
+          {isR18Tag && showR18Tag && (
             <>
               <img
                 src={images.r18}
-                alt="R18"
                 className="pointer-events-none absolute top-1/2 right-[-80px] w-[90px] -translate-y-1/2"
               />
               <img
                 src={images.r18}
-                alt="R18"
                 className="pointer-events-none absolute top-1/2 left-[-80px] w-[90px] -translate-y-1/2"
               />
             </>

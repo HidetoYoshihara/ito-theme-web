@@ -33,7 +33,7 @@ export default function FlagCheckBoxList({
   // console.log(selectedFlags);
 
   return (
-    <div className="mb-4 flex flex-col items-center">
+    <div className="z-10 mb-4 flex flex-col items-center">
       <div className="w-[1000px]">
         <h4 className="text-md mb-2 font-semibold">フラグで絞り込み</h4>
         <div className="mb-2 flex gap-2">
