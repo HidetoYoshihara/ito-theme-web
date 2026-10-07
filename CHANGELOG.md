@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.7.0...v2.8.0) (2026-10-07)
+
+
+### Features
+
+* FilterCheckboxコンポーネントを追加し、FlagCheckBoxListおよびTagCheckBoxListで使用 ([7dd4b05](https://github.com/HidetoYoshihara/ito-theme-web/commit/7dd4b05ace9a160897efb6db5b2152a8fe456e1b))
+
 ## [2.7.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.6.11...v2.7.0) (2026-10-07)
 
 
