@@ -116,7 +116,7 @@ export default function TagCheckBoxList({
         <div className="mb-3 flex flex-wrap gap-2">
           <button
             type="button"
-            className="rounded-full border border-sky-200 bg-sky-500 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-sky-600"
+            className="rounded-full border border-sky-200 bg-sky-400 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-sky-600"
             onClick={selectAll}
           >
             デフォルト
