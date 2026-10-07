@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.8.0...v2.9.0) (2026-10-07)
+
+
+### Features
+
+* ジャッジモード機能を追加し、カードの順番判定を実装 ([0ecdab9](https://github.com/HidetoYoshihara/ito-theme-web/commit/0ecdab9fb498acc1dd4e45c54729c635b9bf06ea))
+* デジタルカード配布機能を追加し、Blackboardコンポーネントに統合 ([e4a8cb3](https://github.com/HidetoYoshihara/ito-theme-web/commit/e4a8cb3ee80791a9df43c87f9843d421ac5c2ecd))
+
 ## [2.8.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.7.0...v2.8.0) (2026-10-07)
 
 
