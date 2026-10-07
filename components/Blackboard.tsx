@@ -70,6 +70,7 @@ export default function Blackboard({
     useState(0);
   const [showFontModal, setShowFontModal] = useState(false);
   const [showDealCards, setShowDealCards] = useState(false);
+  const [dealCardsMode, setDealCardsMode] = useState<"deal" | "judge">("deal");
 
   const effective = selected ?? selectedInternal;
   const tag = effective?.tag ?? "";
@@ -348,7 +349,10 @@ export default function Blackboard({
           <button
             type="button"
             className="absolute right-[20px] bottom-[-30px] z-30 rounded-full border border-[#f8d59d]/40 bg-[#3d2b1f]/80 px-3 py-2 text-[11px] font-bold text-[#fdf6d5] shadow-lg transition hover:bg-[#4a3629]"
-            onClick={() => setShowDealCards((current) => !current)}
+            onClick={() => {
+              setDealCardsMode("deal");
+              setShowDealCards((current) => !current);
+            }}
             aria-label="デジタルカードを使う"
           >
             デジタルカードを使う
@@ -357,6 +361,8 @@ export default function Blackboard({
           <DealCards
             isOpen={showDealCards}
             onClose={() => setShowDealCards(false)}
+            mode={dealCardsMode}
+            onModeChange={setDealCardsMode}
           />
 
           {showFontModal && (
