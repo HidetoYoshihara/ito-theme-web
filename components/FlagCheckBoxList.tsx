@@ -2,6 +2,8 @@
 
 import React from "react";
 
+import FilterCheckbox from "./FilterCheckbox";
+
 type Props = {
   flags: string[];
   selectedFlags: string[];
@@ -13,6 +15,8 @@ export default function FlagCheckBoxList({
   selectedFlags,
   onChange,
 }: Props) {
+  const formatLabel = (flag: string) => (flag.trim() === "" ? "”空白”" : flag);
+
   const handleCheckboxChange = (flag: string, checked: boolean) => {
     if (checked) {
       onChange([...selectedFlags, flag]);
@@ -29,22 +33,23 @@ export default function FlagCheckBoxList({
     onChange([]);
   };
 
-  // console.log({ flags, selectedFlags });
-  // console.log(selectedFlags);
-
   return (
     <div className="z-10 mb-4 flex flex-col items-center">
       <div className="w-[1000px]">
-        <h4 className="text-md mb-2 font-semibold">フラグで絞り込み</h4>
-        <div className="mb-2 flex gap-2">
+        <h4 className="mb-2 text-base font-semibold text-slate-800">
+          フラグで絞り込み
+        </h4>
+        <div className="mb-3 flex flex-wrap gap-2">
           <button
-            className="rounded bg-blue-500 px-2 py-1 text-sm text-white"
+            type="button"
+            className="rounded-full border border-sky-200 bg-sky-500 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-sky-600"
             onClick={selectAll}
           >
             デフォルト
           </button>
           <button
-            className="rounded bg-gray-500 px-2 py-1 text-sm text-white"
+            type="button"
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100"
             onClick={deselectAll}
           >
             クリア
@@ -52,14 +57,13 @@ export default function FlagCheckBoxList({
         </div>
         <div className="flex flex-wrap gap-2">
           {flags.map((flag) => (
-            <label key={flag} className="flex items-center gap-1">
-              <input
-                type="checkbox"
-                checked={selectedFlags.includes(flag)}
-                onChange={(e) => handleCheckboxChange(flag, e.target.checked)}
-              />
-              <span className="text-sm">{flag}</span>
-            </label>
+            <FilterCheckbox
+              key={flag || "empty-flag"}
+              checked={selectedFlags.includes(flag)}
+              onChange={(checked) => handleCheckboxChange(flag, checked)}
+              label={formatLabel(flag)}
+              className="min-w-[120px]"
+            />
           ))}
         </div>
       </div>
