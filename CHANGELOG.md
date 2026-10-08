@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.9.0...v2.10.0) (2026-10-08)
+
+
+### Features
+
+* ジャッジモードのアニメーションと判定ロジックを改善し、結果表示を強化 ([664623f](https://github.com/HidetoYoshihara/ito-theme-web/commit/664623f0717a8c27bc98700ba1efd4919c555d94))
+
 ## [2.9.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.8.0...v2.9.0) (2026-10-07)
 
 
