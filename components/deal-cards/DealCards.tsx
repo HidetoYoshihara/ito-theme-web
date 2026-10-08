@@ -2,11 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const BASE_JUDGE_REVEAL_INTERVAL = 1000;
+const JUDGE_REVEAL_INTERVAL_STEP = 200;
+
 type DealPlayer = {
   value: number;
   revealed: boolean;
   judgeOrder?: number;
+  judgeRevealOrder?: number;
 };
+
+const confettiColors = ["#f97316", "#facc15", "#34d399", "#60a5fa", "#f472b6"];
 
 const getDefaultPlayerNames = (count: number) =>
   Array.from({ length: count }, (_, index) => `プレイヤー${index + 1}`);
@@ -46,6 +52,10 @@ export default function DealCards({
   >("idle");
   const [judgeRevealedCount, setJudgeRevealedCount] = useState(0);
   const [judgeResults, setJudgeResults] = useState<Record<number, boolean>>({});
+  const [judgeRevealInterval, setJudgeRevealInterval] = useState(
+    BASE_JUDGE_REVEAL_INTERVAL,
+  );
+  const [judgeHasFailed, setJudgeHasFailed] = useState(false);
   const dealStatusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
@@ -66,6 +76,8 @@ export default function DealCards({
     setJudgeStatus("idle");
     setJudgeRevealedCount(0);
     setJudgeResults({});
+    setJudgeRevealInterval(BASE_JUDGE_REVEAL_INTERVAL);
+    setJudgeHasFailed(false);
     setDealPlayers((current) =>
       current.map((player) => ({ ...player, judgeOrder: undefined })),
     );
@@ -91,6 +103,8 @@ export default function DealCards({
     setJudgeStatus("idle");
     setJudgeRevealedCount(0);
     setJudgeResults({});
+    setJudgeRevealInterval(BASE_JUDGE_REVEAL_INTERVAL);
+    setJudgeHasFailed(false);
     setPendingRevealIndex(null);
     setDealAnimationId((current) => current + 1);
     setDealStatus("dealing");
@@ -202,25 +216,66 @@ export default function DealCards({
 
     const current = orderedPlayers[judgeRevealedCount];
     const previous = orderedPlayers[judgeRevealedCount - 1];
-    const isCorrect = !previous || current.player.value < previous.player.value;
     const timeout = setTimeout(() => {
-      setJudgeResults((results) => ({
-        ...results,
-        [current.index]: isCorrect,
-      }));
+      if (previous) {
+        const isCorrect = current.player.value < previous.player.value;
+        setJudgeResults((results) => ({
+          ...results,
+          [current.index]: isCorrect,
+          ...(judgeRevealedCount === 1
+            ? { [previous.index]: isCorrect }
+            : {}),
+        }));
+        if (!isCorrect) setJudgeHasFailed(true);
+        setJudgeRevealInterval(
+          isCorrect && !judgeHasFailed
+            ? judgeRevealInterval + JUDGE_REVEAL_INTERVAL_STEP
+            : BASE_JUDGE_REVEAL_INTERVAL,
+        );
+      } else {
+        setJudgeRevealInterval(BASE_JUDGE_REVEAL_INTERVAL);
+      }
+      setDealPlayers((players) =>
+        players.map((player, index) =>
+          index === current.index
+            ? {
+                ...player,
+                revealed: true,
+                judgeRevealOrder: judgeRevealedCount + 1,
+              }
+            : player,
+        ),
+      );
       setJudgeRevealedCount(judgeRevealedCount + 1);
       if (judgeRevealedCount + 1 >= orderedPlayers.length) {
         setJudgeStatus("complete");
       }
-    }, 1000 + judgeRevealedCount * 200);
+    }, judgeRevealInterval);
 
     return () => clearTimeout(timeout);
-  }, [dealPlayers, judgeRevealedCount, judgeStatus]);
+  }, [
+    dealPlayers,
+    judgeHasFailed,
+    judgeRevealInterval,
+    judgeRevealedCount,
+    judgeStatus,
+  ]);
 
+  const comparedJudgePlayers = orderedJudgePlayers.slice(1);
   const judgeSucceeded =
     judgeStatus === "complete" &&
-    Object.keys(judgeResults).length === dealPlayers.length &&
-    Object.values(judgeResults).every(Boolean);
+    comparedJudgePlayers.every(({ index }) => judgeResults[index] === true);
+  const successfulJudgeCount = comparedJudgePlayers.filter(
+    ({ index }) => judgeResults[index] === true,
+  ).length;
+  const showStrongFailureMessage =
+    !judgeSucceeded && successfulJudgeCount >= dealPlayers.length / 2;
+  const correctRankByIndex = new Map(
+    dealPlayers
+      .map((player, index) => ({ player, index }))
+      .sort((left, right) => right.player.value - left.player.value)
+      .map(({ index }, rankIndex) => [index, rankIndex + 1]),
+  );
   const revealedPlayerIndex = dealPlayers.findIndex(
     (player) => player.revealed,
   );
@@ -230,7 +285,7 @@ export default function DealCards({
   return (
     <div className="absolute top-[20%] left-1/2 z-40 min-h-[min(360px,calc(100%-1rem))] w-[min(1080px,calc(100%-1rem))] -translate-x-1/2 rounded-2xl border border-white/15 bg-[#1f2937]/90 p-4 pb-6 text-white shadow-2xl backdrop-blur-sm">
       <div className="mb-3 flex items-center justify-between">
-        <div className="text-base font-semibold text-[#f8d59d]">
+        <div className="text-base font-semibold text-orange-300">
           {mode === "judge" ? "ジャッジモード" : "デジタルカード"}
         </div>
         <button
@@ -356,6 +411,8 @@ export default function DealCards({
                 onClick={() => {
                   setJudgeResults({});
                   setJudgeRevealedCount(0);
+                  setJudgeRevealInterval(BASE_JUDGE_REVEAL_INTERVAL);
+                  setJudgeHasFailed(false);
                   setJudgeStatus("revealing");
                 }}
               >
@@ -410,9 +467,14 @@ export default function DealCards({
                           : revealedPlayerIndex !== -1 &&
                             revealedPlayerIndex !== index
                       }
-                      className={`group relative shrink-0 rounded-xl border bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 p-1 shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 ${
-                        mode === "judge" && player.judgeOrder !== undefined
-                          ? "border-red-400 opacity-70"
+                      className={`group relative shrink-0 rounded-xl border bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 p-1 shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed ${
+                        mode !== "judge" ? "disabled:opacity-50" : ""
+                      } ${
+                        mode === "judge"
+                          ? player.judgeOrder !== undefined &&
+                            judgeStatus === "idle"
+                            ? "border-red-400 opacity-70"
+                            : "border-[#f8d59d]/70"
                           : "border-[#f8d59d]/40"
                       } ${cardSizeClass}`}
                       aria-label={
@@ -422,15 +484,26 @@ export default function DealCards({
                       }
                     >
                       {mode === "judge" &&
-                      player.judgeOrder !== undefined &&
-                      player.judgeOrder <= judgeRevealedCount ? (
-                        <div className="judge-card-flip flex h-full flex-col items-center justify-center rounded-lg border border-amber-200/40 bg-slate-50 text-slate-900">
+                      (player.revealed ||
+                        (player.judgeOrder !== undefined &&
+                          player.judgeOrder <= judgeRevealedCount)) ? (
+                        <div
+                          className="judge-card-flip relative flex h-full flex-col items-center justify-center rounded-lg border border-amber-200/70 bg-white pt-4 text-slate-900 shadow-inner"
+                        >
                           <div className="text-[9px] font-bold text-slate-500">
                             P{index + 1}
                           </div>
                           <div className="mt-1 text-3xl leading-none font-black">
                             {player.value}
                           </div>
+                          {player.judgeRevealOrder !== undefined && (
+                            <div className="mt-1 text-[8px] leading-tight font-semibold text-slate-600">
+                              <div>めくり順 {player.judgeRevealOrder}位</div>
+                              <div>
+                                正しい順位 {correctRankByIndex.get(index)}位
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ) : mode === "deal" && player.revealed ? (
                         <div className="flex h-full flex-col items-center justify-center rounded-lg border border-amber-200/40 bg-slate-50 text-slate-900">
@@ -451,16 +524,14 @@ export default function DealCards({
                       )}
                     </button>
                     {mode === "judge" &&
-                      judgeResults[index] !== undefined &&
-                      player.judgeOrder !== undefined &&
-                      player.judgeOrder <= judgeRevealedCount && (
+                      judgeResults[index] !== undefined && (
                         <span
-                          className={`absolute top-1/2 -right-7 -translate-y-1/2 text-2xl font-black ${
-                            judgeResults[index] ? "text-red-400" : "text-white"
+                          className={`absolute top-1 left-1/2 z-10 -translate-x-1/2 text-xl leading-none font-black ${
+                            judgeResults[index] ? "text-red-500" : "text-slate-900"
                           }`}
                           aria-label={judgeResults[index] ? "成功" : "失敗"}
                         >
-                          {judgeResults[index] ? "⭕" : "×"}
+                          {judgeResults[index] ? "○" : "×"}
                         </span>
                       )}
                   </div>
@@ -470,14 +541,40 @@ export default function DealCards({
           </div>
           {mode === "judge" && judgeStatus === "complete" && (
             <div
-              className={`judge-result-pop absolute inset-0 z-50 flex items-center justify-center rounded-2xl bg-black/35 ${
+              className={`judge-result-pop absolute inset-0 z-50 flex items-center justify-center overflow-hidden rounded-2xl bg-black/35 ${
                 judgeSucceeded ? "text-emerald-300" : "text-rose-300"
               }`}
               role="status"
               aria-live="assertive"
             >
-              <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/20 bg-slate-900/95 px-10 py-6 text-5xl font-black shadow-2xl">
-                <span>{judgeSucceeded ? "成功！！" : "残念！"}</span>
+              {judgeSucceeded && (
+                <div
+                  className="pointer-events-none absolute inset-0 overflow-hidden"
+                  aria-hidden="true"
+                >
+                  {Array.from({ length: 36 }, (_, index) => (
+                    <span
+                      key={index}
+                      className="judge-confetti-piece absolute top-0 h-3 w-2 rounded-sm"
+                      style={{
+                        left: `${(index * 37) % 100}%`,
+                        backgroundColor:
+                          confettiColors[index % confettiColors.length],
+                        animationDelay: `${(index % 12) * 90}ms`,
+                        animationDuration: `${2.2 + (index % 5) * 0.25}s`,
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+              <div className="relative z-10 flex flex-col items-center gap-4 rounded-2xl border border-white/20 bg-slate-900/95 px-10 py-6 text-5xl font-black shadow-2xl">
+                <span>
+                  {judgeSucceeded
+                    ? "成功！！"
+                    : showStrongFailureMessage
+                      ? "失敗、、、！！"
+                      : "失敗。。"}
+                </span>
                 <button
                   type="button"
                   className="rounded-md bg-[#f8d59d] px-4 py-2 text-base font-bold text-slate-900 transition hover:bg-[#f2c770]"
@@ -490,10 +587,12 @@ export default function DealCards({
           )}
         </>
       ) : (
-        <div className="rounded-lg border border-dashed border-white/20 bg-slate-800/40 px-3 py-4 text-sm text-white/70">
-          {mode === "judge"
-            ? "ジャッジするカードはまだ配られていません。"
-            : "カードはまだ配られていません。"}
+        <div className="flex items-center justify-center">
+          <div className="rounded-lg border border-dashed border-white/20 bg-slate-800/40 px-12 py-4 text-center text-sm text-white/70">
+            {mode === "judge"
+              ? "ジャッジするカードはまだ配られていません。"
+              : "カードはまだ配られていません。"}
+          </div>
         </div>
       )}
 

@@ -148,6 +148,24 @@ body {
   animation: judge-result-pop 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+.judge-confetti-piece {
+  animation: judge-confetti-fall 2.8s linear both;
+}
+
+@keyframes judge-confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-10%) rotate(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) rotate(720deg);
+  }
+}
+
 @keyframes judge-result-pop {
   0% {
     opacity: 0;
@@ -166,7 +184,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .deal-card-enter,
   .judge-card-flip,
-  .judge-result-pop {
+  .judge-result-pop,
+  .judge-confetti-piece {
     animation: none;
   }
 }
