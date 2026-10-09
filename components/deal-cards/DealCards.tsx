@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getItoRoomCard, saveItoRoomCards } from "@/lib/itoRoom";
 
 const BASE_JUDGE_REVEAL_INTERVAL = 1000;
 const JUDGE_REVEAL_INTERVAL_STEP = 200;
@@ -38,6 +39,14 @@ export default function DealCards({
   onModeChange: (mode: "deal" | "judge") => void;
 }) {
   const [dealPlayerCount, setDealPlayerCount] = useState(4);
+  const [activeTab, setActiveTab] = useState<"deal" | "room">("deal");
+  const [roomId, setRoomId] = useState("");
+  const [lookupPlayerId, setLookupPlayerId] = useState(1);
+  const [lookupCardNumber, setLookupCardNumber] = useState<number | null>(null);
+  const [lookupStatus, setLookupStatus] = useState<"idle" | "loading">("idle");
+  const [lookupError, setLookupError] = useState("");
+  const [dealError, setDealError] = useState("");
+  const [isSavingDeal, setIsSavingDeal] = useState(false);
   const [playerNames, setPlayerNames] = useState<string[]>(() =>
     getDefaultPlayerNames(4),
   );
@@ -92,12 +101,35 @@ export default function DealCards({
     onModeChange(nextMode);
   };
 
-  const handleDealPlayers = () => {
+  const handleDealPlayers = async () => {
+    const normalizedRoomId = roomId.trim();
+    if (!normalizedRoomId) {
+      setDealError("カードを保存する部屋番号を入力してください。");
+      return;
+    }
+
     const values = shuffleNumbers(dealPlayerCount);
     const players = Array.from({ length: dealPlayerCount }, (_, index) => ({
       value: values[index],
       revealed: false,
     }));
+
+    setDealError("");
+    setIsSavingDeal(true);
+    try {
+      await saveItoRoomCards(
+        normalizedRoomId,
+        players.map((player) => player.value),
+      );
+    } catch (error) {
+      setDealError(
+        error instanceof Error
+          ? error.message
+          : "カードの保存に失敗しました。設定と通信状態を確認してください。",
+      );
+      setIsSavingDeal(false);
+      return;
+    }
 
     setDealPlayers(players);
     setJudgeStatus("idle");
@@ -108,6 +140,7 @@ export default function DealCards({
     setPendingRevealIndex(null);
     setDealAnimationId((current) => current + 1);
     setDealStatus("dealing");
+    setIsSavingDeal(false);
 
     if (dealStatusTimeoutRef.current) {
       clearTimeout(dealStatusTimeoutRef.current);
@@ -116,6 +149,40 @@ export default function DealCards({
       setDealStatus("idle");
       dealStatusTimeoutRef.current = null;
     }, 1400);
+  };
+
+  const handleLookupCard = async () => {
+    const normalizedRoomId = roomId.trim();
+    if (!normalizedRoomId) {
+      setLookupError("部屋番号を入力してください。");
+      setLookupCardNumber(null);
+      return;
+    }
+
+    setLookupStatus("loading");
+    setLookupError("");
+    setLookupCardNumber(null);
+    try {
+      const cardNumber = await getItoRoomCard(
+        normalizedRoomId,
+        lookupPlayerId,
+      );
+      if (cardNumber === null) {
+        setLookupError(
+          "カードが見つかりません。部屋番号とプレイヤーIDを確認してください。",
+        );
+      } else {
+        setLookupCardNumber(cardNumber);
+      }
+    } catch (error) {
+      setLookupError(
+        error instanceof Error
+          ? error.message
+          : "カードの取得に失敗しました。設定と通信状態を確認してください。",
+      );
+    } finally {
+      setLookupStatus("idle");
+    }
   };
 
   const handleCardClick = (index: number) => {
@@ -222,9 +289,7 @@ export default function DealCards({
         setJudgeResults((results) => ({
           ...results,
           [current.index]: isCorrect,
-          ...(judgeRevealedCount === 1
-            ? { [previous.index]: isCorrect }
-            : {}),
+          ...(judgeRevealedCount === 1 ? { [previous.index]: isCorrect } : {}),
         }));
         if (!isCorrect) setJudgeHasFailed(true);
         setJudgeRevealInterval(
@@ -283,10 +348,14 @@ export default function DealCards({
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-[20%] left-1/2 z-40 min-h-[min(360px,calc(100%-1rem))] w-[min(1080px,calc(100%-1rem))] -translate-x-1/2 rounded-2xl border border-white/15 bg-[#1f2937]/90 p-4 pb-6 text-white shadow-2xl backdrop-blur-sm">
+    <div className="absolute top-[20%] left-1/2 z-40 min-h-[min(360px,calc(100%-1rem))] w-[min(1080px,calc(100%-1rem))] -translate-x-1/2 rounded-2xl border border-white/15 bg-[#1f2937]/90 p-4 pb-12 text-white shadow-2xl backdrop-blur-sm">
       <div className="mb-3 flex items-center justify-between">
         <div className="text-base font-semibold text-orange-300">
-          {mode === "judge" ? "ジャッジモード" : "デジタルカード"}
+          {activeTab === "room"
+            ? "カード参照"
+            : mode === "judge"
+              ? "ジャッジモード"
+              : "デジタルカード"}
         </div>
         <button
           type="button"
@@ -297,6 +366,41 @@ export default function DealCards({
         </button>
       </div>
 
+      <div
+        className="mb-4 flex gap-2 border-b border-white/15 pb-3"
+        role="tablist"
+        aria-label="デジタルカードの画面"
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "deal"}
+          className={`rounded-md px-3 py-1.5 text-sm font-semibold transition ${
+            activeTab === "deal"
+              ? "bg-[#f8d59d] text-slate-900"
+              : "border border-white/20 bg-slate-800 text-white/75 hover:text-white"
+          }`}
+          onClick={() => setActiveTab("deal")}
+        >
+          配布
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "room"}
+          className={`rounded-md px-3 py-1.5 text-sm font-semibold transition ${
+            activeTab === "room"
+              ? "bg-[#f8d59d] text-slate-900"
+              : "border border-white/20 bg-slate-800 text-white/75 hover:text-white"
+          }`}
+          onClick={() => setActiveTab("room")}
+        >
+          ルーム
+        </button>
+      </div>
+
+      {activeTab === "deal" ? (
+        <>
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <button
           type="button"
@@ -326,6 +430,21 @@ export default function DealCards({
 
       <div className="mb-4 flex flex-wrap items-center gap-6">
         <label className="flex items-center gap-2 text-sm text-white/80">
+          <span>部屋番号</span>
+          <input
+            value={roomId}
+            onChange={(event) => {
+              setRoomId(event.target.value);
+              setDealError("");
+              setLookupCardNumber(null);
+              setLookupError("");
+            }}
+            className="w-40 rounded border border-white/20 bg-slate-800 px-2 py-1 text-white outline-none placeholder:text-white/30"
+            placeholder="部屋番号を入力"
+            aria-label="カードを保存する部屋番号"
+          />
+        </label>
+        <label className="flex items-center gap-2 text-sm text-white/80">
           <span>配る人数</span>
           <select
             value={dealPlayerCount}
@@ -345,10 +464,15 @@ export default function DealCards({
         <div className="pr-10">
           <button
             type="button"
-            className="min-w-[240px] rounded-md bg-[#f8d59d] px-6 py-2 text-center text-sm font-bold text-slate-900 transition duration-200 hover:bg-[#f2c770] active:scale-[0.98]"
+            className="min-w-[240px] rounded-md bg-[#f8d59d] px-6 py-2 text-center text-sm font-bold text-slate-900 transition duration-200 hover:bg-[#f2c770] active:scale-[0.98] disabled:cursor-wait disabled:opacity-60"
             onClick={handleDealPlayers}
+            disabled={isSavingDeal}
           >
-            {dealStatus === "dealing" ? "カードを配布中..." : "カードを配る"}
+            {isSavingDeal
+              ? "カードを保存中..."
+              : dealStatus === "dealing"
+                ? "カードを配布中..."
+                : "カードを配る"}
           </button>
         </div>
         {mode === "deal" && revealedPlayerIndex !== -1 && (
@@ -357,13 +481,20 @@ export default function DealCards({
           </p>
         )}
       </div>
+      {dealError && (
+        <p className="mb-3 text-sm text-rose-300" role="alert">
+          {dealError}
+        </p>
+      )}
       <div className="sr-only" role="status" aria-live="polite">
-        {dealStatus === "dealing"
+        {isSavingDeal
+          ? `${dealPlayerCount}人分のカードを保存中です`
+          : dealStatus === "dealing"
           ? `${dealPlayerCount}人にカードを配布中です`
           : ""}
       </div>
 
-      <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {Array.from({ length: dealPlayerCount }, (_, index) => (
           <label
             key={`name-${index}`}
@@ -487,9 +618,7 @@ export default function DealCards({
                       (player.revealed ||
                         (player.judgeOrder !== undefined &&
                           player.judgeOrder <= judgeRevealedCount)) ? (
-                        <div
-                          className="judge-card-flip relative flex h-full flex-col items-center justify-center rounded-lg border border-amber-200/70 bg-white pt-4 text-slate-900 shadow-inner"
-                        >
+                        <div className="judge-card-flip relative flex h-full flex-col items-center justify-center rounded-lg border border-amber-200/70 bg-white pt-4 text-slate-900 shadow-inner">
                           <div className="text-[9px] font-bold text-slate-500">
                             P{index + 1}
                           </div>
@@ -523,17 +652,18 @@ export default function DealCards({
                         </div>
                       )}
                     </button>
-                    {mode === "judge" &&
-                      judgeResults[index] !== undefined && (
-                        <span
-                          className={`absolute top-1 left-1/2 z-10 -translate-x-1/2 text-xl leading-none font-black ${
-                            judgeResults[index] ? "text-red-500" : "text-slate-900"
-                          }`}
-                          aria-label={judgeResults[index] ? "成功" : "失敗"}
-                        >
-                          {judgeResults[index] ? "○" : "×"}
-                        </span>
-                      )}
+                    {mode === "judge" && judgeResults[index] !== undefined && (
+                      <span
+                        className={`absolute top-1 left-1/2 z-10 -translate-x-1/2 text-xl leading-none font-black ${
+                          judgeResults[index]
+                            ? "text-red-500"
+                            : "text-slate-900"
+                        }`}
+                        aria-label={judgeResults[index] ? "成功" : "失敗"}
+                      >
+                        {judgeResults[index] ? "○" : "×"}
+                      </span>
+                    )}
                   </div>
                 </div>
               );
@@ -631,6 +761,71 @@ export default function DealCards({
             </div>
           </div>
         </div>
+      )}
+        </>
+      ) : (
+        <section className="mx-auto flex w-full max-w-md flex-col items-center gap-5 py-4">
+          <p className="text-center text-sm text-white/75">
+            配布時に設定した部屋番号とプレイヤーIDを入力してください。
+          </p>
+          <label className="flex w-full flex-col gap-1 text-sm text-white/80">
+            <span>部屋番号</span>
+            <input
+              value={roomId}
+              onChange={(event) => {
+                setRoomId(event.target.value);
+                setLookupCardNumber(null);
+                setLookupError("");
+              }}
+              className="rounded border border-white/20 bg-slate-800 px-3 py-2 text-white outline-none placeholder:text-white/30"
+              placeholder="部屋番号を入力"
+              aria-label="参照する部屋番号"
+            />
+          </label>
+          <label className="flex w-full flex-col gap-1 text-sm text-white/80">
+            <span>プレイヤーID</span>
+            <select
+              value={lookupPlayerId}
+              onChange={(event) => {
+                setLookupPlayerId(Number(event.target.value));
+                setLookupCardNumber(null);
+                setLookupError("");
+              }}
+              className="rounded border border-white/20 bg-slate-800 px-3 py-2 text-white outline-none"
+              aria-label="プレイヤーID"
+            >
+              {Array.from({ length: 10 }, (_, index) => index + 1).map(
+                (playerId) => (
+                  <option key={playerId} value={playerId}>
+                    {playerId}
+                  </option>
+                ),
+              )}
+            </select>
+          </label>
+          <button
+            type="button"
+            className="w-full rounded-md bg-[#f8d59d] px-6 py-2 text-sm font-bold text-slate-900 transition hover:bg-[#f2c770] disabled:cursor-wait disabled:opacity-60"
+            onClick={handleLookupCard}
+            disabled={lookupStatus === "loading"}
+          >
+            {lookupStatus === "loading" ? "確認中..." : "カードを確認"}
+          </button>
+          {lookupError && (
+            <p className="text-center text-sm text-rose-300" role="alert">
+              {lookupError}
+            </p>
+          )}
+          {lookupCardNumber !== null && (
+            <div
+              className="flex h-40 w-28 items-center justify-center rounded-xl border-2 border-amber-200 bg-white text-5xl font-black text-slate-900 shadow-xl"
+              role="status"
+              aria-label={`プレイヤー${lookupPlayerId}のカードは${lookupCardNumber}です`}
+            >
+              {lookupCardNumber}
+            </div>
+          )}
+        </section>
       )}
     </div>
   );

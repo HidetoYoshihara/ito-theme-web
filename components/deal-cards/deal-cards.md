@@ -76,6 +76,36 @@ PC1台で複数人が遊ぶときの「カードを配る」体験をデジタ�
 - 全成功なら「成功！！」演出
 - 失敗なら「残念！」演出
 
+## 5. カード参照機能
+
+配布時に指定した部屋番号とプレイヤーIDを使い、スマートフォンなどから配布カードを参照する。デジタルカードモーダルの「ルーム」タブで部屋番号とプレイヤーID（1〜10）を指定し、「カードを確認」から取得する。再配布すると同じ部屋番号のプレイヤー別カードが更新される。
+
+### Supabase 設定
+
+Supabase の公開 URL と anon key を、開発環境では `.env.local` に設定する。本番環境ではデプロイ先の環境変数にも同じ名前で登録する。
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<supabase-anon-key>
+```
+
+Supabase の SQL Editor で以下を実行してテーブルと API 権限を用意する。仕様に従い RLS は無効にする。
+
+```sql
+create table if not exists public.ito_room (
+  room_id text not null,
+  player_id integer not null check (player_id between 1 and 10),
+  card_number integer not null check (card_number between 1 and 100),
+  primary key (room_id, player_id)
+);
+
+alter table public.ito_room disable row level security;
+grant select, insert, update, delete on public.ito_room to anon, authenticated;
+```
+
+配布保存・参照には Supabase REST API を使用する。anon key は公開クライアント用のキーを設定すること。
+RLSを無効にする構成では、公開APIにアクセスできる人がテーブルを読み書きできるため、機密情報は保存しない。
+
 ### データ構造（追加）
 
 既存 Player に以下を追加：
