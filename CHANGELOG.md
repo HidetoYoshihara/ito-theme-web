@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.10.0...v2.11.0) (2026-10-09)
+
+
+### Features
+
+* カード参照機能を追加し、Supabaseとの連携を実装 ([9a397a4](https://github.com/HidetoYoshihara/ito-theme-web/commit/9a397a42fa0b4a2f846c55fd428e7f47ac325ea9))
+
 ## [2.10.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.9.0...v2.10.0) (2026-10-08)
 
 
