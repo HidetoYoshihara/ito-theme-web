@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.11.0...v3.0.0) (2026-10-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* 参照カード確認機能を実装
+
+### Features
+
+* 参照カード確認機能を実装 ([b287446](https://github.com/HidetoYoshihara/ito-theme-web/commit/b287446388dde7088e027c944f1edaa4bf758f99))
+
 ## [2.11.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.10.0...v2.11.0) (2026-10-09)
 
 
