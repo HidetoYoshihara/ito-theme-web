@@ -69,7 +69,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${hachiMaruPop.variable} ${kaiseiDecol.variable} ${yuseiMagic.variable} antialiased`}
       >
-        <main className="scale-root">{children}</main>
+        <main className="">{children}</main>
       </body>
     </html>
   );

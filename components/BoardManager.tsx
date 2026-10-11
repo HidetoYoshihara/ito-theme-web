@@ -11,6 +11,9 @@ import TagCheckBoxList from "./TagCheckBoxList";
 import { images } from "@/lib/imagePaths";
 import { getTagState, parseTags } from "@/lib/tagUtils";
 
+import { useRouter } from "next/navigation";
+import DealCards from "@/components/deal-cards/DealCards";
+
 type Props = {
   items: Item[];
   header: Item;
@@ -183,6 +186,9 @@ export default function BoardManager({ items, header }: Props) {
         : "#1f2937"
     : "#000";
 
+  const [showDealCards, setShowDealCards] = useState(false);
+  const [dealCardsMode, setDealCardsMode] = useState<"deal" | "judge">("deal");
+
   useEffect(() => {
     if (bodyBackground === "rainbow") {
       document.body.style.background =
@@ -214,6 +220,8 @@ export default function BoardManager({ items, header }: Props) {
     }
   }, [filteredItems, selected]);
 
+  const router = useRouter();
+
   return (
     <div className="">
       {/* 背景設定 */}
@@ -223,6 +231,7 @@ export default function BoardManager({ items, header }: Props) {
           className="absolute inset-0 -z-10 w-full opacity-90"
         />
       )}
+
       <Blackboard
         items={filteredItems}
         header={header}
@@ -233,6 +242,25 @@ export default function BoardManager({ items, header }: Props) {
         isExternalSpinning={isRouletteSpinning}
         fontClass={selectedFontClass}
         setFontClass={setSelectedFontClass}
+      />
+
+      <button
+        type="button"
+        className="absolute right-[120px] z-30 rounded-full border border-[#f8d59d]/40 bg-[#3d2b1f]/80 px-3 py-2 text-[11px] font-bold text-[#fdf6d5] shadow-lg transition hover:bg-[#4a3629]"
+        onClick={() => {
+          setDealCardsMode("deal");
+          setShowDealCards((current) => !current);
+        }}
+        aria-label="デジタルカードを使う"
+      >
+        デジタルカードを使う
+      </button>
+
+      <DealCards
+        isOpen={showDealCards}
+        onClose={() => setShowDealCards(false)}
+        mode={dealCardsMode}
+        onModeChange={setDealCardsMode}
       />
 
       <FlagCheckBoxList
@@ -260,6 +288,18 @@ export default function BoardManager({ items, header }: Props) {
         rows={filteredItems}
         onSelect={openConfirm}
       />
+
+      <div className="mt-30 flex w-full items-center justify-center md:mt-10">
+        <button
+          onClick={
+            () => router.push(`/show-card`)
+            // router.push(`/show-card?room=${roomId}&player=${lookupPlayerId}`)
+          }
+          className="rounded-4xl border border-[#dcdcd6] bg-[#f5f5f0] px-20 py-1 py-10 text-9xl font-medium text-[#333] shadow-sm transition-all duration-150 hover:bg-[#eaeae4] hover:shadow-md max-md:border-[#1e2a44] max-md:bg-[#1e2a44] max-md:text-white md:rounded-md md:px-2 md:text-xs"
+        >
+          カードを見る
+        </button>
+      </div>
 
       {/* ◎createPortal：親コンポーネントCSSの影響を受けずに画面全体に表示したい場合に有効！ */}
       {modalOpen &&

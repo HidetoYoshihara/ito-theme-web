@@ -6,7 +6,6 @@ import type { Item } from "@/app/page";
 import dynamic from "next/dynamic";
 
 import CountdownTimer from "@/components/CountdownTimer";
-import DealCards from "@/components/deal-cards/DealCards";
 import { images } from "@/lib/imagePaths";
 import { getTagState } from "@/lib/tagUtils";
 
@@ -69,8 +68,6 @@ export default function Blackboard({
   const [localRouletteCompleteCount, setLocalRouletteCompleteCount] =
     useState(0);
   const [showFontModal, setShowFontModal] = useState(false);
-  const [showDealCards, setShowDealCards] = useState(false);
-  const [dealCardsMode, setDealCardsMode] = useState<"deal" | "judge">("deal");
 
   const effective = selected ?? selectedInternal;
   const tag = effective?.tag ?? "";
@@ -345,25 +342,6 @@ export default function Blackboard({
               ⚙
             </div>
           </button>
-
-          <button
-            type="button"
-            className="absolute right-[20px] bottom-[-30px] z-30 rounded-full border border-[#f8d59d]/40 bg-[#3d2b1f]/80 px-3 py-2 text-[11px] font-bold text-[#fdf6d5] shadow-lg transition hover:bg-[#4a3629]"
-            onClick={() => {
-              setDealCardsMode("deal");
-              setShowDealCards((current) => !current);
-            }}
-            aria-label="デジタルカードを使う"
-          >
-            デジタルカードを使う
-          </button>
-
-          <DealCards
-            isOpen={showDealCards}
-            onClose={() => setShowDealCards(false)}
-            mode={dealCardsMode}
-            onModeChange={setDealCardsMode}
-          />
 
           {showFontModal && (
             <>

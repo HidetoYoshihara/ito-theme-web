@@ -82,7 +82,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent p-4">
+    <div className="scale-root min-h-screen bg-transparent p-4">
       <h2 className="absolute top-1 left-3">
         <span className="text-[14px] font-bold text-gray-600">
           ito - お題一覧
