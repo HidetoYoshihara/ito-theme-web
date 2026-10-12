@@ -1,3 +1,9 @@
 {
-  "tailwindCSS.experimental.configFile": "app/globals.css"
+  "tailwindCSS.experimental.configFile": "app/globals.css",
+  "editor.formatOnSave": true,
+
+  // 文字列補完を有効化
+  "editor.quickSuggestions": {
+    "strings": true
+  }
 }
