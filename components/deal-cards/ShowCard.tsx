@@ -102,7 +102,7 @@ export default function LookupPage() {
                 setLookupError("");
               }}
               className="rounded-lg border border-white/20 bg-slate-800 px-3 py-2 text-base text-white/80 outline-none placeholder:text-white/40"
-              placeholder="A12"
+              placeholder="例: 101"
             />
           </div>
 
