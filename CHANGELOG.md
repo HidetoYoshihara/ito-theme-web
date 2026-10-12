@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/HidetoYoshihara/ito-theme-web/compare/v3.0.1...v3.0.2) (2026-10-12)
+
+
+### Bug Fixes
+
+* @ianvs/prettier-plugin-sort-imports 導入 ([83fc4b5](https://github.com/HidetoYoshihara/ito-theme-web/commit/83fc4b5b9a7687cdbb7e4f9e73de0c356faf7499))
+* カード配布時の確認メッセージを追加 ([fb96832](https://github.com/HidetoYoshihara/ito-theme-web/commit/fb96832625fd8a4ed14239237cc6b05af47bf721))
+* チェックボックスデザイン更新 ([0e18511](https://github.com/HidetoYoshihara/ito-theme-web/commit/0e18511e7bcb69bffe922f90c02c50868e5cc2cc))
+
 ### [3.0.1](https://github.com/HidetoYoshihara/ito-theme-web/compare/v3.0.0...v3.0.1) (2026-10-12)
 
 ## [3.0.0](https://github.com/HidetoYoshihara/ito-theme-web/compare/v2.11.0...v3.0.0) (2026-10-11)
