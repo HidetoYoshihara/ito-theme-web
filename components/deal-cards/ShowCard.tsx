@@ -1,8 +1,8 @@
 "use client";
 
+import { getItoRoomCard } from "@/lib/itoRoom";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getItoRoomCard } from "@/lib/itoRoom";
 
 export default function LookupPage() {
   const router = useRouter();
@@ -119,7 +119,10 @@ export default function LookupPage() {
             >
               <option value="">選択</option>
               {Array.from({ length: 10 }, (_, i) => i + 1).map((id) => (
-                <option key={id} value={id}>
+                <option
+                  key={id}
+                  value={id}
+                >
                   {id}
                 </option>
               ))}
@@ -139,7 +142,10 @@ export default function LookupPage() {
         {/* エラー（高さ固定） */}
         <div className="min-h-[20px]">
           {lookupError && (
-            <p className="text-center text-sm text-rose-300" role="alert">
+            <p
+              className="text-center text-sm text-rose-300"
+              role="alert"
+            >
               {lookupError}
             </p>
           )}

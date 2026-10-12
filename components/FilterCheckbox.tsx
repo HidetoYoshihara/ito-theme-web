@@ -26,7 +26,30 @@ export default function FilterCheckbox({
         className="peer sr-only"
       />
 
-      <span className="flex min-w-[120px] items-center justify-center whitespace-nowrap rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-center text-sm font-medium text-slate-700 shadow-sm transition-all duration-150 group-hover:border-sky-300 group-hover:bg-sky-50 group-hover:text-sky-700 peer-checked:border-sky-500 peer-checked:bg-sky-50 peer-checked:text-sky-700 peer-focus-visible:ring-4 peer-focus-visible:ring-sky-200">
+      <span
+        className="
+          flex min-w-[120px] items-center justify-center rounded-full
+          px-3 py-1.5 text-sm font-medium whitespace-nowrap
+          shadow-sm transition-all duration-150
+
+          /* OFF（全体を薄く） */
+          opacity-60
+
+          /* HOVER（少し濃く） */
+          group-hover:opacity-80
+
+          /* ON（完全表示） */
+          peer-checked:opacity-100
+
+          /* 色や背景はそのまま */
+          text-slate-400 bg-slate-50 border border-slate-200
+          group-hover:border-sky-300 group-hover:bg-sky-50 group-hover:text-sky-600
+          peer-checked:border-sky-500 peer-checked:bg-sky-50 peer-checked:text-sky-700
+
+          /* FOCUS */
+          peer-focus-visible:ring-4 peer-focus-visible:ring-sky-200
+        "
+      >
         {label}
       </span>
     </label>
